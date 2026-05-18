@@ -175,6 +175,46 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 /* 진행중 주차 안내 배너 */
 .ongoing-banner{background:#fff8e1;border:1.5px solid #ffe082;border-radius:10px;padding:8px 12px;font-size:.78rem;color:#a07800;font-weight:700;margin-bottom:10px;text-align:center;}
 
+/* ══ 사다리타기 ══ */
+.ladder-wrap{display:flex;flex-direction:column;gap:16px;}
+.ladder-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ladder-svg-wrap{background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow);overflow:hidden;}
+.ladder-result-area{background:linear-gradient(135deg,#fff0f5,#f0f4ff);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.ladder-result-row{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:8px 12px;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.85rem;font-weight:700;}
+.ladder-item-inp{border:2px solid var(--pink);border-radius:10px;padding:5px 10px;font-size:.8rem;font-family:inherit;outline:none;width:100%;margin-bottom:4px;}
+.ladder-items-area{background:#fff;border-radius:14px;padding:12px;box-shadow:var(--shadow);}
+
+/* ══ 메모 ══ */
+.memo-wrap{display:flex;flex-direction:column;gap:12px;}
+.memo-input-box{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.memo-textarea{width:100%;border:2px solid var(--pink);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:.85rem;resize:vertical;min-height:80px;outline:none;}
+.memo-textarea:focus{border-color:var(--purple);}
+.memo-card{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);display:flex;gap:10px;align-items:flex-start;position:relative;}
+.memo-card-av{font-size:1.6rem;flex-shrink:0;}
+.memo-card-body{flex:1;}
+.memo-card-name{font-weight:900;font-size:.82rem;color:#c06080;}
+.memo-card-time{font-size:.68rem;color:#ccc;margin-left:6px;}
+.memo-card-text{font-size:.83rem;color:#444;margin-top:3px;white-space:pre-wrap;word-break:break-all;}
+.memo-del{border:none;background:none;color:#ddd;cursor:pointer;font-size:.8rem;position:absolute;top:10px;right:10px;}
+.memo-del:hover{color:#e05070;}
+
+/* ══ 벌칙뽑기 ══ */
+.penalty-wrap{display:flex;flex-direction:column;gap:14px;}
+.penalty-roulette{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow);text-align:center;}
+.penalty-spin-btn{background:linear-gradient(135deg,var(--coral),var(--purple));border:none;border-radius:30px;padding:12px 32px;color:#fff;font-size:1rem;font-weight:900;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(255,154,162,.4);transition:transform .15s;}
+.penalty-spin-btn:hover{transform:scale(1.06);}
+.penalty-result{font-size:1.5rem;font-weight:900;color:#c06080;margin:14px 0 4px;min-height:40px;}
+.penalty-sub{font-size:.8rem;color:#aaa;}
+.penalty-list-card{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.penalty-inp{border:2px solid var(--pink);border-radius:10px;padding:6px 12px;font-size:.82rem;font-family:inherit;outline:none;flex:1;}
+.penalty-row{display:flex;align-items:center;justify-content:space-between;background:#fff5f8;border-radius:8px;padding:6px 10px;font-size:.82rem;margin-bottom:4px;}
+.penalty-del{border:none;background:none;color:#ddd;cursor:pointer;font-size:.9rem;}
+.penalty-del:hover{color:#e05070;}
+
+/* ══ 게임 공통 card ══ */
+.game-card{background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px;}
+.game-card-title{font-size:.9rem;font-weight:900;color:#c06080;margin-bottom:10px;}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--pink);border-radius:3px;}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,#FFB6C1,#C7CEEA);color:#fff;padding:9px 20px;border-radius:30px;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:transform .3s;z-index:400;pointer-events:none;}
@@ -214,6 +254,9 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="pc-tab" onclick="pcTab(1,this)">🏆 순위</div>
     <div class="pc-tab" onclick="pcTab(2,this)">💰 정산</div>
     <div class="pc-tab" onclick="pcTab(3,this)">📢 중계</div>
+    <div class="pc-tab" onclick="pcTab(4,this)">🪜 사다리</div>
+    <div class="pc-tab" onclick="pcTab(5,this)">📝 메모</div>
+    <div class="pc-tab" onclick="pcTab(6,this)">🎰 벌칙뽑기</div>
   </div>
   <div class="pc-pages">
     <div class="pc-page active" id="pcPage0">
@@ -271,6 +314,9 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div class="commentary"><h4>📢 실시간 병맛 중계 🎙️</h4><div class="com-list" id="pcComListFull"></div></div>
       </div>
     </div>
+    <div class="pc-page" id="pcPage4"><div style="padding:16px 20px;flex:1;overflow-y:auto;" id="ladderPageContent"></div></div>
+    <div class="pc-page" id="pcPage5"><div style="padding:16px 20px;flex:1;overflow-y:auto;" id="memoPageContent"></div></div>
+    <div class="pc-page" id="pcPage6"><div style="padding:16px 20px;flex:1;overflow-y:auto;" id="penaltyPageContent"></div></div>
   </div>
 </div>
 
@@ -280,6 +326,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="mob-tab" onclick="mobTab(1,this)">🏆 순위</div>
     <div class="mob-tab" onclick="mobTab(2,this)">💰 정산</div>
     <div class="mob-tab" onclick="mobTab(3,this)">📢 중계</div>
+    <div class="mob-tab" onclick="mobTab(4,this)">🪜게임</div>
   </div>
   <div class="mob-pages">
     <div class="mob-page active" id="mobPage0">
@@ -317,6 +364,9 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
     <div class="mob-page" id="mobPage3">
       <div class="commentary"><h4>📢 실시간 병맛 중계 🎙️</h4><div class="com-list" id="mobComList"></div></div>
+    </div>
+    <div class="mob-page" id="mobPage4" style="gap:12px;">
+      <div id="mobGameContent"></div>
     </div>
   </div>
 </div>
@@ -400,7 +450,7 @@ async function fbSave(){
   if(_saving){_dirty=true;return;}
   _saving=true;setSync('loading','저장중');
   try{
-    await DOC.set({members:S.members,records:S.records,paid:S.paid,commentary:S.commentary.slice(0,40),settings:S.settings,updatedAt:Date.now()});
+    await DOC.set({members:S.members,records:S.records,paid:S.paid,commentary:S.commentary.slice(0,40),settings:S.settings,memos:(S.memos||[]).slice(0,50),penalties:S.penalties||[],updatedAt:Date.now()});
     setSync('ok','동기화됨');
   }catch(e){setSync('err','저장실패');showToast('⚠️ 저장 실패: '+e.message);}
   finally{_saving=false;if(_dirty){_dirty=false;fbSave();}}
@@ -416,6 +466,8 @@ function applyData(d){
   if(d.members)S.members=d.members;if(d.records)S.records=d.records;
   if(d.paid)S.paid=d.paid;if(d.commentary)S.commentary=d.commentary;
   if(d.settings)S.settings=d.settings;
+  if(d.memos)S.memos=d.memos;
+  if(d.penalties)S.penalties=d.penalties;
   renderAll();
 }
 function hideLoading(){document.getElementById('loadingOverlay').style.display='none';}
@@ -506,12 +558,12 @@ function getCompletedWeeks(year, month){
     const mon = new Date(cur);
     const sun = new Date(cur); sun.setDate(cur.getDate()+6);
 
-    // ★ 완료 조건: 일요일의 다음날(월요일) <= 오늘
-    //   즉 sun < today (오늘 자정 기준)
-    //   오늘이 5/18(일)이면 이 주 sun=5/18 → 5/18 < 5/18 = false → 진행중 ✓
-    //   오늘이 5/19(월)이면 이 주 sun=5/18 → 5/18 < 5/19 = true → 완료 ✓
+    // ★ 완료 조건: 일요일 당일도 완료로 처리
+    //   (일요일 저녁에 결과 팝업 → 월요일에 정산 반영)
+    //   오늘이 5/18(일)이면 이 주 sun=5/18 → 5/18 <= 5/18 = true → 완료 ✓
+    //   오늘이 5/17(토)이면 이 주 sun=5/18 → 5/18 <= 5/17 = false → 진행중 ✓
     const sunMidnight = new Date(sun); sunMidnight.setHours(0,0,0,0);
-    const isCompleted = sunMidnight < today;
+    const isCompleted = sunMidnight <= today;
 
     // 달과 겹치는지
     const overlapsMonth = sun >= firstOfMonth && mon <= lastOfMonth;
@@ -544,7 +596,7 @@ function getOngoingWeek(year, month){
 
     const overlaps = sun>=firstOfMonth && mon<=lastOfMonth;
     const afterService = mon>=SERVICE_START;
-    const isOngoing = sunMidnight >= today; // 일요일이 오늘 이후 = 아직 진행중
+    const isOngoing = sunMidnight > today; // 일요일이 오늘보다 이후 = 아직 진행중 (오늘이 일요일이면 완료)
 
     if(overlaps && afterService && isOngoing){
       return {mon:new Date(mon), sun:new Date(sun)};
@@ -879,7 +931,7 @@ function showWeeklyPopup(){
   const{mon,sun}=thisWeekRange();
   const today=new Date();today.setHours(0,0,0,0);
   const sunMidnight=new Date(sun);sunMidnight.setHours(0,0,0,0);
-  const isCompleted=sunMidnight<today;
+  const isCompleted=sunMidnight<=today;
   const target=S.settings.target,fine=S.settings.fine;
   const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
 
@@ -940,7 +992,11 @@ function checkAutoPopup(){
   const lastDay=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
   const key=`popShown_${today.getFullYear()}_${today.getMonth()}_${date}`;
   if(localStorage.getItem(key))return;
-  if(dow===0){localStorage.setItem(key,'weekly');setTimeout(()=>showWeeklyPopup(),1500);}
+  // 일요일 → 주간 결산 팝업 (저녁 8시 이후 or 개발 테스트용 항상)
+  if(dow===0){
+    localStorage.setItem(key,'weekly');
+    setTimeout(()=>showWeeklyPopup(),1500);
+  }
   else if(date===lastDay){localStorage.setItem(key,'monthly');setTimeout(()=>showMonthlyPopup(),1500);}
 }
 
@@ -967,6 +1023,9 @@ function pcTab(idx,el){
   el.classList.add('active');document.getElementById(`pcPage${idx}`).classList.add('active');
   if(idx===1)renderPcRankPage();
   if(idx===2){initMonthSelects();renderPcFine();}
+  if(idx===4)renderLadderPage('ladderPageContent');
+  if(idx===5)renderMemoPage('memoPageContent');
+  if(idx===6)renderPenaltyPage('penaltyPageContent');
 }
 function mobTab(idx,el){
   document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));
@@ -974,6 +1033,7 @@ function mobTab(idx,el){
   el.classList.add('active');document.getElementById(`mobPage${idx}`).classList.add('active');
   if(idx===0)renderCalGrid('mobCalGrid',true);
   if(idx===2){initMonthSelects();renderMobFine();}
+  if(idx===4)renderMobGame();
 }
 
 function openAddModal(){
@@ -1029,6 +1089,279 @@ function showToast(msg){const el=document.getElementById('toast');el.textContent
 /* ════════════════════════════
    시작
 ════════════════════════════ */
+
+/* ════════════════════════════
+   🪜 사다리타기
+════════════════════════════ */
+let _ladderItems=[];
+let _ladderRunning=false;
+
+function renderLadderPage(containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const members=S.members;
+  if(members.length<2){el.innerHTML='<div style="text-align:center;color:#aaa;padding:40px;">멤버가 2명 이상 필요해요!</div>';return;}
+  if(_ladderItems.length===0){_ladderItems=['치킨 사기 🍗','음료 사기 ☕','목표 +1회 😈','벌금 2배 💸','인증샷 올리기 📸','꼴찌 세리머니 🕺'];}
+  el.innerHTML=`<div class="ladder-wrap">
+    <div style="font-size:1rem;font-weight:900;color:#c06080;">🪜 사다리타기</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <div class="ladder-items-area">
+          <div style="font-size:.82rem;font-weight:900;color:#c06080;margin-bottom:8px;">📋 결과 항목</div>
+          <div id="ladderItemsList"></div>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <input class="ladder-item-inp" id="ladderItemInp" placeholder="항목 추가..." style="margin-bottom:0;" onkeydown="if(event.key==='Enter')addLadderItem()">
+            <button class="btn btn-coral" onclick="addLadderItem()">➕</button>
+          </div>
+        </div>
+      </div>
+      <div style="flex:2;min-width:260px;">
+        <div class="ladder-svg-wrap"><canvas id="ladderCanvas" style="width:100%;max-width:500px;display:block;margin:0 auto;"></canvas></div>
+        <div style="text-align:center;margin-top:10px;">
+          <button class="penalty-spin-btn" onclick="runLadder()">🎲 사다리 타기!</button>
+        </div>
+      </div>
+    </div>
+    <div class="ladder-result-area" id="ladderResultArea" style="display:none;">
+      <div style="font-size:.85rem;font-weight:900;color:#c06080;margin-bottom:4px;">🎯 결과!</div>
+      <div id="ladderResultList"></div>
+    </div>
+  </div>`;
+  renderLadderItems();
+  setTimeout(()=>drawLadder(null),50);
+}
+
+function renderLadderItems(){
+  const el=document.getElementById('ladderItemsList');if(!el)return;
+  el.innerHTML=_ladderItems.map((item,i)=>`<div class="penalty-row">${item}<button class="penalty-del" onclick="deleteLadderItem(${i})">✕</button></div>`).join('');
+}
+function addLadderItem(){const inp=document.getElementById('ladderItemInp');if(!inp)return;const v=inp.value.trim();if(!v)return;_ladderItems.push(v);inp.value='';renderLadderItems();}
+function deleteLadderItem(i){_ladderItems.splice(i,1);renderLadderItems();}
+
+function _buildLadder(canvas,W,H,pad,topY,botY){
+  const members=S.members;const n=members.length;
+  canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+'px';canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(2,2);ctx.clearRect(0,0,W,H);
+  const colW=(W-pad*2)/(n-1||1);
+  const cols=members.map((_,i)=>pad+i*colW);
+  cols.forEach(x=>{ctx.beginPath();ctx.moveTo(x,topY);ctx.lineTo(x,botY);ctx.strokeStyle='#FFB6C1';ctx.lineWidth=3;ctx.stroke();});
+  const rungs=[];const rows=6;
+  for(let r=0;r<rows;r++){const y=topY+(botY-topY)*(r+1)/(rows+1);const used=new Set();
+    for(let c=0;c<n-1;c++){if(!used.has(c)&&!used.has(c+1)&&Math.random()<0.45){rungs.push({x1:cols[c],x2:cols[c+1],y});used.add(c);used.add(c+1);}}}
+  rungs.forEach(({x1,x2,y})=>{ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.strokeStyle='#C7CEEA';ctx.lineWidth=2.5;ctx.stroke();});
+  members.forEach((m,i)=>{ctx.font=`bold 11px 'Noto Sans KR',sans-serif`;ctx.fillStyle='#c06080';ctx.textAlign='center';ctx.fillText(m.avatar,cols[i],topY-8);});
+  const items=[..._ladderItems];while(items.length<n)items.push('?');
+  const shuffled=items.slice(0,n).sort(()=>Math.random()-.5);
+  shuffled.forEach((item,i)=>{ctx.font=`bold 9px 'Noto Sans KR',sans-serif`;ctx.fillStyle='#7050a0';ctx.textAlign='center';ctx.fillText(item.slice(0,5),cols[i],botY+16);});
+  canvas._rungs=rungs;canvas._cols=cols;canvas._topY=topY;canvas._botY=botY;canvas._shuffled=shuffled;
+  return{ctx,cols,rungs,topY,botY,shuffled};
+}
+
+function drawLadder(paths){
+  const canvas=document.getElementById('ladderCanvas');if(!canvas)return;
+  const W=Math.min(500,canvas.parentElement.offsetWidth-32);
+  const{ctx,cols}=_buildLadder(canvas,W,300,30,50,260);
+  if(paths){paths.forEach(({path,color})=>{ctx.beginPath();path.forEach(([x,y],i)=>{i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.strokeStyle=color;ctx.lineWidth=4;ctx.globalAlpha=.7;ctx.stroke();ctx.globalAlpha=1;});}
+}
+
+function _calcLadderPaths(canvas){
+  const{_rungs:rungs,_cols:cols,_topY:topY,_botY:botY,_shuffled:shuffled}=canvas;
+  const COLORS=['#FF9AA2','#FFB347','#B5EAD7','#C7CEEA','#FFDAC1','#E2F0CB'];
+  return cols.map((startX,mi)=>{
+    let x=startX,y=topY;const path=[[x,y]];
+    [...rungs].sort((a,b)=>a.y-b.y).forEach(rung=>{
+      if(rung.y<=y)return;
+      if(Math.abs(x-rung.x1)<2){path.push([x,rung.y]);x=rung.x2;path.push([x,rung.y]);}
+      else if(Math.abs(x-rung.x2)<2){path.push([x,rung.y]);x=rung.x1;path.push([x,rung.y]);}
+      y=rung.y;
+    });
+    path.push([x,botY]);
+    const destIdx=cols.findIndex(cx=>Math.abs(cx-x)<5);
+    return{member:S.members[mi],item:shuffled[destIdx]||'?',path,color:COLORS[mi%COLORS.length]};
+  });
+}
+
+function runLadder(){
+  if(_ladderRunning)return;
+  const canvas=document.getElementById('ladderCanvas');if(!canvas||!canvas._cols)return;
+  if(_ladderItems.length<S.members.length){showToast(`항목이 ${S.members.length}개 필요해요!`);return;}
+  _ladderRunning=true;
+  const results=_calcLadderPaths(canvas);
+  drawLadder(results.map(r=>({path:r.path,color:r.color})));
+  const ra=document.getElementById('ladderResultArea');const rl=document.getElementById('ladderResultList');
+  if(ra&&rl){ra.style.display='';rl.innerHTML=results.map(r=>`<div class="ladder-result-row" style="border-left:4px solid ${r.color};"><span style="font-size:1.2rem;">${r.member.avatar}</span><span style="font-weight:900;color:#555;">${r.member.name}</span><span style="color:#aaa;">→</span><span style="color:#c06080;">${r.item}</span></div>`).join('');}
+  addComment(`🪜 사다리! ${results.map(r=>`${r.member.name}→${r.item}`).join(', ')}`);fbSave();
+  _ladderRunning=false;
+}
+
+/* ════════════════════════════
+   📝 메모
+════════════════════════════ */
+function renderMemoPage(containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  el.innerHTML=`<div class="memo-wrap">
+    <div style="font-size:1rem;font-weight:900;color:#c06080;">📝 클럽 메모장</div>
+    <div class="memo-input-box">
+      <select id="memoWho" style="border:2px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:inherit;font-size:.82rem;outline:none;margin-bottom:8px;width:100%;">
+        ${S.members.map(m=>`<option value="${m.id}">${m.avatar} ${m.name}</option>`).join('')}
+      </select>
+      <textarea class="memo-textarea" id="memoText" placeholder="클럽 멤버들에게 한마디... 😈"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:6px;"><button class="btn btn-coral" onclick="addMemo()">📝 남기기</button></div>
+    </div>
+    <div id="memoList"></div>
+  </div>`;
+  renderMemoList();
+}
+function renderMemoList(){
+  const el=document.getElementById('memoList');if(!el)return;
+  const memos=(S.memos||[]);
+  if(!memos.length){el.innerHTML='<div style="text-align:center;color:#aaa;padding:20px;">아직 메모 없음!</div>';return;}
+  el.innerHTML=[...memos].reverse().map((memo,ri)=>{
+    const idx=memos.length-1-ri;
+    const m=S.members.find(x=>x.id===memo.mid)||{avatar:'?',name:'?',color:'#eee'};
+    return `<div class="memo-card" style="border-left:4px solid ${m.color};"><div class="memo-card-av">${m.avatar}</div><div class="memo-card-body"><span class="memo-card-name">${m.name}</span><span class="memo-card-time">${memo.t}</span><div class="memo-card-text">${memo.text}</div></div><button class="memo-del" onclick="deleteMemo(${idx})">✕</button></div>`;
+  }).join('');
+}
+function addMemo(){
+  const who=parseInt(document.getElementById('memoWho')?.value);
+  const text=document.getElementById('memoText')?.value.trim();
+  if(!text){showToast('메모 입력!');return;}
+  if(!S.memos)S.memos=[];
+  const now=new Date();const t=`${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  S.memos.push({mid:who,text,t});if(S.memos.length>50)S.memos.shift();
+  document.getElementById('memoText').value='';
+  const m=S.members.find(x=>x.id===who);
+  addComment(`📝 ${m?.avatar||''}${m?.name||'누군가'}: "${text.slice(0,20)}${text.length>20?'…':''}"`);
+  renderMemoList();fbSave();showToast('📝 메모 남겼어요!');
+}
+function deleteMemo(idx){if(!S.memos)return;S.memos.splice(idx,1);renderMemoList();fbSave();}
+
+/* ════════════════════════════
+   🎰 랜덤 벌칙
+════════════════════════════ */
+const _defaultPenalties=['치킨 사기 🍗','커피 사기 ☕','음료수 사기 🥤','다음 주 목표 5회 💪','인증샷 단톡 올리기 📸','자유 벌칙 (다수결) 🗳️','헬스장 셀카 필수 🤳','꼴찌 공개 사과 😂'];
+
+function renderPenaltyPage(containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  if(!S.penalties)S.penalties=[..._defaultPenalties];
+  el.innerHTML=`<div class="penalty-wrap">
+    <div style="font-size:1rem;font-weight:900;color:#c06080;">🎰 랜덤 벌칙 뽑기</div>
+    <div class="penalty-roulette">
+      <div style="margin-bottom:8px;"><span style="font-size:.78rem;font-weight:700;color:#888;">대상: </span>
+        <select id="penaltyTarget" style="border:2px solid var(--pink);border-radius:10px;padding:4px 10px;font-family:inherit;font-size:.8rem;outline:none;">
+          <option value="">전체 (랜덤)</option>${S.members.map(m=>`<option value="${m.id}">${m.avatar} ${m.name}</option>`).join('')}
+        </select>
+      </div>
+      <button class="penalty-spin-btn" onclick="spinPenalty()">🎰 뽑기!</button>
+      <div class="penalty-result" id="penaltyResult">?</div>
+      <div class="penalty-sub" id="penaltySub">버튼을 눌러 벌칙을 뽑아보세요</div>
+    </div>
+    <div class="penalty-list-card">
+      <div style="font-size:.85rem;font-weight:900;color:#c06080;margin-bottom:8px;">📋 벌칙 목록</div>
+      <div id="penaltyList"></div>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <input class="penalty-inp" id="penaltyInp" placeholder="벌칙 추가..." onkeydown="if(event.key==='Enter')addPenalty()">
+        <button class="btn btn-coral" onclick="addPenalty()">➕</button>
+      </div>
+    </div>
+  </div>`;
+  renderPenaltyList();
+}
+function renderPenaltyList(){const el=document.getElementById('penaltyList');if(!el)return;el.innerHTML=(S.penalties||[]).map((p,i)=>`<div class="penalty-row"><span>${p}</span><button class="penalty-del" onclick="deletePenalty(${i})">✕</button></div>`).join('');}
+function addPenalty(){const inp=document.getElementById('penaltyInp');if(!inp)return;const v=inp.value.trim();if(!v)return;if(!S.penalties)S.penalties=[..._defaultPenalties];S.penalties.push(v);inp.value='';renderPenaltyList();fbSave();}
+function deletePenalty(i){if(!S.penalties)return;S.penalties.splice(i,1);renderPenaltyList();fbSave();}
+function spinPenalty(){
+  const list=S.penalties||_defaultPenalties;if(!list.length){showToast('벌칙 목록 비어있음!');return;}
+  const resultEl=document.getElementById('penaltyResult');const subEl=document.getElementById('penaltySub');if(!resultEl)return;
+  const targetId=parseInt(document.getElementById('penaltyTarget')?.value||'0');
+  const targetMem=targetId?S.members.find(m=>m.id===targetId):S.members[Math.floor(Math.random()*S.members.length)];
+  let i=0;const spin=()=>{resultEl.textContent=list[Math.floor(Math.random()*list.length)];i++;
+    if(i<20)setTimeout(spin,50+i*8);
+    else{const chosen=list[Math.floor(Math.random()*list.length)];resultEl.textContent=chosen;
+      const name=targetMem?`${targetMem.avatar}${targetMem.name}`:'랜덤';subEl.textContent=`${name} → ${chosen}`;
+      addComment(`🎰 벌칙! ${name} → "${chosen}"`);fbSave();}};spin();
+}
+
+/* ════════════════════════════
+   📱 모바일 게임 탭
+════════════════════════════ */
+function renderMobGame(){
+  const el=document.getElementById('mobGameContent');if(!el)return;
+  if(!S.penalties)S.penalties=[..._defaultPenalties];if(!S.memos)S.memos=[];
+  el.innerHTML=`
+  <div class="game-card">
+    <div class="game-card-title">🎰 랜덤 벌칙 뽑기</div>
+    <select id="mobPenaltyTarget" style="border:2px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:inherit;font-size:.8rem;outline:none;width:100%;margin-bottom:8px;">
+      <option value="">전체 (랜덤)</option>${S.members.map(m=>`<option value="${m.id}">${m.avatar} ${m.name}</option>`).join('')}
+    </select>
+    <div style="text-align:center;"><button class="penalty-spin-btn" style="font-size:.9rem;padding:10px 24px;" onclick="mobSpinPenalty()">🎰 뽑기!</button></div>
+    <div class="penalty-result" id="mobPenaltyResult" style="font-size:1.1rem;min-height:32px;">?</div>
+    <div class="penalty-sub" id="mobPenaltySub">버튼을 눌러보세요!</div>
+  </div>
+  <div class="game-card">
+    <div class="game-card-title">🪜 사다리타기</div>
+    <div style="text-align:center;"><canvas id="mobLadderCanvas" style="width:100%;max-width:340px;display:block;margin:0 auto 8px;"></canvas>
+    <button class="penalty-spin-btn" style="font-size:.85rem;padding:8px 20px;" onclick="mobRunLadder()">🎲 타기!</button></div>
+    <div id="mobLadderResult" style="margin-top:8px;display:none;"><div style="font-size:.8rem;font-weight:900;color:#c06080;margin-bottom:4px;">🎯 결과!</div><div id="mobLadderResultList"></div></div>
+  </div>
+  <div class="game-card">
+    <div class="game-card-title">📝 클럽 메모장</div>
+    <select id="mobMemoWho" style="border:2px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:inherit;font-size:.82rem;outline:none;width:100%;margin-bottom:6px;">
+      ${S.members.map(m=>`<option value="${m.id}">${m.avatar} ${m.name}</option>`).join('')}
+    </select>
+    <textarea class="memo-textarea" id="mobMemoText" placeholder="한마디 남기기..."></textarea>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px;"><button class="btn btn-coral" onclick="addMobMemo()">📝 남기기</button></div>
+    <div id="mobMemoList" style="margin-top:8px;"></div>
+  </div>`;
+  setTimeout(()=>{mobDrawLadder(null);renderMobMemoList();},50);
+}
+
+function mobDrawLadder(paths){
+  const canvas=document.getElementById('mobLadderCanvas');if(!canvas)return;
+  const W=Math.min(340,canvas.parentElement.offsetWidth-32);const H=200;
+  _buildLadder(canvas,W,H,22,36,H-26);
+  if(paths){const ctx=canvas.getContext('2d');paths.forEach(({path,color})=>{ctx.beginPath();path.forEach(([x,y],i)=>{i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.strokeStyle=color;ctx.lineWidth=3;ctx.globalAlpha=.7;ctx.stroke();ctx.globalAlpha=1;});}
+}
+function mobRunLadder(){
+  const canvas=document.getElementById('mobLadderCanvas');if(!canvas||!canvas._cols)return;
+  if(_ladderItems.length<S.members.length){showToast(`PC 사다리탭에서 항목 ${S.members.length}개 추가해주세요!`);return;}
+  const results=_calcLadderPaths(canvas);
+  mobDrawLadder(results.map(r=>({path:r.path,color:r.color})));
+  const ra=document.getElementById('mobLadderResult');const rl=document.getElementById('mobLadderResultList');
+  if(ra&&rl){ra.style.display='';rl.innerHTML=results.map(r=>`<div class="ladder-result-row" style="border-left:3px solid ${r.color};padding:6px 10px;"><span>${r.member.avatar}</span><span style="font-weight:900;">${r.member.name}</span><span style="color:#aaa;">→</span><span style="color:#c06080;font-size:.8rem;">${r.item}</span></div>`).join('');}
+  addComment(`🪜 사다리! ${results.map(r=>`${r.member.name}→${r.item}`).join(', ')}`);fbSave();
+}
+function mobSpinPenalty(){
+  const list=S.penalties||_defaultPenalties;if(!list.length)return;
+  const resultEl=document.getElementById('mobPenaltyResult');const subEl=document.getElementById('mobPenaltySub');if(!resultEl)return;
+  const targetId=parseInt(document.getElementById('mobPenaltyTarget')?.value||'0');
+  const targetMem=targetId?S.members.find(m=>m.id===targetId):S.members[Math.floor(Math.random()*S.members.length)];
+  let i=0;const spin=()=>{resultEl.textContent=list[Math.floor(Math.random()*list.length)];i++;
+    if(i<20)setTimeout(spin,50+i*8);
+    else{const chosen=list[Math.floor(Math.random()*list.length)];resultEl.textContent=chosen;
+      const name=targetMem?`${targetMem.avatar}${targetMem.name}`:'랜덤';subEl.textContent=`${name} → ${chosen}`;
+      addComment(`🎰 ${name} 벌칙: "${chosen}"`);fbSave();}};spin();
+}
+function addMobMemo(){
+  const who=parseInt(document.getElementById('mobMemoWho')?.value);
+  const text=document.getElementById('mobMemoText')?.value.trim();if(!text){showToast('메모 입력!');return;}
+  if(!S.memos)S.memos=[];
+  const now=new Date();const t=`${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  S.memos.push({mid:who,text,t});if(S.memos.length>50)S.memos.shift();
+  document.getElementById('mobMemoText').value='';
+  renderMobMemoList();fbSave();showToast('📝 메모 남겼어요!');
+}
+function renderMobMemoList(){
+  const el=document.getElementById('mobMemoList');if(!el)return;
+  const memos=(S.memos||[]);
+  if(!memos.length){el.innerHTML='<div style="color:#aaa;font-size:.78rem;text-align:center;padding:10px;">아직 메모 없음~</div>';return;}
+  el.innerHTML=[...memos].reverse().slice(0,5).map((memo,ri)=>{
+    const idx=memos.length-1-ri;
+    const m=S.members.find(x=>x.id===memo.mid)||{avatar:'?',name:'?',color:'#eee'};
+    return `<div class="memo-card" style="border-left:3px solid ${m.color};padding:8px 10px;gap:6px;"><div class="memo-card-av" style="font-size:1.2rem;">${m.avatar}</div><div class="memo-card-body"><span class="memo-card-name">${m.name}</span><span class="memo-card-time">${memo.t}</span><div class="memo-card-text" style="font-size:.78rem;">${memo.text}</div></div><button class="memo-del" onclick="deleteMobMemo(${idx})">✕</button></div>`;
+  }).join('');
+}
+function deleteMobMemo(idx){if(!S.memos)return;S.memos.splice(idx,1);renderMobMemoList();fbSave();}
+
 renderAll();
 startListener();
 setTimeout(()=>{
