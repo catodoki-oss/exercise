@@ -16,19 +16,16 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .btn-coral{background:var(--coral);color:#fff;}
 .btn-mint{background:var(--mint);color:#2d7a5a;}
 
-/* 헤더 */
 .hdr{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);flex-shrink:0;z-index:10;}
 .hdr h1{font-size:1rem;font-weight:900;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.15);}
 .hdr-right{display:flex;gap:6px;align-items:center;}
 .sync-wrap{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 8px;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#aaa;flex-shrink:0;}
-.sync-dot.ok{background:#4caf50;}
-.sync-dot.err{background:#f44336;}
+.sync-dot.ok{background:#4caf50;} .sync-dot.err{background:#f44336;}
 .sync-dot.loading{background:#ff9800;animation:pulse .8s infinite;}
 .sync-txt{font-size:.65rem;color:#fff;font-weight:700;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-/* PC 탭 */
 .pc-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0;}
 .pc-tabs{display:flex;background:#fff;border-bottom:2px solid #fce8f0;flex-shrink:0;}
 .pc-tab{padding:8px 20px;font-size:.82rem;font-weight:700;color:#bbb;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
@@ -37,7 +34,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .pc-page{position:absolute;inset:0;display:none;overflow:hidden;}
 .pc-page.active{display:flex;}
 
-/* 달력 레이아웃 */
 .pc-cal-layout{display:flex;flex:1;overflow:hidden;min-height:0;}
 .cal-wrap{flex:1;display:flex;flex-direction:column;padding:8px 6px 6px 10px;gap:6px;min-width:0;overflow:hidden;}
 .sidebar{width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:7px;padding:8px 10px 6px 4px;overflow-y:auto;}
@@ -46,15 +42,12 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .side-rank-item{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px solid #fce8f0;}
 .side-rank-item:last-child{border-bottom:none;}
 .s-num{font-size:.82rem;width:18px;text-align:center;flex-shrink:0;}
-.s-av{font-size:1rem;flex-shrink:0;}
-.s-name{flex:1;font-weight:700;color:#555;font-size:.76rem;}
+.s-av{font-size:1rem;flex-shrink:0;} .s-name{flex:1;font-weight:700;color:#555;font-size:.76rem;}
 .s-cnt{font-weight:900;color:#c06080;font-size:.76rem;}
-.s-ok{font-size:.68rem;color:#2d7a5a;}
-.s-warn{font-size:.66rem;color:#e05070;font-weight:700;}
+.s-ok{font-size:.68rem;color:#2d7a5a;} .s-warn{font-size:.66rem;color:#e05070;font-weight:700;}
 .prog-wrap{background:#f0e0e8;border-radius:6px;height:5px;overflow:hidden;flex:1;min-width:40px;}
 .prog-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#FFB6C1,#C7CEEA);transition:width .4s;}
 
-/* 달력 */
 .cal-nav{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .cal-nav button{background:var(--pink);border:none;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;transition:transform .15s;}
 .cal-nav button:hover{transform:scale(1.15);}
@@ -63,62 +56,36 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .cal-box{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
 .cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px;flex-shrink:0;}
 .cal-head span{text-align:center;font-size:.72rem;font-weight:700;color:#c06080;padding:2px 0;}
-.cal-head span:first-child{color:#e05070;}
-.cal-head span:last-child{color:#5080e0;}
+.cal-head span:first-child{color:#e05070;} .cal-head span:last-child{color:#5080e0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);gap:3px;flex:1;min-height:0;}
 .day-cell{background:#fff;border-radius:10px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);min-height:0;}
 .day-cell.other-month{background:#fdf0f4;opacity:.5;}
 .day-cell.today{border:2.5px solid var(--coral);}
 .day-cell.this-week{background:#fff8fb;}
-.day-cell.sun .day-num{color:#e05070;}
-.day-cell.sat .day-num{color:#5080e0;}
+.day-cell.sun .day-num{color:#e05070;} .day-cell.sat .day-num{color:#5080e0;}
 .day-num{font-size:.65rem;font-weight:700;color:#999;padding:2px 3px;flex-shrink:0;line-height:1;}
 
-/* PC 도장 3x2 */
+/* ★ 도장 — done/undone을 style로만 제어, class 충돌 제거 ★ */
 .stamps-pc{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);padding:2px;gap:1px;min-height:0;overflow:hidden;}
 .stamps-mob{flex:1;display:grid;padding:2px;gap:1px;align-content:center;min-height:0;overflow:hidden;}
-.mc1{grid-template-columns:1fr;}
-.mc2{grid-template-columns:repeat(2,1fr);}
-.mc3{grid-template-columns:repeat(3,1fr);}
-.mc4{grid-template-columns:repeat(2,1fr);}
-.mc5{grid-template-columns:repeat(3,1fr);}
-.mc6{grid-template-columns:repeat(3,1fr);}
+.mc1{grid-template-columns:1fr;} .mc2{grid-template-columns:repeat(2,1fr);}
+.mc3{grid-template-columns:repeat(3,1fr);} .mc4{grid-template-columns:repeat(2,1fr);}
+.mc5{grid-template-columns:repeat(3,1fr);} .mc6{grid-template-columns:repeat(3,1fr);}
+.stamp-empty{width:100%;aspect-ratio:1;pointer-events:none;}
 
-/* ★ 도장 아이콘 — 버그 수정: pointer-events 명시, transition 단순화 ★ */
 .stamp-icon{
   display:flex;align-items:center;justify-content:center;
-  border-radius:6px;
-  cursor:pointer;
-  user-select:none;
+  border-radius:6px;cursor:pointer;user-select:none;
   width:100%;aspect-ratio:1;
   font-size:clamp(.85rem,1.5vw,1.6rem);
   min-width:0;min-height:0;
-  transition:filter .15s, box-shadow .15s;
   pointer-events:auto;
   -webkit-tap-highlight-color:transparent;
-  position:relative;
+  /* ★ transition 제거 — 즉시 반영을 위해 ★ */
 }
-.stamp-icon.done{
-  box-shadow:0 1px 4px rgba(255,150,180,.4);
-  filter:none;
-  opacity:1;
-}
-.stamp-icon.undone{
-  filter:grayscale(1);
-  opacity:.22;
-  background:transparent!important;
-  box-shadow:none;
-}
-.stamp-icon:hover{
-  filter:none!important;
-  opacity:1!important;
-  z-index:5;
-}
-.stamp-empty{width:100%;aspect-ratio:1;pointer-events:none;}
 @keyframes stampPop{0%{transform:scale(0) rotate(-25deg);}55%{transform:scale(1.4) rotate(6deg);}100%{transform:scale(1) rotate(0);}}
-.stamp-icon.pop{animation:stampPop .32s cubic-bezier(.36,.07,.19,.97);}
+.stamp-pop{animation:stampPop .32s cubic-bezier(.36,.07,.19,.97);}
 
-/* 중계 */
 .commentary{flex-shrink:0;background:linear-gradient(135deg,#fff0f5,#f0f4ff);border-radius:var(--radius);padding:7px 12px;border-left:4px solid var(--pink);overflow:hidden;}
 .commentary.pc-com{height:82px;}
 .commentary h4{font-size:.75rem;font-weight:900;color:#c06080;margin-bottom:4px;}
@@ -127,40 +94,32 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 @keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
 .com-time{color:#ccc;font-size:.67rem;flex-shrink:0;}
 
-/* PC 순위탭 */
 .pc-rank-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;}
 .rank-big-card{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);}
 .rank-big-title{font-size:.88rem;font-weight:900;color:#c06080;margin-bottom:10px;}
 .rank-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #fce8f0;}
 .rank-row:last-child{border-bottom:none;}
 .rank-num{font-size:1rem;width:26px;text-align:center;flex-shrink:0;}
-.rank-av{font-size:1.3rem;flex-shrink:0;}
-.rank-name{flex:1;font-weight:700;color:#555;font-size:.85rem;}
+.rank-av{font-size:1.3rem;flex-shrink:0;} .rank-name{flex:1;font-weight:700;color:#555;font-size:.85rem;}
 .rank-cnt{font-weight:900;color:#c06080;font-size:.85rem;margin-left:8px;}
-.rank-ok{font-size:.75rem;color:#2d7a5a;}
-.rank-warn{font-size:.72rem;color:#e05070;font-weight:700;}
+.rank-ok{font-size:.75rem;color:#2d7a5a;} .rank-warn{font-size:.72rem;color:#e05070;font-weight:700;}
 
-/* 정산 탭 */
 .pc-fine-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px;}
 .fine-header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .fine-month-select{border:2px solid var(--pink);border-radius:20px;padding:5px 12px;font-family:inherit;font-size:.82rem;outline:none;background:#fff;color:#c06080;font-weight:700;}
 .purse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .purse-card{background:#fff;border-radius:18px;padding:16px 12px 12px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .2s;}
 .purse-card:hover{transform:translateY(-3px);}
-.purse-avatar{font-size:2.4rem;line-height:1;}
-.purse-name{font-weight:900;font-size:.9rem;color:#555;}
+.purse-avatar{font-size:2.4rem;line-height:1;} .purse-name{font-weight:900;font-size:.9rem;color:#555;}
 .purse-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;min-height:32px;align-items:flex-end;}
 @keyframes bagDrop{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .bag-icon{font-size:1.5rem;display:inline-block;animation:bagDrop .3s ease both;}
 .purse-amt{font-size:.82rem;font-weight:900;padding:3px 10px;border-radius:10px;}
-.purse-amt.has-fine{background:#ffe0e0;color:#c03050;}
-.purse-amt.no-fine{background:#e0fff0;color:#2d7a5a;}
+.purse-amt.has-fine{background:#ffe0e0;color:#c03050;} .purse-amt.no-fine{background:#e0fff0;color:#2d7a5a;}
 .purse-paid-btn{border:none;border-radius:10px;padding:4px 12px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:2px;}
-.purse-paid-btn.unpaid{background:#ffe0e0;color:#c03050;}
-.purse-paid-btn.paid{background:#b5ead7;color:#1a6644;}
+.purse-paid-btn.unpaid{background:#ffe0e0;color:#c03050;} .purse-paid-btn.paid{background:#b5ead7;color:#1a6644;}
 .purse-total-banner{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;font-weight:900;font-size:.9rem;box-shadow:var(--shadow);}
 
-/* 모바일 */
 .mobile-layout{display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
 .mob-tabs{display:flex;background:#fff;border-bottom:2px solid #fce8f0;flex-shrink:0;}
 .mob-tab{flex:1;padding:10px 4px;text-align:center;font-size:.78rem;font-weight:700;color:#bbb;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
@@ -169,23 +128,18 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .mob-page{position:absolute;inset:0;overflow-y:auto;padding:8px 10px;display:none;flex-direction:column;gap:8px;}
 .mob-page.active{display:flex;}
 .mob-rank-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-radius:14px;box-shadow:var(--shadow);}
-.mob-rank-num{font-size:1.3rem;width:30px;text-align:center;}
-.mob-rank-av{font-size:1.8rem;}
-.mob-rank-info{flex:1;}
-.mob-rank-name{font-weight:900;font-size:.95rem;color:#444;}
+.mob-rank-num{font-size:1.3rem;width:30px;text-align:center;} .mob-rank-av{font-size:1.8rem;}
+.mob-rank-info{flex:1;} .mob-rank-name{font-weight:900;font-size:.95rem;color:#444;}
 .mob-rank-sub{font-size:.8rem;color:#c06080;font-weight:700;}
 .mob-rank-badge{font-size:.75rem;padding:3px 8px;border-radius:10px;font-weight:700;white-space:nowrap;}
-.mob-badge-ok{background:#e0fff0;color:#2d7a5a;}
-.mob-badge-warn{background:#ffe0e0;color:#c03050;}
+.mob-badge-ok{background:#e0fff0;color:#2d7a5a;} .mob-badge-warn{background:#ffe0e0;color:#c03050;}
 .mob-purse-row{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
-.mob-purse-av{font-size:2rem;flex-shrink:0;}
-.mob-purse-info{flex:1;}
+.mob-purse-av{font-size:2rem;flex-shrink:0;} .mob-purse-info{flex:1;}
 .mob-purse-name{font-weight:900;font-size:.9rem;color:#444;margin-bottom:4px;}
 .mob-purse-bags{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:4px;}
 .mob-week-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #fce8f0;}
 .mob-week-row:last-child{border-bottom:none;}
 
-/* 모달 */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal{background:#fff;border-radius:22px;padding:24px;width:400px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.25);transform:scale(.9);transition:transform .25s;}
@@ -203,25 +157,23 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .mm-av{font-size:1.2rem;} .mm-name{flex:1;font-size:.85rem;font-weight:700;color:#555;}
 .mm-del{border:none;background:#ffe0e0;color:#c03050;border-radius:10px;padding:3px 10px;cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;}
 
-/* 주간/월간 결산 팝업 스타일 */
 .pop-title{font-size:1.15rem;font-weight:900;color:#c06080;margin-bottom:4px;text-align:center;}
 .pop-subtitle{font-size:.8rem;color:#aaa;text-align:center;margin-bottom:14px;}
 .pop-member-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
 .pop-member-card{border-radius:16px;padding:14px 10px;text-align:center;border:2px solid #fce8f0;}
-.pop-member-card.pass{background:#f0fff8;border-color:#b5ead7;}
-.pop-member-card.fail{background:#fff5f5;border-color:#ffb6c1;}
-.pop-av{font-size:2rem;margin-bottom:4px;}
-.pop-name{font-size:.82rem;font-weight:700;color:#555;margin-bottom:6px;}
+.pop-member-card.pass{background:#f0fff8;border-color:#b5ead7;} .pop-member-card.fail{background:#fff5f5;border-color:#ffb6c1;}
+.pop-av{font-size:2rem;margin-bottom:4px;} .pop-name{font-size:.82rem;font-weight:700;color:#555;margin-bottom:6px;}
 .pop-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;min-height:22px;margin-bottom:4px;}
 .pop-result{font-size:.8rem;font-weight:900;padding:3px 10px;border-radius:10px;display:inline-block;}
-.pop-result.ok{background:#e0fff0;color:#2d7a5a;}
-.pop-result.bad{background:#ffe0e0;color:#c03050;}
+.pop-result.ok{background:#e0fff0;color:#2d7a5a;} .pop-result.bad{background:#ffe0e0;color:#c03050;}
 .pop-cnt{font-size:.75rem;color:#999;margin-top:3px;}
 .pop-total-box{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:12px 16px;color:#fff;font-weight:900;font-size:.9rem;text-align:center;margin-bottom:12px;line-height:1.6;}
 .pop-weekly-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
 .pop-week-row{display:flex;justify-content:space-between;align-items:center;background:#fff5f8;border-radius:10px;padding:7px 12px;font-size:.8rem;}
-.pop-week-label{color:#888;font-weight:700;}
-.pop-week-val{color:#c06080;font-weight:900;}
+.pop-week-label{color:#888;font-weight:700;} .pop-week-val{color:#c06080;font-weight:900;}
+
+/* 진행중 주차 안내 배너 */
+.ongoing-banner{background:#fff8e1;border:1.5px solid #ffe082;border-radius:10px;padding:8px 12px;font-size:.78rem;color:#a07800;font-weight:700;margin-bottom:10px;text-align:center;}
 
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--pink);border-radius:3px;}
@@ -232,15 +184,8 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:1rem;font-weight:700;color:#c06080;}
 
-@media(max-width:768px){
-  body{overflow:auto;}
-  .pc-wrap{display:none!important;}
-  .mobile-layout{display:flex!important;}
-}
-@media(min-width:769px){
-  .mobile-layout{display:none!important;}
-  .pc-wrap{display:flex!important;}
-}
+@media(max-width:768px){body{overflow:auto;}.pc-wrap{display:none!important;}.mobile-layout{display:flex!important;}}
+@media(min-width:769px){.mobile-layout{display:none!important;}.pc-wrap{display:flex!important;}}
 </style>
 </head>
 <body>
@@ -263,7 +208,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
   </div>
 </div>
 
-<!-- PC -->
 <div class="pc-wrap">
   <div class="pc-tabs">
     <div class="pc-tab active" onclick="pcTab(0,this)">🗓️ 달력</div>
@@ -317,6 +261,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
           <select class="fine-month-select" id="pcMonthSel" onchange="renderPcFine()"></select>
           <button class="btn btn-coral" onclick="showMonthlyPopup()">📊 결산 팝업</button>
         </div>
+        <div id="pcOngoingBanner"></div>
         <div class="purse-grid" id="pcPurseGrid"></div>
         <div class="purse-total-banner" id="pcPurseBanner"></div>
       </div>
@@ -329,7 +274,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
   </div>
 </div>
 
-<!-- 모바일 -->
 <div class="mobile-layout">
   <div class="mob-tabs">
     <div class="mob-tab active" onclick="mobTab(0,this)">🗓️ 달력</div>
@@ -365,6 +309,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div style="font-size:.88rem;font-weight:900;color:#c06080;">💰 월별 정산</div>
         <select class="fine-month-select" id="mobMonthSel" onchange="renderMobFine()"></select>
       </div>
+      <div id="mobOngoingBanner"></div>
       <div id="mobPurseGrid" style="display:flex;flex-direction:column;gap:10px;"></div>
       <div id="mobPurseBanner" style="background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:10px 16px;color:#fff;font-weight:900;font-size:.85rem;text-align:center;"></div>
       <div style="font-size:.88rem;font-weight:900;color:#c06080;margin-top:4px;">📋 이번 주 현황</div>
@@ -376,7 +321,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
   </div>
 </div>
 
-<!-- 모달: 멤버 추가 -->
 <div class="modal-bg" id="addModal">
   <div class="modal">
     <h3>➕ 새 멤버 추가</h3>
@@ -390,8 +334,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 멤버 관리 -->
 <div class="modal-bg" id="manageModal">
   <div class="modal">
     <h3>👥 멤버 관리</h3>
@@ -399,8 +341,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="modal-btns"><button class="btn btn-white" onclick="closeModal('manageModal')">닫기</button></div>
   </div>
 </div>
-
-<!-- 모달: 설정 -->
 <div class="modal-bg" id="settingsModal">
   <div class="modal">
     <h3>⚙️ 설정</h3>
@@ -414,8 +354,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 주간 결산 팝업 -->
 <div class="modal-bg" id="weeklyPopupModal">
   <div class="modal">
     <div class="pop-title" id="wpTitle"></div>
@@ -427,8 +365,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 월간 결산 팝업 -->
 <div class="modal-bg" id="monthlyPopupModal">
   <div class="modal">
     <div class="pop-title" id="mpTitle"></div>
@@ -442,15 +378,11 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-/* ════════════════════════════════
-   Firebase 초기화
-════════════════════════════════ */
 firebase.initializeApp({
   apiKey:"AIzaSyBOIP80zY30M4DU9KOdQP9flTMcpVUj848",
   authDomain:"exercise-905dd.firebaseapp.com",
@@ -459,210 +391,186 @@ firebase.initializeApp({
   messagingSenderId:"613601764592",
   appId:"1:613601764592:web:2c3ad6e77652d1a6a50e35"
 });
-const db = firebase.firestore();
-const DOC = db.collection("club").doc("main");
+const db=firebase.firestore();
+const DOC=db.collection("club").doc("main");
 
-function setSync(s,t){
-  document.getElementById('syncDot').className=`sync-dot ${s}`;
-  document.getElementById('syncTxt').textContent=t;
-}
-
-let _saving=false, _dirty=false;
+function setSync(s,t){document.getElementById('syncDot').className=`sync-dot ${s}`;document.getElementById('syncTxt').textContent=t;}
+let _saving=false,_dirty=false;
 async function fbSave(){
   if(_saving){_dirty=true;return;}
-  _saving=true; setSync('loading','저장중');
+  _saving=true;setSync('loading','저장중');
   try{
-    await DOC.set({
-      members:S.members, records:S.records, paid:S.paid,
-      commentary:S.commentary.slice(0,40), settings:S.settings,
-      updatedAt:Date.now()
-    });
+    await DOC.set({members:S.members,records:S.records,paid:S.paid,commentary:S.commentary.slice(0,40),settings:S.settings,updatedAt:Date.now()});
     setSync('ok','동기화됨');
-  }catch(e){
-    setSync('err','저장실패');
-    showToast('⚠️ 저장 실패: '+e.message);
-  }finally{
-    _saving=false;
-    if(_dirty){_dirty=false;fbSave();}
-  }
+  }catch(e){setSync('err','저장실패');showToast('⚠️ 저장 실패: '+e.message);}
+  finally{_saving=false;if(_dirty){_dirty=false;fbSave();}}
 }
-
 function startListener(){
   DOC.onSnapshot(snap=>{
-    if(snap.exists){
-      const d=snap.data();
-      if(!_saving) applyData(d);
-    } else {
-      fbSave();
-    }
-    hideLoading();
-    setSync('ok','동기화됨');
-  }, err=>{
-    setSync('err','연결오류');
-    hideLoading();
-    showToast('⚠️ 연결 오류: '+err.message);
-  });
+    if(snap.exists){const d=snap.data();if(!_saving)applyData(d);}
+    else fbSave();
+    hideLoading();setSync('ok','동기화됨');
+  },err=>{setSync('err','연결오류');hideLoading();showToast('⚠️ 연결 오류');});
 }
-
 function applyData(d){
-  if(d.members)    S.members    = d.members;
-  if(d.records)    S.records    = d.records;
-  if(d.paid)       S.paid       = d.paid;
-  if(d.commentary) S.commentary = d.commentary;
-  if(d.settings)   S.settings   = d.settings;
+  if(d.members)S.members=d.members;if(d.records)S.records=d.records;
+  if(d.paid)S.paid=d.paid;if(d.commentary)S.commentary=d.commentary;
+  if(d.settings)S.settings=d.settings;
   renderAll();
 }
-function hideLoading(){
-  document.getElementById('loadingOverlay').style.display='none';
-}
+function hideLoading(){document.getElementById('loadingOverlay').style.display='none';}
 
-/* ════════════════════════════════
+/* ════════════════════════════
    상수 & 상태
-════════════════════════════════ */
+════════════════════════════ */
 const AVATARS=['🦄','🐱','🐯','🦖','🐰','🐻','🐶','🐸','🦊','🐼','🐨','🦁','🐮','🐷','🐧','🦋','🐙','🐳','🦀','🐬','🦔','🦥','🐺','🦝','🦘','🦙','🐊','🐲','🐿️','🦦'];
 const COLORS=['#E8D5FF','#D5F0FF','#FFE8D5','#D5FFE8','#FFD5E8','#D5E8FF'];
 
-// 서비스 시작일: 2025-05-18 (월요일)
-const SERVICE_START = new Date(2025,4,18,0,0,0,0);
+// 서비스 시작: 2025-05-18 (일요일 23:59:59 이후부터 첫 주 시작)
+// 첫 주: 2025-05-18(일) ~ 2025-05-18 → 사실상 5/19(월)~5/25(일) 이 첫 완전한 주
+// 하지만 요청: 18일부터 시작 → 18일이 속한 주(5/12~5/18)는 제외, 5/19(월)부터 첫 주
+// ★ 정확히: SERVICE_START_MONDAY = 2025-05-19 (첫 번째 월요일)
+const SERVICE_START = new Date(2025,4,19,0,0,0,0); // 5/19 월요일부터 첫 주 시작
 
 const MSGS={
-  stamp:[
-    (n,c,t)=>`${n} 드디어 운동함 ㄷㄷ 지구 멸망 전날인가?🌍`,
-    (n,c,t)=>`${n} ${c}회 찍음. 표정은 왜 이미 사망?😐`,
-    (n,c,t)=>`오 ${n} 살아있었네? ${c}/${t}회 ㄱㅅ`,
-    (n,c,t)=>`${n} 운동 인증! 헬스장 가서 폰만 한 거 아니죠?📱`,
-    (n,c,t)=>`${n} ${c}회 완료. 칼로리 소모: 치킨 반 조각🍗`,
-    (n,c,t)=>`${n} 인증! 아직 ${t-c}번 남음. 긴장 늦추지 마 선생님`,
-  ],
-  done:[
-    (n,t)=>`🎉 ${n} ${t}/${t}회 달성!! 벌금 없음! 근데 왜 기쁘지 않지`,
-    (n,t)=>`${n} 목표 달성!! 나머지는 지금 이불 속?🛌 ㅋㅋ`,
-    (n,t)=>`${n} 완료!! 당당하게 치킨 시킬 수 있음🍗`,
-  ],
-  danger:[
-    (n,r)=>`🚨 ${n} 아직 ${r}번 남음. 지금 당장 일어나!!`,
-    (n,r)=>`${n} ${r}회 남았는데 아직도 누워있음? 만원 내기 싫으면 뛰어🏃`,
-    (n,r)=>`다들 ${n} 좀 괴롭혀주세요. ${r}번 안 하면 만원 뜯김😈`,
-  ],
+  stamp:[(n,c,t)=>`${n} 드디어 운동함 ㄷㄷ 지구 멸망 전날인가?🌍`,(n,c,t)=>`${n} ${c}회 찍음. 표정은 왜 이미 사망?😐`,(n,c,t)=>`오 ${n} 살아있었네? ${c}/${t}회 ㄱㅅ`,(n,c,t)=>`${n} 운동 인증! 헬스장 가서 폰만 한 거 아니죠?📱`,(n,c,t)=>`${n} ${c}회 완료. 칼로리 소모: 치킨 반 조각🍗`,(n,c,t)=>`${n} 인증! 아직 ${t-c}번 남음. 긴장 늦추지 마 선생님`],
+  done:[(n,t)=>`🎉 ${n} ${t}/${t}회 달성!! 벌금 없음! 근데 왜 기쁘지 않지`,(n,t)=>`${n} 목표 달성!! 나머지는 지금 이불 속?🛌 ㅋㅋ`,(n,t)=>`${n} 완료!! 당당하게 치킨 시킬 수 있음🍗`],
+  danger:[(n,r)=>`🚨 ${n} 아직 ${r}번 남음. 지금 당장 일어나!!`,(n,r)=>`${n} ${r}회 남았는데 아직도 누워있음? 만원 내기 싫으면 뛰어🏃`,(n,r)=>`다들 ${n} 좀 괴롭혀주세요. ${r}번 안 하면 만원 뜯김😈`],
   zero:[(n)=>`${n} 이번 주 0회... 운동이 뭔지 알긴 함?🤔`],
-  cancel:[
-    (n,c)=>`${n} 도장 취소... 현재 ${c}회. 뭔가 후회되나봄`,
-    (n,c)=>`${n} 취소 ㅋㅋ 지금 ${c}회. 다시 찍어요 제발🥺`,
-  ],
+  cancel:[(n,c)=>`${n} 도장 취소... 현재 ${c}회. 뭔가 후회되나봄`,(n,c)=>`${n} 취소 ㅋㅋ 지금 ${c}회. 다시 찍어요 제발🥺`],
 };
 function randMsg(type,...args){const a=MSGS[type];return a[Math.floor(Math.random()*a.length)](...args);}
 
 let S={
-  members:[
-    {id:1,name:'지희',avatar:'🦄',color:'#E8D5FF'},
-    {id:2,name:'병훈',avatar:'🐱',color:'#D5F0FF'},
-    {id:3,name:'진명',avatar:'🐯',color:'#FFE8D5'},
-    {id:4,name:'진욱',avatar:'🦖',color:'#D5FFE8'},
-  ],
-  records:{},paid:{},commentary:[],
-  settings:{target:4,fine:10000},
+  members:[{id:1,name:'지희',avatar:'🦄',color:'#E8D5FF'},{id:2,name:'병훈',avatar:'🐱',color:'#D5F0FF'},{id:3,name:'진명',avatar:'🐯',color:'#FFE8D5'},{id:4,name:'진욱',avatar:'🦖',color:'#D5FFE8'}],
+  records:{},paid:{},commentary:[],settings:{target:4,fine:10000},
 };
 let _vy=new Date().getFullYear(),_vm=new Date().getMonth(),_selAv='🦄';
 
-/* ════════════════════════════════
+/* ════════════════════════════
    날짜 유틸
-════════════════════════════════ */
-const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-const rk=(mid,ds)=>`${mid}_${ds}`;
+════════════════════════════ */
+function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function rk(mid,ds){return `${mid}_${ds}`;}
 
-// ★ 버그 수정: records 값을 boolean으로 명확히 체크
+// ★ isStamped: 오직 true 값만 인정
 function isStamped(mid,ds){
-  const v = S.records[rk(mid,ds)];
-  return v === true || v === 1;
+  return S.records[rk(mid,ds)] === true;
 }
 
-function thisWeekRange(){
-  const now=new Date(),day=now.getDay();
-  const mon=new Date(now);
-  mon.setDate(now.getDate()-(day===0?6:day-1));
-  mon.setHours(0,0,0,0);
-  const sun=new Date(mon);
-  sun.setDate(mon.getDate()+6);
-  sun.setHours(23,59,59,999);
-  return {mon,sun};
-}
-function inThisWeek(ds){
-  const {mon,sun}=thisWeekRange();
-  const d=new Date(ds);
-  return d>=mon&&d<=sun;
-}
-
-// 특정 주(월~일) 범위 내 운동 횟수
-function countInRange(mid, monDate, sunDate){
+function countInRange(mid,from,to){
   let cnt=0;
-  for(let d=new Date(monDate);d<=sunDate;d.setDate(d.getDate()+1)){
+  const f=new Date(from); f.setHours(0,0,0,0);
+  const t=new Date(to);   t.setHours(23,59,59,999);
+  for(let d=new Date(f);d<=t;d.setDate(d.getDate()+1)){
     if(isStamped(mid,dk(d.getFullYear(),d.getMonth(),d.getDate()))) cnt++;
   }
   return cnt;
 }
 
-function weekCount(mid){
-  const {mon,sun}=thisWeekRange();
-  return countInRange(mid,mon,sun);
+// 이번 주 월~일
+function thisWeekRange(){
+  const now=new Date(),day=now.getDay();
+  const mon=new Date(now);
+  mon.setDate(now.getDate()-(day===0?6:day-1));mon.setHours(0,0,0,0);
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6);sun.setHours(23,59,59,999);
+  return {mon,sun};
 }
+function inThisWeek(ds){const{mon,sun}=thisWeekRange();const d=new Date(ds);return d>=mon&&d<=sun;}
+function weekCount(mid){const{mon,sun}=thisWeekRange();return countInRange(mid,mon,sun);}
 
-/* ════════════════════════════════
-   주차 목록 생성 (서비스 시작일 기준)
-   - 월요일 시작, 일요일 종료
-   - 완료된 주차만 (일요일 < 오늘)
-════════════════════════════════ */
+/* ════════════════════════════
+   ★★★ 벌금 계산 핵심 수정 ★★★
+
+   규칙:
+   1. 주 단위: 월요일~일요일
+   2. "완료된 주차"란 해당 주의 일요일이 오늘보다 이전인 경우
+      즉, sun < today(시작) — 오늘이 일요일이면 오늘 주는 아직 진행중
+   3. 서비스 시작: SERVICE_START(5/19 월요일)부터의 주차만 계산
+   4. 해당 달(year,month)과 겹치는 주차만 계산
+════════════════════════════ */
 function getCompletedWeeks(year, month){
-  const firstDay=new Date(year,month,1);
-  const lastDay=new Date(year,month+1,0);
-  const today=new Date(); today.setHours(0,0,0,0);
-  const weeks=[];
+  const today = new Date();
+  today.setHours(0,0,0,0); // 오늘 자정
 
-  // 해당 달 포함 주차 시작 월요일 계산
-  let cur=new Date(firstDay);
-  const sd=cur.getDay();
-  cur.setDate(cur.getDate()-(sd===0?6:sd-1));
+  const firstOfMonth = new Date(year,month,1);
+  const lastOfMonth  = new Date(year,month+1,0);
 
-  while(cur<=lastDay){
-    const mon=new Date(cur);
-    const sun=new Date(cur); sun.setDate(cur.getDate()+6); sun.setHours(23,59,59,999);
+  // 해당 달의 첫날이 속한 주의 월요일 찾기
+  let cur = new Date(firstOfMonth);
+  const dow = cur.getDay();
+  cur.setDate(cur.getDate() - (dow===0?6:dow-1));
 
-    // 조건: 달과 겹침 + 일요일이 오늘보다 이전(완료) + 서비스 시작일 이후
-    const overlaps = sun>=firstDay && mon<=lastDay;
-    const completed = sun<today;  // ★ 일요일 기준으로 완료 판단
-    const afterStart = mon>=SERVICE_START || sun>=SERVICE_START;
+  const weeks = [];
+  while(cur <= lastOfMonth){
+    const mon = new Date(cur);
+    const sun = new Date(cur); sun.setDate(cur.getDate()+6);
 
-    if(overlaps && completed && afterStart){
-      // 실제 계산 범위: 서비스 시작일과 월 시작일 중 늦은 날짜
-      const calcFrom = new Date(Math.max(mon.getTime(), SERVICE_START.getTime(), firstDay.getTime()));
-      const calcTo   = new Date(Math.min(sun.getTime(), lastDay.getTime()));
-      weeks.push({mon, sun, calcFrom, calcTo});
+    // ★ 완료 조건: 일요일의 다음날(월요일) <= 오늘
+    //   즉 sun < today (오늘 자정 기준)
+    //   오늘이 5/18(일)이면 이 주 sun=5/18 → 5/18 < 5/18 = false → 진행중 ✓
+    //   오늘이 5/19(월)이면 이 주 sun=5/18 → 5/18 < 5/19 = true → 완료 ✓
+    const sunMidnight = new Date(sun); sunMidnight.setHours(0,0,0,0);
+    const isCompleted = sunMidnight < today;
+
+    // 달과 겹치는지
+    const overlapsMonth = sun >= firstOfMonth && mon <= lastOfMonth;
+
+    // 서비스 시작 이후인지 (주의 시작이 SERVICE_START 이후)
+    const afterService = mon >= SERVICE_START;
+
+    if(overlapsMonth && isCompleted && afterService){
+      weeks.push({mon:new Date(mon), sun:new Date(sun)});
     }
     cur.setDate(cur.getDate()+7);
   }
   return weeks;
 }
 
-// 월별 누적 벌금 (완료된 주차 기준)
+// 진행 중인 주차 (아직 완료 안 됨)
+function getOngoingWeek(year, month){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstOfMonth = new Date(year,month,1);
+  const lastOfMonth  = new Date(year,month+1,0);
+
+  let cur = new Date(firstOfMonth);
+  const dow = cur.getDay();
+  cur.setDate(cur.getDate()-(dow===0?6:dow-1));
+
+  while(cur <= lastOfMonth){
+    const mon = new Date(cur);
+    const sun = new Date(cur); sun.setDate(cur.getDate()+6);
+    const sunMidnight = new Date(sun); sunMidnight.setHours(0,0,0,0);
+
+    const overlaps = sun>=firstOfMonth && mon<=lastOfMonth;
+    const afterService = mon>=SERVICE_START;
+    const isOngoing = sunMidnight >= today; // 일요일이 오늘 이후 = 아직 진행중
+
+    if(overlaps && afterService && isOngoing){
+      return {mon:new Date(mon), sun:new Date(sun)};
+    }
+    cur.setDate(cur.getDate()+7);
+  }
+  return null;
+}
+
 function calcMonthFine(mid, year, month){
   const weeks = getCompletedWeeks(year, month);
   const {target,fine} = S.settings;
   let total=0;
   const details=[];
-  weeks.forEach(({mon,sun,calcFrom,calcTo})=>{
-    const cnt = countInRange(mid, calcFrom, calcTo);
-    if(cnt < target){
-      total += fine;
-      details.push({mon,sun,cnt,fine});
-    } else {
-      details.push({mon,sun,cnt,fine:0});
-    }
+  weeks.forEach(({mon,sun})=>{
+    const cnt = countInRange(mid,mon,sun);
+    const hasFine = cnt < target;
+    if(hasFine) total+=fine;
+    details.push({mon,sun,cnt,fine:hasFine?fine:0});
   });
   return {total, details, weeks};
 }
 
-/* ════════════════════════════════
+/* ════════════════════════════
    달력 렌더
-════════════════════════════════ */
+════════════════════════════ */
 function buildCells(){
   const y=_vy,m=_vm;
   const firstDow=new Date(y,m,1).getDay();
@@ -676,8 +584,8 @@ function buildCells(){
   return cells;
 }
 
-function renderCalGrid(gridId, isMob){
-  const grid=document.getElementById(gridId); if(!grid) return;
+function renderCalGrid(gridId,isMob){
+  const grid=document.getElementById(gridId);if(!grid)return;
   grid.innerHTML='';
   const today=new Date();
   const n=S.members.length;
@@ -693,94 +601,92 @@ function renderCalGrid(gridId, isMob){
     cell.className='day-cell'+(!cur?' other-month':'')+(isToday?' today':'')+(isTW?' this-week':'')+(dow===0?' sun':dow===6?' sat':'');
 
     const numEl=document.createElement('div');
-    numEl.className='day-num'; numEl.textContent=d;
+    numEl.className='day-num';numEl.textContent=d;
     cell.appendChild(numEl);
 
     const area=document.createElement('div');
     area.className=isMob?`stamps-mob ${mobCls}`:'stamps-pc';
 
     if(!isMob){
-      // PC: 6슬롯 고정
       const slots=[...S.members];
-      while(slots.length<6) slots.push(null);
+      while(slots.length<6)slots.push(null);
       slots.slice(0,6).forEach(mem=>{
-        if(!mem){
-          const e=document.createElement('div');e.className='stamp-empty';area.appendChild(e);return;
-        }
-        area.appendChild(makeStampIcon(mem,ds));
+        if(!mem){const e=document.createElement('div');e.className='stamp-empty';area.appendChild(e);return;}
+        area.appendChild(makeIcon(mem,ds));
       });
     } else {
-      S.members.forEach(mem=>area.appendChild(makeStampIcon(mem,ds)));
+      S.members.forEach(mem=>area.appendChild(makeIcon(mem,ds)));
     }
     cell.appendChild(area);
     grid.appendChild(cell);
   });
 }
 
-// ★ 도장 아이콘 생성 함수 분리 — 버그 수정 핵심
-function makeStampIcon(mem, ds){
+/* ════════════════════════════
+   ★★★ 도장 아이콘 — 색상 버그 완전 수정 ★★★
+
+   문제: classList.add('done')과 style.background가 서로 충돌
+   해결: class를 쓰지 않고 style만으로 상태 표현
+         done   → opacity:1, background:색, boxShadow:있음
+         undone → opacity:0.22, background:transparent, boxShadow:없음
+════════════════════════════ */
+function applyStampStyle(icon, stamped, color){
+  if(stamped){
+    icon.style.opacity      = '1';
+    icon.style.filter       = 'none';
+    icon.style.background   = `linear-gradient(135deg,${color}cc,${color}77)`;
+    icon.style.boxShadow    = `0 2px 6px ${color}88`;
+  } else {
+    icon.style.opacity      = '0.22';
+    icon.style.filter       = 'grayscale(1)';
+    icon.style.background   = 'transparent';
+    icon.style.boxShadow    = 'none';
+  }
+}
+
+function makeIcon(mem, ds){
   const stamped = isStamped(mem.id, ds);
   const icon = document.createElement('div');
-  icon.className = 'stamp-icon ' + (stamped ? 'done' : 'undone');
+  icon.className = 'stamp-icon';
   icon.textContent = mem.avatar;
-  icon.dataset.mid = mem.id;
-  icon.dataset.ds  = ds;
+  icon.title = `${mem.name} (${ds})`;
 
-  if(stamped){
-    icon.style.background = `linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-  }
+  applyStampStyle(icon, stamped, mem.color);
 
-  // ★ 클릭 이벤트: 단순 onclick으로 통일 (addEventListener 중복 방지)
   icon.onclick = function(e){
     e.stopPropagation();
     e.preventDefault();
-    doToggleStamp(mem.id, ds, this, mem);
+    doToggle(mem.id, ds, this, mem);
   };
   return icon;
 }
 
-function renderCalHeader(tId,bId){
-  const el=document.getElementById(tId); if(el) el.textContent=`${_vy}년 ${_vm+1}월`;
-  const {mon:wm,sun:ws}=thisWeekRange();
-  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
-  const b=document.getElementById(bId); if(b) b.textContent=`📅 이번 주 ${fmt(wm)}~${fmt(ws)}`;
-}
-
-/* ════════════════════════════════
-   ★ 도장 토글 — 버그 수정
-   문제: records 값이 false/undefined/null 혼재
-   해결: 명확히 true/false 로만 저장
-════════════════════════════════ */
-function doToggleStamp(mid, ds, iconEl, mem){
+/* ════════════════════════════
+   ★★★ 도장 토글 — 즉시 반영 ★★★
+════════════════════════════ */
+function doToggle(mid, ds, icon, mem){
   const key = rk(mid, ds);
-  const was = isStamped(mid, ds); // 현재 상태
+  const was = isStamped(mid, ds);
 
-  // ★ 상태 반전: 명확히 true 또는 삭제
+  // 데이터 업데이트
   if(was){
-    delete S.records[key]; // false 대신 완전 삭제
+    delete S.records[key];
   } else {
     S.records[key] = true;
   }
 
-  // ★ UI 즉시 업데이트
-  if(was){
-    // 취소: undone으로
-    iconEl.classList.remove('done','pop');
-    iconEl.classList.add('undone');
-    iconEl.style.background = 'transparent';
-    iconEl.style.boxShadow  = 'none';
-  } else {
-    // 인증: done으로
-    iconEl.classList.remove('undone');
-    iconEl.classList.add('done');
-    iconEl.style.background = `linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-    iconEl.classList.remove('pop');
-    void iconEl.offsetWidth; // reflow
-    iconEl.classList.add('pop');
-    setTimeout(()=>iconEl.classList.remove('pop'),380);
+  // ★ 스타일 즉시 반영 (class 없이 style만 사용)
+  applyStampStyle(icon, !was, mem.color);
+
+  // 팝 애니메이션 (인증할 때만)
+  if(!was){
+    icon.classList.remove('stamp-pop');
+    void icon.offsetWidth;
+    icon.classList.add('stamp-pop');
+    setTimeout(()=>icon.classList.remove('stamp-pop'),380);
   }
 
-  // 중계 메시지
+  // 중계
   const cnt = weekCount(mid);
   const target = S.settings.target;
   let msg;
@@ -796,366 +702,298 @@ function doToggleStamp(mid, ds, iconEl, mem){
   fbSave();
 }
 
-/* ════════════════════════════════
+function renderCalHeader(tId,bId){
+  const el=document.getElementById(tId);if(el)el.textContent=`${_vy}년 ${_vm+1}월`;
+  const {mon:wm,sun:ws}=thisWeekRange();
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  const b=document.getElementById(bId);if(b)b.textContent=`📅 이번 주 ${fmt(wm)}~${fmt(ws)}`;
+}
+
+/* ════════════════════════════
    중계
-════════════════════════════════ */
+════════════════════════════ */
 function addComment(msg){
   const now=new Date();
   const t=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
   S.commentary.unshift({t,msg});
-  if(S.commentary.length>40) S.commentary.pop();
+  if(S.commentary.length>40)S.commentary.pop();
   renderCommentary();
 }
 function renderCommentary(){
   const empty='<div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>';
   [['pcComList',4],['pcComListFull',40],['mobComList',20]].forEach(([id,max])=>{
-    const el=document.getElementById(id); if(!el) return;
+    const el=document.getElementById(id);if(!el)return;
     el.innerHTML=!S.commentary.length?empty:S.commentary.slice(0,max).map(c=>`<div class="com-item"><span class="com-time">${c.t}</span><span>${c.msg}</span></div>`).join('');
   });
 }
 
-/* ════════════════════════════════
-   사이드바 & 순위
-════════════════════════════════ */
-function renderSidebars(){
-  renderPcSideRank(); renderPcRankPage();
-  renderMobRank(); renderMobWeekStatus();
-}
+/* ════════════════════════════
+   사이드바
+════════════════════════════ */
+function renderSidebars(){renderPcSideRank();renderPcRankPage();renderMobRank();renderMobWeekStatus();}
 
 function renderPcSideRank(){
   const target=S.settings.target;
   const data=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-  const el=document.getElementById('pcSideRank'); if(!el) return;
+  const el=document.getElementById('pcSideRank');if(!el)return;
   el.innerHTML=data.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
     return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt">${m.cnt}/${target}</span>${m.cnt>=target?'<span class="s-ok">✅</span>':`<span class="s-warn">-${rem}회</span>`}</div><div style="padding:0 2px 3px 38px;"><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
   }).join('');
-
-  const el2=document.getElementById('pcSideTotal'); if(!el2) return;
-  const tot=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&isStamped(m.id,k.split('_').slice(1).join('_')))t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  const el2=document.getElementById('pcSideTotal');if(!el2)return;
+  const tot=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k]===true)t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
   el2.innerHTML=tot.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt" style="color:#7050a0;">${m.t}회</span></div>`;}).join('');
 }
 
 function renderPcRankPage(){
   const target=S.settings.target;
   const weekData=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-  const el=document.getElementById('pcRankWeek'); if(!el) return;
+  const el=document.getElementById('pcRankWeek');if(!el)return;
   el.innerHTML=weekData.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
-    const rem=Math.max(0,target-m.cnt);
-    const pct=Math.min(100,Math.round(m.cnt/target*100));
+    const rem=Math.max(0,target-m.cnt);const pct=Math.min(100,Math.round(m.cnt/target*100));
     return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><span class="rank-cnt">${m.cnt}/${target}</span>${m.cnt>=target?'<span class="rank-ok">✅</span>':`<span class="rank-warn">-${rem}회</span>`}</div>`;
   }).join('');
-
   const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k]===true)t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
-  const el2=document.getElementById('pcRankTotal'); if(!el2) return;
-  el2.innerHTML=totData.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><span class="rank-cnt" style="color:#7050a0;">${m.t}회 운동</span></div>`;}).join('');
+  const el2=document.getElementById('pcRankTotal');if(!el2)return;
+  el2.innerHTML=totData.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><span class="rank-cnt" style="color:#7050a0;">${m.t}회</span></div>`;}).join('');
 }
 
 function renderMobRank(){
   const target=S.settings.target;
   const data=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-  const el=document.getElementById('mobRankList'); if(!el) return;
+  const el=document.getElementById('mobRankList');if(!el)return;
   el.innerHTML=data.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;
-    const rem=Math.max(0,target-m.cnt);
-    const pct=Math.min(100,Math.round(m.cnt/target*100));
+    const rem=Math.max(0,target-m.cnt);const pct=Math.min(100,Math.round(m.cnt/target*100));
     return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};"><span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span><div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub">${m.cnt}/${target}회</div><div class="prog-wrap" style="margin-top:4px;"><div class="prog-bar" style="width:${pct}%"></div></div></div><span class="mob-rank-badge ${m.cnt>=target?'mob-badge-ok':'mob-badge-warn'}">${m.cnt>=target?'✅ 완료':`⚡ -${rem}회`}</span></div>`;
   }).join('');
-
   const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k]===true)t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
-  const el2=document.getElementById('mobTotalRankList'); if(!el2) return;
+  const el2=document.getElementById('mobTotalRankList');if(!el2)return;
   el2.innerHTML=totData.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};"><span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span><div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub" style="color:#7050a0;">누적 ${m.t}회</div></div></div>`;}).join('');
 }
 
 function renderMobWeekStatus(){
   const target=S.settings.target;
-  const el=document.getElementById('mobWeekStatus'); if(!el) return;
+  const el=document.getElementById('mobWeekStatus');if(!el)return;
   el.innerHTML=S.members.map(m=>{
     const cnt=weekCount(m.id);const rem=Math.max(0,target-cnt);const pct=Math.min(100,Math.round(cnt/target*100));
     return `<div class="mob-week-row"><span style="font-size:1.4rem;">${m.avatar}</span><span style="flex:1;font-weight:700;font-size:.85rem;color:#555;">${m.name}</span><div style="flex:2;"><div style="font-size:.75rem;color:#888;margin-bottom:2px;">${cnt}/${target}회</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div><span style="font-size:.75rem;font-weight:700;margin-left:8px;color:${cnt>=target?'#2d7a5a':'#e05070'};">${cnt>=target?'✅':'-'+rem+'회'}</span></div>`;
   }).join('');
 }
 
-/* ════════════════════════════════
-   정산 (돈주머니)
-════════════════════════════════ */
+/* ════════════════════════════
+   정산 탭
+════════════════════════════ */
 function initMonthSelects(){
   const today=new Date();
   const opts=[];
+  // SERVICE_START가 속한 달부터
   let y=SERVICE_START.getFullYear(),m=SERVICE_START.getMonth();
   while(y<today.getFullYear()||(y===today.getFullYear()&&m<=today.getMonth())){
-    opts.push({y,m}); m++; if(m>11){m=0;y++;}
+    opts.push({y,m});m++;if(m>11){m=0;y++;}
   }
   opts.reverse();
   ['pcMonthSel','mobMonthSel'].forEach(id=>{
-    const sel=document.getElementById(id); if(!sel) return;
+    const sel=document.getElementById(id);if(!sel)return;
     const cur=sel.value;
     sel.innerHTML=opts.map(({y,m})=>`<option value="${y}-${m}">${y}년 ${m+1}월</option>`).join('');
-    if(cur) sel.value=cur;
-    else { const def=`${today.getFullYear()}-${today.getMonth()}`; sel.value=def; }
+    if(cur&&opts.find(o=>`${o.y}-${o.m}`===cur))sel.value=cur;
+    else sel.value=`${today.getFullYear()}-${today.getMonth()}`;
   });
 }
 
 function getSelMonth(selId){
   const sel=document.getElementById(selId);
-  if(!sel||!sel.value) return {y:new Date().getFullYear(),m:new Date().getMonth()};
-  const [y,m]=sel.value.split('-').map(Number); return {y,m};
+  if(!sel||!sel.value)return{y:new Date().getFullYear(),m:new Date().getMonth()};
+  const[y,m]=sel.value.split('-').map(Number);return{y,m};
 }
 
 function bagHtml(bags,size='1.5rem'){
-  return bags>0
-    ? Array.from({length:bags},(_,i)=>`<span class="bag-icon" style="font-size:${size};animation-delay:${i*.06}s">💰</span>`).join('')
-    : '<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>';
+  if(bags<=0)return '<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>';
+  return Array.from({length:bags},(_,i)=>`<span class="bag-icon" style="font-size:${size};animation-delay:${i*.06}s">💰</span>`).join('');
+}
+
+// ★ 진행중 주차 안내 배너
+function ongoingBannerHtml(year, month){
+  const ongoing = getOngoingWeek(year, month);
+  if(!ongoing) return '';
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  return `<div class="ongoing-banner">⏳ ${fmt(ongoing.mon)}~${fmt(ongoing.sun)} 주차는 진행 중이에요. 일요일 이후 자동 반영됩니다.</div>`;
 }
 
 function renderPcFine(){
-  const {y,m}=getSelMonth('pcMonthSel');
+  const{y,m}=getSelMonth('pcMonthSel');
   const grid=document.getElementById('pcPurseGrid');
   const banner=document.getElementById('pcPurseBanner');
-  if(!grid) return;
+  const ob=document.getElementById('pcOngoingBanner');
+  if(!grid)return;
+
+  if(ob) ob.innerHTML=ongoingBannerHtml(y,m);
+
   let grand=0;
   grid.innerHTML=S.members.map(mem=>{
-    const {total}=calcMonthFine(mem.id,y,m);
+    const{total}=calcMonthFine(mem.id,y,m);
     grand+=total;
     const bags=total>0?Math.round(total/S.settings.fine):0;
     const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
     const isPaid=!!S.paid[pk];
     return `<div class="purse-card"><div class="purse-avatar">${mem.avatar}</div><div class="purse-name">${mem.name}</div><div class="purse-bags">${bagHtml(bags)}</div><div class="purse-amt ${total>0?'has-fine':'no-fine'}">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 벌금 없음'}</div>${total>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'✅ 납부완료':'⏳ 미납'}</button>`:''}</div>`;
   }).join('');
-  if(banner) banner.innerHTML=grand>0?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span>`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
+  if(banner)banner.innerHTML=grand>0?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span>`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
 }
 
 function renderMobFine(){
-  const {y,m}=getSelMonth('mobMonthSel');
+  const{y,m}=getSelMonth('mobMonthSel');
   const grid=document.getElementById('mobPurseGrid');
   const banner=document.getElementById('mobPurseBanner');
-  if(!grid) return;
+  const ob=document.getElementById('mobOngoingBanner');
+  if(!grid)return;
+
+  if(ob) ob.innerHTML=ongoingBannerHtml(y,m);
+
   let grand=0;
   grid.innerHTML=S.members.map(mem=>{
-    const {total}=calcMonthFine(mem.id,y,m);
+    const{total}=calcMonthFine(mem.id,y,m);
     grand+=total;
     const bags=total>0?Math.round(total/S.settings.fine):0;
     const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
     const isPaid=!!S.paid[pk];
     return `<div class="mob-purse-row"><div class="mob-purse-av">${mem.avatar}</div><div class="mob-purse-info"><div class="mob-purse-name">${mem.name}</div><div class="mob-purse-bags">${bagHtml(bags,'1.2rem')}</div><div style="font-size:.78rem;font-weight:700;color:${total>0?'#e05070':'#2d7a5a'};">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 벌금 없음'}</div></div>${total>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'납부':'미납'}</button>`:''}</div>`;
   }).join('');
-  if(banner) banner.textContent=grand>0?`🍺 ${y}년 ${m+1}월 합계: ${grand.toLocaleString()}원`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
+  if(banner)banner.textContent=grand>0?`🍺 ${y}년 ${m+1}월 합계: ${grand.toLocaleString()}원`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
 }
 
 function togglePaid(key){
   S.paid[key]=!S.paid[key];
-  renderPcFine(); renderMobFine();
-  fbSave();
+  renderPcFine();renderMobFine();fbSave();
   showToast(S.paid[key]?'💰 납부 완료!':'⏳ 미납으로 변경');
 }
 
-/* ════════════════════════════════
-   ★ 주간 결산 팝업
-   - 이번 주 일요일 기준으로 결산
-   - 4회 달성 여부 표시
-════════════════════════════════ */
+/* ════════════════════════════
+   팝업
+════════════════════════════ */
 function showWeeklyPopup(){
-  const {mon,sun}=thisWeekRange();
-  const today=new Date(); today.setHours(0,0,0,0);
-  const target=S.settings.target;
-  const fine=S.settings.fine;
-
+  const{mon,sun}=thisWeekRange();
+  const today=new Date();today.setHours(0,0,0,0);
+  const sunMidnight=new Date(sun);sunMidnight.setHours(0,0,0,0);
+  const isCompleted=sunMidnight<today;
+  const target=S.settings.target,fine=S.settings.fine;
   const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+
   document.getElementById('wpTitle').textContent=`📊 ${fmt(mon)} ~ ${fmt(sun)} 주간 결산`;
+  document.getElementById('wpSubtitle').textContent=isCompleted?'✅ 이번 주 결산 완료! 벌금을 확인하세요.':'⏳ 이번 주 진행 중이에요. (일요일 마감)';
 
-  // 이번 주가 완료됐는지 (일요일이 오늘 이전)
-  const sunDay=new Date(sun); sunDay.setHours(0,0,0,0);
-  const isCompleted = sunDay < today;
-
-  document.getElementById('wpSubtitle').textContent = isCompleted
-    ? `✅ 이번 주 결산이 완료됐어요! 벌금을 확인하세요.`
-    : `⏳ 이번 주는 아직 진행 중이에요. (일요일 마감)`;
-
+  const calcFrom=new Date(Math.max(mon.getTime(),SERVICE_START.getTime()));
   let fineTotal=0;
-  // 실제 계산 범위: 서비스 시작일 이후
-  const calcFrom=new Date(Math.max(mon.getTime(), SERVICE_START.getTime()));
-
   document.getElementById('wpGrid').innerHTML=S.members.map(mem=>{
-    const cnt=countInRange(mem.id, calcFrom, sun);
-    const hasFine = isCompleted && cnt<target;
-    if(hasFine) fineTotal+=fine;
-    const bags=hasFine?1:0;
-    return `<div class="pop-member-card ${hasFine?'fail':'pass'}">
-      <div class="pop-av">${mem.avatar}</div>
-      <div class="pop-name">${mem.name}</div>
-      <div class="pop-bags">${bags>0?`<span style="font-size:1.4rem;">💰</span>`:'<span style="font-size:1rem;">🎉</span>'}</div>
-      <div class="pop-result ${hasFine?'bad':'ok'}">${hasFine?`💸 ${fine.toLocaleString()}원`:'✅ 통과!'}</div>
-      <div class="pop-cnt">${cnt}/${target}회 운동</div>
-    </div>`;
+    const cnt=countInRange(mem.id,calcFrom,sun);
+    const hasFine=isCompleted&&cnt<target;
+    if(hasFine)fineTotal+=fine;
+    return `<div class="pop-member-card ${hasFine?'fail':'pass'}"><div class="pop-av">${mem.avatar}</div><div class="pop-name">${mem.name}</div><div class="pop-bags">${hasFine?'<span style="font-size:1.4rem;">💰</span>':'<span style="font-size:1rem;">🎉</span>'}</div><div class="pop-result ${hasFine?'bad':'ok'}">${hasFine?`💸 ${fine.toLocaleString()}원`:'✅ 통과!'}</div><div class="pop-cnt">${cnt}/${target}회 운동</div></div>`;
   }).join('');
-
-  document.getElementById('wpTotal').innerHTML = isCompleted
-    ? (fineTotal>0
-        ? `💸 이번 주 총 벌금: ${fineTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 다음 달 말에 정산해요!</span>`
-        : `🎉 이번 주 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`)
-    : `⏳ 이번 주 현재까지 현황이에요.<br><span style="font-size:.8rem;opacity:.9;">일요일 자정에 최종 결산됩니다.</span>`;
-
+  document.getElementById('wpTotal').innerHTML=isCompleted?(fineTotal>0?`💸 이번 주 총 벌금: ${fineTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 다음 달 말에 정산해요!</span>`:`🎉 이번 주 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`):`⏳ 이번 주 현재까지 현황이에요.<br><span style="font-size:.8rem;opacity:.9;">일요일 자정에 최종 결산됩니다.</span>`;
   openModal('weeklyPopupModal');
 }
 
-/* ════════════════════════════════
-   ★ 월간 결산 팝업
-   - 완료된 주차 기준 벌금 합산
-   - 주차별 내역 표시
-════════════════════════════════ */
 function showMonthlyPopup(){
   const today=new Date();
-  // 정산 탭에서 선택된 달, 없으면 현재 달
   const selEl=document.getElementById('pcMonthSel');
-  let y=today.getFullYear(), m=today.getMonth();
+  let y=today.getFullYear(),m=today.getMonth();
   if(selEl&&selEl.value){[y,m]=selEl.value.split('-').map(Number);}
 
-  document.getElementById('mpTitle').textContent=`💰 ${y}년 ${m+1}월 결산`;
-  document.getElementById('mpSubtitle').textContent=`완료된 주차 기준으로 계산됩니다 (일요일 마감)`;
-
   const weeks=getCompletedWeeks(y,m);
-  const target=S.settings.target;
-  const fine=S.settings.fine;
+  const target=S.settings.target,fine=S.settings.fine;
   const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
 
-  let grandTotal=0;
+  document.getElementById('mpTitle').textContent=`💰 ${y}년 ${m+1}월 결산`;
+  document.getElementById('mpSubtitle').textContent=`완료된 주차 기준 (일요일 마감) — 진행 중인 주차 제외`;
 
-  // 멤버별 카드
+  let grandTotal=0;
   document.getElementById('mpGrid').innerHTML=S.members.map(mem=>{
-    const {total,details}=calcMonthFine(mem.id,y,m);
+    const{total,details}=calcMonthFine(mem.id,y,m);
     grandTotal+=total;
     const bags=total>0?Math.round(total/fine):0;
-    return `<div class="pop-member-card ${total>0?'fail':'pass'}">
-      <div class="pop-av">${mem.avatar}</div>
-      <div class="pop-name">${mem.name}</div>
-      <div class="pop-bags">${bagHtml(bags,'1.3rem')}</div>
-      <div class="pop-result ${total>0?'bad':'ok'}">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 0원'}</div>
-      <div class="pop-cnt">${weeks.length}주 중 ${details.filter(d=>d.fine>0).length}주 미달</div>
-    </div>`;
+    const failWeeks=details.filter(d=>d.fine>0).length;
+    return `<div class="pop-member-card ${total>0?'fail':'pass'}"><div class="pop-av">${mem.avatar}</div><div class="pop-name">${mem.name}</div><div class="pop-bags">${bagHtml(bags,'1.3rem')}</div><div class="pop-result ${total>0?'bad':'ok'}">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 0원'}</div><div class="pop-cnt">${weeks.length}주 중 ${failWeeks}주 미달</div></div>`;
   }).join('');
+  document.getElementById('mpTotal').innerHTML=grandTotal>0?`💸 ${y}년 ${m+1}월 총 벌금: ${grandTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 이번 달 말에 정산해요!</span>`:`🎉 ${y}년 ${m+1}월 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 정말 열심히 했어요~</span>`;
 
-  document.getElementById('mpTotal').innerHTML=grandTotal>0
-    ?`💸 ${y}년 ${m+1}월 총 벌금: ${grandTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 이번 달 말에 정산해요!</span>`
-    :`🎉 ${y}년 ${m+1}월 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 정말 열심히 했어요~</span>`;
-
-  // 주차별 내역
   if(weeks.length===0){
-    document.getElementById('mpWeekList').innerHTML='<div style="text-align:center;color:#aaa;font-size:.8rem;padding:10px;">완료된 주차가 없어요</div>';
+    document.getElementById('mpWeekList').innerHTML='<div style="text-align:center;color:#aaa;font-size:.8rem;padding:10px;">완료된 주차가 없어요 (진행 중인 주차는 일요일 이후 반영)</div>';
   } else {
-    document.getElementById('mpWeekList').innerHTML=weeks.map(({mon,sun,calcFrom,calcTo})=>{
-      const weekFine=S.members.reduce((acc,mem)=>{
-        const cnt=countInRange(mem.id,calcFrom,calcTo);
-        return acc+(cnt<target?fine:0);
-      },0);
-      const passCount=S.members.filter(mem=>countInRange(mem.id,calcFrom,calcTo)>=target).length;
-      return `<div class="pop-week-row">
-        <span class="pop-week-label">📅 ${fmt(mon)}~${fmt(sun)}</span>
-        <span style="font-size:.78rem;color:#888;">${passCount}/${S.members.length}명 통과</span>
-        <span class="pop-week-val">${weekFine>0?`💸 ${weekFine.toLocaleString()}원`:'✅ 0원'}</span>
-      </div>`;
+    document.getElementById('mpWeekList').innerHTML=weeks.map(({mon,sun})=>{
+      const weekFine=S.members.reduce((acc,mem)=>{const cnt=countInRange(mem.id,mon,sun);return acc+(cnt<target?fine:0);},0);
+      const passCount=S.members.filter(mem=>countInRange(mem.id,mon,sun)>=target).length;
+      return `<div class="pop-week-row"><span class="pop-week-label">📅 ${fmt(mon)}~${fmt(sun)}</span><span style="font-size:.78rem;color:#888;">${passCount}/${S.members.length}명 통과</span><span class="pop-week-val">${weekFine>0?`💸 ${weekFine.toLocaleString()}원`:'✅ 0원'}</span></div>`;
     }).join('');
   }
-
   openModal('monthlyPopupModal');
 }
 
-/* ════════════════════════════════
-   자동 팝업 (일요일 & 말일)
-════════════════════════════════ */
 function checkAutoPopup(){
   const today=new Date();
-  const dow=today.getDay();    // 0=일
+  const dow=today.getDay();
   const date=today.getDate();
   const lastDay=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
-  const popShownKey=`popShown_${today.getFullYear()}_${today.getMonth()}_${date}`;
-
-  if(localStorage.getItem(popShownKey)) return; // 오늘 이미 표시함
-
-  if(dow===0){ // 일요일 → 주간 결산
-    localStorage.setItem(popShownKey,'weekly');
-    setTimeout(()=>showWeeklyPopup(), 1500);
-  } else if(date===lastDay){ // 말일 → 월간 결산
-    localStorage.setItem(popShownKey,'monthly');
-    setTimeout(()=>showMonthlyPopup(), 1500);
-  }
+  const key=`popShown_${today.getFullYear()}_${today.getMonth()}_${date}`;
+  if(localStorage.getItem(key))return;
+  if(dow===0){localStorage.setItem(key,'weekly');setTimeout(()=>showWeeklyPopup(),1500);}
+  else if(date===lastDay){localStorage.setItem(key,'monthly');setTimeout(()=>showMonthlyPopup(),1500);}
 }
 
-/* ════════════════════════════════
+/* ════════════════════════════
    전체 렌더
-════════════════════════════════ */
+════════════════════════════ */
 function renderAll(){
   renderCalHeader('pcCalTitle','pcWeekBadge');
   renderCalHeader('mobCalTitle','mobWeekBadge');
   renderCalGrid('pcCalGrid',false);
   renderCalGrid('mobCalGrid',true);
-  renderSidebars();
-  renderCommentary();
-  initMonthSelects();
-  renderPcFine();
-  renderMobFine();
+  renderSidebars();renderCommentary();
+  initMonthSelects();renderPcFine();renderMobFine();
 }
-
 function changeMonth(dir){
-  _vm+=dir;
-  if(_vm>11){_vm=0;_vy++;}
-  if(_vm<0){_vm=11;_vy--;}
-  renderCalHeader('pcCalTitle','pcWeekBadge');
-  renderCalHeader('mobCalTitle','mobWeekBadge');
-  renderCalGrid('pcCalGrid',false);
-  renderCalGrid('mobCalGrid',true);
+  _vm+=dir;if(_vm>11){_vm=0;_vy++;}if(_vm<0){_vm=11;_vy--;}
+  renderCalHeader('pcCalTitle','pcWeekBadge');renderCalHeader('mobCalTitle','mobWeekBadge');
+  renderCalGrid('pcCalGrid',false);renderCalGrid('mobCalGrid',true);
 }
 
-/* ════════════════════════════════
-   탭
-════════════════════════════════ */
 function pcTab(idx,el){
   document.querySelectorAll('.pc-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.pc-page').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById(`pcPage${idx}`).classList.add('active');
-  if(idx===1) renderPcRankPage();
+  el.classList.add('active');document.getElementById(`pcPage${idx}`).classList.add('active');
+  if(idx===1)renderPcRankPage();
   if(idx===2){initMonthSelects();renderPcFine();}
 }
 function mobTab(idx,el){
   document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.mob-page').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById(`mobPage${idx}`).classList.add('active');
-  if(idx===0) renderCalGrid('mobCalGrid',true);
+  el.classList.add('active');document.getElementById(`mobPage${idx}`).classList.add('active');
+  if(idx===0)renderCalGrid('mobCalGrid',true);
   if(idx===2){initMonthSelects();renderMobFine();}
 }
 
-/* ════════════════════════════════
-   멤버 추가/관리
-════════════════════════════════ */
 function openAddModal(){
   if(S.members.length>=6){showToast('최대 6명까지 가능해요!');return;}
-  document.getElementById('newName').value='';
-  _selAv=AVATARS[0]; renderAvatarGrid(); openModal('addModal');
+  document.getElementById('newName').value='';_selAv=AVATARS[0];renderAvatarGrid();openModal('addModal');
 }
 function renderAvatarGrid(){
   document.getElementById('avatarGrid').innerHTML=AVATARS.map(av=>`<div class="av-btn ${av===_selAv?'selected':''}" onclick="selAv('${av}',this)">${av}</div>`).join('');
 }
-function selAv(av,el){
-  _selAv=av;
-  document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('selected'));
-  el.classList.add('selected');
-}
+function selAv(av,el){_selAv=av;document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
 function addMember(){
   const name=document.getElementById('newName').value.trim();
   if(!name){showToast('이름을 입력해주세요!');return;}
   if(S.members.find(m=>m.name===name)){showToast('이미 있는 이름이에요!');return;}
   if(S.members.length>=6){showToast('최대 6명까지!');return;}
-  const id=Date.now();
-  const color=COLORS[S.members.length%COLORS.length];
+  const id=Date.now();const color=COLORS[S.members.length%COLORS.length];
   S.members.push({id,name,avatar:_selAv,color});
-  closeModal('addModal');
-  showToast(`${_selAv} ${name}님 합류! 💪`);
+  closeModal('addModal');showToast(`${_selAv} ${name}님 합류! 💪`);
   addComment(`🆕 ${_selAv} ${name}님 클럽 합류! 운동 안 하면 만원임 ㅋ`);
-  renderAll(); fbSave();
+  renderAll();fbSave();
 }
 function openManageModal(){
   document.getElementById('memberManageList').innerHTML=S.members.map(m=>`<div class="mm-row"><span class="mm-av">${m.avatar}</span><span class="mm-name">${m.name}</span><button class="mm-del" onclick="deleteMember(${m.id})">삭제</button></div>`).join('');
@@ -1163,16 +1001,11 @@ function openManageModal(){
 }
 function deleteMember(id){
   const m=S.members.find(x=>x.id===id);
-  if(!m||!confirm(`${m.name}님을 삭제할까요?`)) return;
+  if(!m||!confirm(`${m.name}님을 삭제할까요?`))return;
   S.members=S.members.filter(x=>x.id!==id);
-  Object.keys(S.records).forEach(k=>{if(k.startsWith(`${id}_`)) delete S.records[k];});
-  openManageModal(); showToast(`${m.name}님 삭제됨`);
-  renderAll(); fbSave();
+  Object.keys(S.records).forEach(k=>{if(k.startsWith(`${id}_`))delete S.records[k];});
+  openManageModal();showToast(`${m.name}님 삭제됨`);renderAll();fbSave();
 }
-
-/* ════════════════════════════════
-   설정
-════════════════════════════════ */
 function openSettingsModal(){
   document.getElementById('targetInput').value=S.settings.target;
   document.getElementById('fineInput').value=S.settings.fine;
@@ -1183,39 +1016,27 @@ function saveSettings(){
   const f=parseInt(document.getElementById('fineInput').value);
   if(isNaN(t)||t<1||t>7){showToast('목표 횟수: 1~7');return;}
   if(isNaN(f)||f<0){showToast('벌금은 0 이상');return;}
-  S.settings={target:t,fine:f};
-  closeModal('settingsModal');
-  showToast(`✅ 저장! 목표 ${t}회 / 벌금 ${f.toLocaleString()}원`);
-  renderAll(); fbSave();
+  S.settings={target:t,fine:f};closeModal('settingsModal');
+  showToast(`✅ 저장! 목표 ${t}회 / 벌금 ${f.toLocaleString()}원`);renderAll();fbSave();
 }
 
-/* ════════════════════════════════
-   모달 & 토스트
-════════════════════════════════ */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-bg').forEach(bg=>{
-  bg.addEventListener('click',e=>{if(e.target===bg) bg.classList.remove('open');});
-});
+document.querySelectorAll('.modal-bg').forEach(bg=>{bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('open');});});
 let _tt;
-function showToast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
-}
+function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2800);}
 
-/* ════════════════════════════════
+/* ════════════════════════════
    시작
-════════════════════════════════ */
+════════════════════════════ */
 renderAll();
 startListener();
 setTimeout(()=>{
   hideLoading();
   if(document.getElementById('syncDot').classList.contains('loading')){
-    setSync('err','연결실패');
-    showToast('⚠️ Firebase 연결 실패. 로컬 모드로 실행 중.');
+    setSync('err','연결실패');showToast('⚠️ Firebase 연결 실패. 로컬 모드.');
   }
-  checkAutoPopup(); // 자동 팝업 체크
+  checkAutoPopup();
 },5000);
 </script>
 </body>
