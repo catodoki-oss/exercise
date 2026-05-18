@@ -14,6 +14,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .btn:hover{transform:scale(1.06);}
 .btn-white{background:#fff;color:#c06080;}
 .btn-coral{background:var(--coral);color:#fff;}
+.btn-mint{background:var(--mint);color:#2d7a5a;}
 
 /* 헤더 */
 .hdr{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);flex-shrink:0;z-index:10;}
@@ -73,9 +74,8 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .day-cell.sat .day-num{color:#5080e0;}
 .day-num{font-size:.65rem;font-weight:700;color:#999;padding:2px 3px;flex-shrink:0;line-height:1;}
 
-/* PC 도장 3x2 고정 */
+/* PC 도장 3x2 */
 .stamps-pc{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);padding:2px;gap:1px;min-height:0;overflow:hidden;}
-/* 모바일 도장 반응형 */
 .stamps-mob{flex:1;display:grid;padding:2px;gap:1px;align-content:center;min-height:0;overflow:hidden;}
 .mc1{grid-template-columns:1fr;}
 .mc2{grid-template-columns:repeat(2,1fr);}
@@ -84,11 +84,37 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .mc5{grid-template-columns:repeat(3,1fr);}
 .mc6{grid-template-columns:repeat(3,1fr);}
 
-.stamp-icon{display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:transform .2s,filter .15s;user-select:none;width:100%;aspect-ratio:1;font-size:clamp(.85rem,1.5vw,1.6rem);min-width:0;min-height:0;}
-.stamp-icon.done{box-shadow:0 1px 4px rgba(255,150,180,.4);}
-.stamp-icon.undone{filter:grayscale(1) opacity(.18);background:transparent!important;}
-.stamp-icon:hover{transform:scale(1.2)!important;filter:none!important;z-index:5;position:relative;}
-.stamp-empty{width:100%;aspect-ratio:1;}
+/* ★ 도장 아이콘 — 버그 수정: pointer-events 명시, transition 단순화 ★ */
+.stamp-icon{
+  display:flex;align-items:center;justify-content:center;
+  border-radius:6px;
+  cursor:pointer;
+  user-select:none;
+  width:100%;aspect-ratio:1;
+  font-size:clamp(.85rem,1.5vw,1.6rem);
+  min-width:0;min-height:0;
+  transition:filter .15s, box-shadow .15s;
+  pointer-events:auto;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;
+}
+.stamp-icon.done{
+  box-shadow:0 1px 4px rgba(255,150,180,.4);
+  filter:none;
+  opacity:1;
+}
+.stamp-icon.undone{
+  filter:grayscale(1);
+  opacity:.22;
+  background:transparent!important;
+  box-shadow:none;
+}
+.stamp-icon:hover{
+  filter:none!important;
+  opacity:1!important;
+  z-index:5;
+}
+.stamp-empty{width:100%;aspect-ratio:1;pointer-events:none;}
 @keyframes stampPop{0%{transform:scale(0) rotate(-25deg);}55%{transform:scale(1.4) rotate(6deg);}100%{transform:scale(1) rotate(0);}}
 .stamp-icon.pop{animation:stampPop .32s cubic-bezier(.36,.07,.19,.97);}
 
@@ -124,8 +150,8 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .purse-avatar{font-size:2.4rem;line-height:1;}
 .purse-name{font-weight:900;font-size:.9rem;color:#555;}
 .purse-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;min-height:32px;align-items:flex-end;}
-.bag-icon{font-size:1.5rem;}
 @keyframes bagDrop{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.bag-icon{font-size:1.5rem;display:inline-block;animation:bagDrop .3s ease both;}
 .purse-amt{font-size:.82rem;font-weight:900;padding:3px 10px;border-radius:10px;}
 .purse-amt.has-fine{background:#ffe0e0;color:#c03050;}
 .purse-amt.no-fine{background:#e0fff0;color:#2d7a5a;}
@@ -160,9 +186,9 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .mob-week-row:last-child{border-bottom:none;}
 
 /* 모달 */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
-.modal{background:#fff;border-radius:22px;padding:24px;width:380px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2);transform:scale(.9);transition:transform .25s;}
+.modal{background:#fff;border-radius:22px;padding:24px;width:400px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.25);transform:scale(.9);transition:transform .25s;}
 .modal-bg.open .modal{transform:scale(1);}
 .modal h3{font-size:1rem;font-weight:900;color:#c06080;margin-bottom:12px;}
 .modal label{font-size:.8rem;color:#888;display:block;margin-bottom:4px;}
@@ -174,21 +200,28 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .av-btn.selected{border-color:var(--coral);background:#ffe8ee;transform:scale(1.08);}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;}
 .mm-row{display:flex;align-items:center;gap:8px;background:#fff5f8;border-radius:10px;padding:6px 10px;margin-bottom:5px;}
-.mm-av{font-size:1.2rem;}
-.mm-name{flex:1;font-size:.85rem;font-weight:700;color:#555;}
+.mm-av{font-size:1.2rem;} .mm-name{flex:1;font-size:.85rem;font-weight:700;color:#555;}
 .mm-del{border:none;background:#ffe0e0;color:#c03050;border-radius:10px;padding:3px 10px;cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;}
 
-/* 월결산 팝업 */
-.pop-month{font-size:1.1rem;font-weight:900;color:#c06080;margin-bottom:12px;text-align:center;}
-.pop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
-.pop-member-card{background:#fff5f8;border-radius:14px;padding:12px 8px;text-align:center;}
-.pop-member-av{font-size:2rem;margin-bottom:4px;}
-.pop-member-name{font-size:.8rem;font-weight:700;color:#555;margin-bottom:6px;}
-.pop-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;min-height:24px;margin-bottom:4px;}
-.pop-amt{font-size:.78rem;font-weight:900;}
-.pop-amt.red{color:#e05070;}
-.pop-amt.green{color:#2d7a5a;}
-.pop-total{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:12px;padding:10px 16px;color:#fff;font-weight:900;font-size:.9rem;margin-bottom:12px;text-align:center;}
+/* 주간/월간 결산 팝업 스타일 */
+.pop-title{font-size:1.15rem;font-weight:900;color:#c06080;margin-bottom:4px;text-align:center;}
+.pop-subtitle{font-size:.8rem;color:#aaa;text-align:center;margin-bottom:14px;}
+.pop-member-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.pop-member-card{border-radius:16px;padding:14px 10px;text-align:center;border:2px solid #fce8f0;}
+.pop-member-card.pass{background:#f0fff8;border-color:#b5ead7;}
+.pop-member-card.fail{background:#fff5f5;border-color:#ffb6c1;}
+.pop-av{font-size:2rem;margin-bottom:4px;}
+.pop-name{font-size:.82rem;font-weight:700;color:#555;margin-bottom:6px;}
+.pop-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;min-height:22px;margin-bottom:4px;}
+.pop-result{font-size:.8rem;font-weight:900;padding:3px 10px;border-radius:10px;display:inline-block;}
+.pop-result.ok{background:#e0fff0;color:#2d7a5a;}
+.pop-result.bad{background:#ffe0e0;color:#c03050;}
+.pop-cnt{font-size:.75rem;color:#999;margin-top:3px;}
+.pop-total-box{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:12px 16px;color:#fff;font-weight:900;font-size:.9rem;text-align:center;margin-bottom:12px;line-height:1.6;}
+.pop-weekly-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.pop-week-row{display:flex;justify-content:space-between;align-items:center;background:#fff5f8;border-radius:10px;padding:7px 12px;font-size:.8rem;}
+.pop-week-label{color:#888;font-weight:700;}
+.pop-week-val{color:#c06080;font-weight:900;}
 
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--pink);border-radius:3px;}
@@ -198,7 +231,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .spinner{width:40px;height:40px;border:4px solid #fce8f0;border-top-color:#FFB6C1;border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:1rem;font-weight:700;color:#c06080;}
-.loading-sub{font-size:.8rem;color:#aaa;}
 
 @media(max-width:768px){
   body{overflow:auto;}
@@ -216,7 +248,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
   <div class="loading-txt">🔥 Firebase 연결 중...</div>
-  <div class="loading-sub" id="loadingStatus">초기화 중...</div>
 </div>
 
 <div class="hdr">
@@ -241,7 +272,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="pc-tab" onclick="pcTab(3,this)">📢 중계</div>
   </div>
   <div class="pc-pages">
-    <!-- 탭0 달력 -->
     <div class="pc-page active" id="pcPage0">
       <div class="pc-cal-layout">
         <div class="cal-wrap">
@@ -269,23 +299,17 @@ body{display:flex;flex-direction:column;overflow:hidden;}
             <div class="side-title">📊 누적 순위</div>
             <div id="pcSideTotal"></div>
           </div>
+          <button class="btn btn-coral" style="width:100%;margin-top:4px;" onclick="showWeeklyPopup()">📊 이번 주 결산</button>
+          <button class="btn btn-mint" style="width:100%;margin-top:4px;" onclick="showMonthlyPopup()">💰 이번 달 정산</button>
         </div>
       </div>
     </div>
-    <!-- 탭1 순위 -->
     <div class="pc-page" id="pcPage1">
       <div class="pc-rank-layout">
-        <div class="rank-big-card">
-          <div class="rank-big-title">🏆 이번 주 순위</div>
-          <div id="pcRankWeek"></div>
-        </div>
-        <div class="rank-big-card">
-          <div class="rank-big-title">📊 전체 누적 순위</div>
-          <div id="pcRankTotal"></div>
-        </div>
+        <div class="rank-big-card"><div class="rank-big-title">🏆 이번 주 순위</div><div id="pcRankWeek"></div></div>
+        <div class="rank-big-card"><div class="rank-big-title">📊 전체 누적 순위</div><div id="pcRankTotal"></div></div>
       </div>
     </div>
-    <!-- 탭2 정산 -->
     <div class="pc-page" id="pcPage2">
       <div class="pc-fine-layout">
         <div class="fine-header-row">
@@ -297,13 +321,9 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div class="purse-total-banner" id="pcPurseBanner"></div>
       </div>
     </div>
-    <!-- 탭3 중계 -->
     <div class="pc-page" id="pcPage3">
       <div style="padding:16px 20px;flex:1;overflow-y:auto;">
-        <div class="commentary">
-          <h4>📢 실시간 병맛 중계 🎙️</h4>
-          <div class="com-list" id="pcComListFull"></div>
-        </div>
+        <div class="commentary"><h4>📢 실시간 병맛 중계 🎙️</h4><div class="com-list" id="pcComListFull"></div></div>
       </div>
     </div>
   </div>
@@ -329,6 +349,10 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div class="cal-head"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
         <div class="cal-grid" id="mobCalGrid" style="flex:1;min-height:320px;"></div>
       </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-coral" style="flex:1;" onclick="showWeeklyPopup()">📊 이번 주 결산</button>
+        <button class="btn btn-mint" style="flex:1;" onclick="showMonthlyPopup()">💰 이번 달 정산</button>
+      </div>
     </div>
     <div class="mob-page" id="mobPage1">
       <div style="font-size:.9rem;font-weight:900;color:#c06080;margin-bottom:4px;">🏆 이번 주 순위</div>
@@ -347,15 +371,12 @@ body{display:flex;flex-direction:column;overflow:hidden;}
       <div style="background:#fff;border-radius:14px;padding:12px;box-shadow:var(--shadow);"><div id="mobWeekStatus"></div></div>
     </div>
     <div class="mob-page" id="mobPage3">
-      <div class="commentary">
-        <h4>📢 실시간 병맛 중계 🎙️</h4>
-        <div class="com-list" id="mobComList"></div>
-      </div>
+      <div class="commentary"><h4>📢 실시간 병맛 중계 🎙️</h4><div class="com-list" id="mobComList"></div></div>
     </div>
   </div>
 </div>
 
-<!-- 모달들 -->
+<!-- 모달: 멤버 추가 -->
 <div class="modal-bg" id="addModal">
   <div class="modal">
     <h3>➕ 새 멤버 추가</h3>
@@ -369,15 +390,17 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
+
+<!-- 모달: 멤버 관리 -->
 <div class="modal-bg" id="manageModal">
   <div class="modal">
     <h3>👥 멤버 관리</h3>
     <div id="memberManageList"></div>
-    <div class="modal-btns">
-      <button class="btn btn-white" onclick="closeModal('manageModal')">닫기</button>
-    </div>
+    <div class="modal-btns"><button class="btn btn-white" onclick="closeModal('manageModal')">닫기</button></div>
   </div>
 </div>
+
+<!-- 모달: 설정 -->
 <div class="modal-bg" id="settingsModal">
   <div class="modal">
     <h3>⚙️ 설정</h3>
@@ -391,11 +414,29 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
+
+<!-- 모달: 주간 결산 팝업 -->
+<div class="modal-bg" id="weeklyPopupModal">
+  <div class="modal">
+    <div class="pop-title" id="wpTitle"></div>
+    <div class="pop-subtitle" id="wpSubtitle"></div>
+    <div class="pop-member-grid" id="wpGrid"></div>
+    <div class="pop-total-box" id="wpTotal"></div>
+    <div class="modal-btns" style="justify-content:center;">
+      <button class="btn btn-coral" onclick="closeModal('weeklyPopupModal')">확인!</button>
+    </div>
+  </div>
+</div>
+
+<!-- 모달: 월간 결산 팝업 -->
 <div class="modal-bg" id="monthlyPopupModal">
   <div class="modal">
-    <div class="pop-month" id="popMonth"></div>
-    <div class="pop-grid" id="popGrid"></div>
-    <div class="pop-total" id="popTotal"></div>
+    <div class="pop-title" id="mpTitle"></div>
+    <div class="pop-subtitle" id="mpSubtitle"></div>
+    <div class="pop-member-grid" id="mpGrid"></div>
+    <div class="pop-total-box" id="mpTotal"></div>
+    <div style="font-size:.82rem;font-weight:900;color:#c06080;margin-bottom:6px;">📅 주차별 내역</div>
+    <div class="pop-weekly-list" id="mpWeekList"></div>
     <div class="modal-btns" style="justify-content:center;">
       <button class="btn btn-coral" onclick="closeModal('monthlyPopupModal')">확인!</button>
     </div>
@@ -404,113 +445,85 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 
 <div class="toast" id="toast"></div>
 
-<!-- ★ Firebase SDK — type="module" 제거, CDN compat 버전 사용 ★ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 <script>
-/* ═══════════════════════════════════════════
-   1. Firebase 초기화 (compat 방식 — 동기 실행)
-═══════════════════════════════════════════ */
-const firebaseConfig = {
-  apiKey:            "AIzaSyBOIP80zY30M4DU9KOdQP9flTMcpVUj848",
-  authDomain:        "exercise-905dd.firebaseapp.com",
-  projectId:         "exercise-905dd",
-  storageBucket:     "exercise-905dd.firebasestorage.app",
-  messagingSenderId: "613601764592",
-  appId:             "1:613601764592:web:2c3ad6e77652d1a6a50e35"
-};
-
-firebase.initializeApp(firebaseConfig);
+/* ════════════════════════════════
+   Firebase 초기화
+════════════════════════════════ */
+firebase.initializeApp({
+  apiKey:"AIzaSyBOIP80zY30M4DU9KOdQP9flTMcpVUj848",
+  authDomain:"exercise-905dd.firebaseapp.com",
+  projectId:"exercise-905dd",
+  storageBucket:"exercise-905dd.firebasestorage.app",
+  messagingSenderId:"613601764592",
+  appId:"1:613601764592:web:2c3ad6e77652d1a6a50e35"
+});
 const db = firebase.firestore();
-const DOC_REF = db.collection("club").doc("main");
+const DOC = db.collection("club").doc("main");
 
-function setSync(state, txt){
-  document.getElementById('syncDot').className = `sync-dot ${state}`;
-  document.getElementById('syncTxt').textContent = txt;
+function setSync(s,t){
+  document.getElementById('syncDot').className=`sync-dot ${s}`;
+  document.getElementById('syncTxt').textContent=t;
 }
 
-/* ═══════════════════════════════════════════
-   2. 저장 / 불러오기
-═══════════════════════════════════════════ */
-let _saving = false;
-let _dirty  = false;
-
+let _saving=false, _dirty=false;
 async function fbSave(){
-  if(_saving){ _dirty = true; return; }
-  _saving = true;
-  setSync('loading','저장중');
+  if(_saving){_dirty=true;return;}
+  _saving=true; setSync('loading','저장중');
   try{
-    const payload = {
-      members:    S.members,
-      records:    S.records,
-      paid:       S.paid,
-      commentary: S.commentary.slice(0,40),
-      settings:   S.settings,
-      updatedAt:  Date.now()
-    };
-    await DOC_REF.set(payload);
+    await DOC.set({
+      members:S.members, records:S.records, paid:S.paid,
+      commentary:S.commentary.slice(0,40), settings:S.settings,
+      updatedAt:Date.now()
+    });
     setSync('ok','동기화됨');
-    console.log('✅ Firebase 저장 완료');
-  } catch(e){
-    console.error('❌ Firebase 저장 실패:', e);
+  }catch(e){
     setSync('err','저장실패');
-    showToast('⚠️ 저장 실패! ' + e.message);
-  } finally {
-    _saving = false;
-    if(_dirty){ _dirty = false; fbSave(); }
+    showToast('⚠️ 저장 실패: '+e.message);
+  }finally{
+    _saving=false;
+    if(_dirty){_dirty=false;fbSave();}
   }
 }
 
-// 실시간 리스너
 function startListener(){
-  console.log('🔔 Firestore 리스너 시작');
-  DOC_REF.onSnapshot(
-    snap => {
-      if(snap.exists){
-        const data = snap.data();
-        console.log('📥 원격 데이터 수신:', Object.keys(data));
-        // 저장 중이 아닐 때만 반영 (내가 저장한 것 무시 방지)
-        if(!_saving){
-          applyData(data);
-        }
-      } else {
-        // 문서 없으면 기본값으로 첫 저장
-        console.log('📄 문서 없음 → 기본값 저장');
-        fbSave();
-      }
-      hideLoading();
-      setSync('ok','동기화됨');
-    },
-    err => {
-      console.error('❌ 리스너 오류:', err);
-      setSync('err','연결오류');
-      hideLoading();
-      showToast('⚠️ Firebase 연결 오류: ' + err.message);
+  DOC.onSnapshot(snap=>{
+    if(snap.exists){
+      const d=snap.data();
+      if(!_saving) applyData(d);
+    } else {
+      fbSave();
     }
-  );
+    hideLoading();
+    setSync('ok','동기화됨');
+  }, err=>{
+    setSync('err','연결오류');
+    hideLoading();
+    showToast('⚠️ 연결 오류: '+err.message);
+  });
 }
 
-function applyData(data){
-  if(data.members)    S.members    = data.members;
-  if(data.records)    S.records    = data.records;
-  if(data.paid)       S.paid       = data.paid;
-  if(data.commentary) S.commentary = data.commentary;
-  if(data.settings)   S.settings   = data.settings;
+function applyData(d){
+  if(d.members)    S.members    = d.members;
+  if(d.records)    S.records    = d.records;
+  if(d.paid)       S.paid       = d.paid;
+  if(d.commentary) S.commentary = d.commentary;
+  if(d.settings)   S.settings   = d.settings;
   renderAll();
 }
-
 function hideLoading(){
-  const ov = document.getElementById('loadingOverlay');
-  if(ov) ov.style.display = 'none';
+  document.getElementById('loadingOverlay').style.display='none';
 }
 
-/* ═══════════════════════════════════════════
-   3. 상태 & 상수
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   상수 & 상태
+════════════════════════════════ */
 const AVATARS=['🦄','🐱','🐯','🦖','🐰','🐻','🐶','🐸','🦊','🐼','🐨','🦁','🐮','🐷','🐧','🦋','🐙','🐳','🦀','🐬','🦔','🦥','🐺','🦝','🦘','🦙','🐊','🐲','🐿️','🦦'];
 const COLORS=['#E8D5FF','#D5F0FF','#FFE8D5','#D5FFE8','#FFD5E8','#D5E8FF'];
-const SERVICE_START = new Date(2025,4,18); // 2025-05-18
+
+// 서비스 시작일: 2025-05-18 (월요일)
+const SERVICE_START = new Date(2025,4,18,0,0,0,0);
 
 const MSGS={
   stamp:[
@@ -520,23 +533,18 @@ const MSGS={
     (n,c,t)=>`${n} 운동 인증! 헬스장 가서 폰만 한 거 아니죠?📱`,
     (n,c,t)=>`${n} ${c}회 완료. 칼로리 소모: 치킨 반 조각🍗`,
     (n,c,t)=>`${n} 인증! 아직 ${t-c}번 남음. 긴장 늦추지 마 선생님`,
-    (n,c,t)=>`${n} ${c}회째. 이 기세면 다음 주도 할 수 있을지도?🤔`,
   ],
   done:[
     (n,t)=>`🎉 ${n} ${t}/${t}회 달성!! 벌금 없음! 근데 왜 기쁘지 않지`,
     (n,t)=>`${n} 목표 달성!! 나머지는 지금 이불 속?🛌 ㅋㅋ`,
     (n,t)=>`${n} 완료!! 당당하게 치킨 시킬 수 있음🍗`,
-    (n,t)=>`${n} 완성!! 이번 주 술값 면제임. 나머지는?🍺`,
   ],
   danger:[
-    (n,r)=>`🚨 ${n} 아직 ${r}번 남음. 지금 당장 일어나 이 사람아!!`,
+    (n,r)=>`🚨 ${n} 아직 ${r}번 남음. 지금 당장 일어나!!`,
     (n,r)=>`${n} ${r}회 남았는데 아직도 누워있음? 만원 내기 싫으면 뛰어🏃`,
     (n,r)=>`다들 ${n} 좀 괴롭혀주세요. ${r}번 안 하면 만원 뜯김😈`,
   ],
-  zero:[
-    (n)=>`${n} 이번 주 0회... 운동이 뭔지 알긴 함?🤔`,
-    (n)=>`${n} 0회. 운동화는 장식품이 아닙니다 선생님👟`,
-  ],
+  zero:[(n)=>`${n} 이번 주 0회... 운동이 뭔지 알긴 함?🤔`],
   cancel:[
     (n,c)=>`${n} 도장 취소... 현재 ${c}회. 뭔가 후회되나봄`,
     (n,c)=>`${n} 취소 ㅋㅋ 지금 ${c}회. 다시 찍어요 제발🥺`,
@@ -544,70 +552,117 @@ const MSGS={
 };
 function randMsg(type,...args){const a=MSGS[type];return a[Math.floor(Math.random()*a.length)](...args);}
 
-let S = {
+let S={
   members:[
     {id:1,name:'지희',avatar:'🦄',color:'#E8D5FF'},
     {id:2,name:'병훈',avatar:'🐱',color:'#D5F0FF'},
     {id:3,name:'진명',avatar:'🐯',color:'#FFE8D5'},
     {id:4,name:'진욱',avatar:'🦖',color:'#D5FFE8'},
   ],
-  records:{}, paid:{}, commentary:[],
-  settings:{target:4, fine:10000},
+  records:{},paid:{},commentary:[],
+  settings:{target:4,fine:10000},
 };
+let _vy=new Date().getFullYear(),_vm=new Date().getMonth(),_selAv='🦄';
 
-let _vy=new Date().getFullYear(), _vm=new Date().getMonth();
-let _selAv='🦄';
-
-/* ═══════════════════════════════════════════
-   4. 날짜 유틸
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   날짜 유틸
+════════════════════════════════ */
 const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const rk=(mid,ds)=>`${mid}_${ds}`;
-const isStamped=(mid,ds)=>!!S.records[rk(mid,ds)];
+
+// ★ 버그 수정: records 값을 boolean으로 명확히 체크
+function isStamped(mid,ds){
+  const v = S.records[rk(mid,ds)];
+  return v === true || v === 1;
+}
 
 function thisWeekRange(){
   const now=new Date(),day=now.getDay();
   const mon=new Date(now);
-  mon.setDate(now.getDate()-(day===0?6:day-1)); mon.setHours(0,0,0,0);
-  const sun=new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59,999);
+  mon.setDate(now.getDate()-(day===0?6:day-1));
+  mon.setHours(0,0,0,0);
+  const sun=new Date(mon);
+  sun.setDate(mon.getDate()+6);
+  sun.setHours(23,59,59,999);
   return {mon,sun};
 }
-function inThisWeek(ds){const {mon,sun}=thisWeekRange();const d=new Date(ds);return d>=mon&&d<=sun;}
-function weekCount(mid){
-  const {mon,sun}=thisWeekRange();let cnt=0;
-  for(let d=new Date(mon);d<=sun;d.setDate(d.getDate()+1))
+function inThisWeek(ds){
+  const {mon,sun}=thisWeekRange();
+  const d=new Date(ds);
+  return d>=mon&&d<=sun;
+}
+
+// 특정 주(월~일) 범위 내 운동 횟수
+function countInRange(mid, monDate, sunDate){
+  let cnt=0;
+  for(let d=new Date(monDate);d<=sunDate;d.setDate(d.getDate()+1)){
     if(isStamped(mid,dk(d.getFullYear(),d.getMonth(),d.getDate()))) cnt++;
+  }
   return cnt;
 }
 
-function calcMonthFine(mid,year,month){
+function weekCount(mid){
+  const {mon,sun}=thisWeekRange();
+  return countInRange(mid,mon,sun);
+}
+
+/* ════════════════════════════════
+   주차 목록 생성 (서비스 시작일 기준)
+   - 월요일 시작, 일요일 종료
+   - 완료된 주차만 (일요일 < 오늘)
+════════════════════════════════ */
+function getCompletedWeeks(year, month){
   const firstDay=new Date(year,month,1);
   const lastDay=new Date(year,month+1,0);
-  const today=new Date(); today.setHours(23,59,59,999);
-  const {target,fine}=S.settings;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const weeks=[];
+
+  // 해당 달 포함 주차 시작 월요일 계산
   let cur=new Date(firstDay);
-  const sd=cur.getDay(); cur.setDate(cur.getDate()-(sd===0?6:sd-1));
-  let total=0;
+  const sd=cur.getDay();
+  cur.setDate(cur.getDate()-(sd===0?6:sd-1));
+
   while(cur<=lastDay){
     const mon=new Date(cur);
     const sun=new Date(cur); sun.setDate(cur.getDate()+6); sun.setHours(23,59,59,999);
-    const overlaps=sun>=firstDay&&mon<=lastDay;
-    const done=sun<today;
-    const afterStart=sun>=SERVICE_START;
-    if(overlaps&&done&&afterStart){
-      let cnt=0;
-      for(let d=new Date(mon);d<=sun;d.setDate(d.getDate()+1))
-        if(isStamped(mid,dk(d.getFullYear(),d.getMonth(),d.getDate()))) cnt++;
-      if(cnt<target) total+=fine;
+
+    // 조건: 달과 겹침 + 일요일이 오늘보다 이전(완료) + 서비스 시작일 이후
+    const overlaps = sun>=firstDay && mon<=lastDay;
+    const completed = sun<today;  // ★ 일요일 기준으로 완료 판단
+    const afterStart = mon>=SERVICE_START || sun>=SERVICE_START;
+
+    if(overlaps && completed && afterStart){
+      // 실제 계산 범위: 서비스 시작일과 월 시작일 중 늦은 날짜
+      const calcFrom = new Date(Math.max(mon.getTime(), SERVICE_START.getTime(), firstDay.getTime()));
+      const calcTo   = new Date(Math.min(sun.getTime(), lastDay.getTime()));
+      weeks.push({mon, sun, calcFrom, calcTo});
     }
     cur.setDate(cur.getDate()+7);
   }
-  return total;
+  return weeks;
 }
 
-/* ═══════════════════════════════════════════
-   5. 달력 렌더
-═══════════════════════════════════════════ */
+// 월별 누적 벌금 (완료된 주차 기준)
+function calcMonthFine(mid, year, month){
+  const weeks = getCompletedWeeks(year, month);
+  const {target,fine} = S.settings;
+  let total=0;
+  const details=[];
+  weeks.forEach(({mon,sun,calcFrom,calcTo})=>{
+    const cnt = countInRange(mid, calcFrom, calcTo);
+    if(cnt < target){
+      total += fine;
+      details.push({mon,sun,cnt,fine});
+    } else {
+      details.push({mon,sun,cnt,fine:0});
+    }
+  });
+  return {total, details, weeks};
+}
+
+/* ════════════════════════════════
+   달력 렌더
+════════════════════════════════ */
 function buildCells(){
   const y=_vy,m=_vm;
   const firstDow=new Date(y,m,1).getDay();
@@ -642,35 +697,46 @@ function renderCalGrid(gridId, isMob){
     cell.appendChild(numEl);
 
     const area=document.createElement('div');
-    if(isMob){
-      area.className=`stamps-mob ${mobCls}`;
-      S.members.forEach(mem=>{
-        const stamped=isStamped(mem.id,ds);
-        const icon=document.createElement('div');
-        icon.className='stamp-icon '+(stamped?'done':'undone');
-        icon.textContent=mem.avatar;
-        if(stamped) icon.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-        icon.addEventListener('click',e=>{e.stopPropagation();toggleStamp(mem.id,ds,icon,mem);});
-        area.appendChild(icon);
-      });
-    } else {
-      area.className='stamps-pc';
+    area.className=isMob?`stamps-mob ${mobCls}`:'stamps-pc';
+
+    if(!isMob){
+      // PC: 6슬롯 고정
       const slots=[...S.members];
       while(slots.length<6) slots.push(null);
       slots.slice(0,6).forEach(mem=>{
-        if(!mem){const e=document.createElement('div');e.className='stamp-empty';area.appendChild(e);return;}
-        const stamped=isStamped(mem.id,ds);
-        const icon=document.createElement('div');
-        icon.className='stamp-icon '+(stamped?'done':'undone');
-        icon.textContent=mem.avatar;
-        if(stamped) icon.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-        icon.addEventListener('click',e=>{e.stopPropagation();toggleStamp(mem.id,ds,icon,mem);});
-        area.appendChild(icon);
+        if(!mem){
+          const e=document.createElement('div');e.className='stamp-empty';area.appendChild(e);return;
+        }
+        area.appendChild(makeStampIcon(mem,ds));
       });
+    } else {
+      S.members.forEach(mem=>area.appendChild(makeStampIcon(mem,ds)));
     }
     cell.appendChild(area);
     grid.appendChild(cell);
   });
+}
+
+// ★ 도장 아이콘 생성 함수 분리 — 버그 수정 핵심
+function makeStampIcon(mem, ds){
+  const stamped = isStamped(mem.id, ds);
+  const icon = document.createElement('div');
+  icon.className = 'stamp-icon ' + (stamped ? 'done' : 'undone');
+  icon.textContent = mem.avatar;
+  icon.dataset.mid = mem.id;
+  icon.dataset.ds  = ds;
+
+  if(stamped){
+    icon.style.background = `linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
+  }
+
+  // ★ 클릭 이벤트: 단순 onclick으로 통일 (addEventListener 중복 방지)
+  icon.onclick = function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    doToggleStamp(mem.id, ds, this, mem);
+  };
+  return icon;
 }
 
 function renderCalHeader(tId,bId){
@@ -680,43 +746,59 @@ function renderCalHeader(tId,bId){
   const b=document.getElementById(bId); if(b) b.textContent=`📅 이번 주 ${fmt(wm)}~${fmt(ws)}`;
 }
 
-/* ═══════════════════════════════════════════
-   6. 도장 토글
-═══════════════════════════════════════════ */
-function toggleStamp(mid,ds,iconEl,mem){
-  const key=rk(mid,ds);
-  const was=!!S.records[key];
-  S.records[key]=!was;
+/* ════════════════════════════════
+   ★ 도장 토글 — 버그 수정
+   문제: records 값이 false/undefined/null 혼재
+   해결: 명확히 true/false 로만 저장
+════════════════════════════════ */
+function doToggleStamp(mid, ds, iconEl, mem){
+  const key = rk(mid, ds);
+  const was = isStamped(mid, ds); // 현재 상태
 
-  iconEl.classList.remove('pop');
-  void iconEl.offsetWidth;
-  iconEl.classList.toggle('done',!was);
-  iconEl.classList.toggle('undone',was);
-  if(!was){
-    iconEl.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-    iconEl.classList.add('pop');
-    setTimeout(()=>iconEl.classList.remove('pop'),380);
+  // ★ 상태 반전: 명확히 true 또는 삭제
+  if(was){
+    delete S.records[key]; // false 대신 완전 삭제
   } else {
-    iconEl.style.background='transparent';
+    S.records[key] = true;
   }
 
-  const cnt=weekCount(mid);
-  const target=S.settings.target;
+  // ★ UI 즉시 업데이트
+  if(was){
+    // 취소: undone으로
+    iconEl.classList.remove('done','pop');
+    iconEl.classList.add('undone');
+    iconEl.style.background = 'transparent';
+    iconEl.style.boxShadow  = 'none';
+  } else {
+    // 인증: done으로
+    iconEl.classList.remove('undone');
+    iconEl.classList.add('done');
+    iconEl.style.background = `linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
+    iconEl.classList.remove('pop');
+    void iconEl.offsetWidth; // reflow
+    iconEl.classList.add('pop');
+    setTimeout(()=>iconEl.classList.remove('pop'),380);
+  }
+
+  // 중계 메시지
+  const cnt = weekCount(mid);
+  const target = S.settings.target;
   let msg;
   if(!was){
     if(cnt>=target) msg=randMsg('done',mem.name,target);
     else if(target-cnt<=1) msg=randMsg('danger',mem.name,target-cnt);
     else msg=randMsg('stamp',mem.name,cnt,target);
-  } else { msg=randMsg('cancel',mem.name,cnt); }
-
+  } else {
+    msg=randMsg('cancel',mem.name,cnt);
+  }
   addComment(msg);
   renderSidebars();
-  fbSave(); // ← Firebase에 즉시 저장
+  fbSave();
 }
 
-/* ═══════════════════════════════════════════
-   7. 중계
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   중계
+════════════════════════════════ */
 function addComment(msg){
   const now=new Date();
   const t=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -728,14 +810,13 @@ function renderCommentary(){
   const empty='<div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>';
   [['pcComList',4],['pcComListFull',40],['mobComList',20]].forEach(([id,max])=>{
     const el=document.getElementById(id); if(!el) return;
-    el.innerHTML=!S.commentary.length ? empty :
-      S.commentary.slice(0,max).map(c=>`<div class="com-item"><span class="com-time">${c.t}</span><span>${c.msg}</span></div>`).join('');
+    el.innerHTML=!S.commentary.length?empty:S.commentary.slice(0,max).map(c=>`<div class="com-item"><span class="com-time">${c.t}</span><span>${c.msg}</span></div>`).join('');
   });
 }
 
-/* ═══════════════════════════════════════════
-   8. 사이드바 & 순위
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   사이드바 & 순위
+════════════════════════════════ */
 function renderSidebars(){
   renderPcSideRank(); renderPcRankPage();
   renderMobRank(); renderMobWeekStatus();
@@ -749,20 +830,12 @@ function renderPcSideRank(){
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
-    return `<div class="side-rank-item">
-      <span class="s-num">${em}</span><span class="s-av">${m.avatar}</span>
-      <span class="s-name">${m.name}</span><span class="s-cnt">${m.cnt}/${target}</span>
-      ${m.cnt>=target?'<span class="s-ok">✅</span>':`<span class="s-warn">-${rem}회</span>`}
-    </div>
-    <div style="padding:0 2px 3px 38px;"><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
+    return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt">${m.cnt}/${target}</span>${m.cnt>=target?'<span class="s-ok">✅</span>':`<span class="s-warn">-${rem}회</span>`}</div><div style="padding:0 2px 3px 38px;"><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
   }).join('');
 
   const el2=document.getElementById('pcSideTotal'); if(!el2) return;
-  const tot=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
-  el2.innerHTML=tot.map((m,i)=>{
-    const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
-    return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt" style="color:#7050a0;">${m.t}회</span></div>`;
-  }).join('');
+  const tot=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&isStamped(m.id,k.split('_').slice(1).join('_')))t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  el2.innerHTML=tot.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt" style="color:#7050a0;">${m.t}회</span></div>`;}).join('');
 }
 
 function renderPcRankPage(){
@@ -773,20 +846,12 @@ function renderPcRankPage(){
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
-    return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span>
-      <span class="rank-name">${m.name}</span>
-      <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-      <span class="rank-cnt">${m.cnt}/${target}</span>
-      ${m.cnt>=target?'<span class="rank-ok">✅</span>':`<span class="rank-warn">-${rem}회</span>`}
-    </div>`;
+    return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><span class="rank-cnt">${m.cnt}/${target}</span>${m.cnt>=target?'<span class="rank-ok">✅</span>':`<span class="rank-warn">-${rem}회</span>`}</div>`;
   }).join('');
 
-  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k]===true)t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
   const el2=document.getElementById('pcRankTotal'); if(!el2) return;
-  el2.innerHTML=totData.map((m,i)=>{
-    const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
-    return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><span class="rank-cnt" style="color:#7050a0;">${m.t}회 운동</span></div>`;
-  }).join('');
+  el2.innerHTML=totData.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><span class="rank-cnt" style="color:#7050a0;">${m.t}회 운동</span></div>`;}).join('');
 }
 
 function renderMobRank(){
@@ -797,45 +862,26 @@ function renderMobRank(){
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
-    return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};">
-      <span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span>
-      <div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub">${m.cnt}/${target}회</div>
-        <div class="prog-wrap" style="margin-top:4px;"><div class="prog-bar" style="width:${pct}%"></div></div>
-      </div>
-      <span class="mob-rank-badge ${m.cnt>=target?'mob-badge-ok':'mob-badge-warn'}">${m.cnt>=target?'✅ 완료':`⚡ -${rem}회`}</span>
-    </div>`;
+    return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};"><span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span><div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub">${m.cnt}/${target}회</div><div class="prog-wrap" style="margin-top:4px;"><div class="prog-bar" style="width:${pct}%"></div></div></div><span class="mob-rank-badge ${m.cnt>=target?'mob-badge-ok':'mob-badge-warn'}">${m.cnt>=target?'✅ 완료':`⚡ -${rem}회`}</span></div>`;
   }).join('');
 
-  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k]===true)t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
   const el2=document.getElementById('mobTotalRankList'); if(!el2) return;
-  el2.innerHTML=totData.map((m,i)=>{
-    const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;
-    return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};">
-      <span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span>
-      <div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub" style="color:#7050a0;">누적 ${m.t}회</div></div>
-    </div>`;
-  }).join('');
+  el2.innerHTML=totData.map((m,i)=>{const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};"><span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span><div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub" style="color:#7050a0;">누적 ${m.t}회</div></div></div>`;}).join('');
 }
 
 function renderMobWeekStatus(){
   const target=S.settings.target;
   const el=document.getElementById('mobWeekStatus'); if(!el) return;
   el.innerHTML=S.members.map(m=>{
-    const cnt=weekCount(m.id); const rem=Math.max(0,target-cnt);
-    const pct=Math.min(100,Math.round(cnt/target*100));
-    return `<div class="mob-week-row">
-      <span style="font-size:1.4rem;">${m.avatar}</span>
-      <span style="flex:1;font-weight:700;font-size:.85rem;color:#555;">${m.name}</span>
-      <div style="flex:2;"><div style="font-size:.75rem;color:#888;margin-bottom:2px;">${cnt}/${target}회</div>
-        <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>
-      <span style="font-size:.75rem;font-weight:700;margin-left:8px;color:${cnt>=target?'#2d7a5a':'#e05070'};">${cnt>=target?'✅':'-'+rem+'회'}</span>
-    </div>`;
+    const cnt=weekCount(m.id);const rem=Math.max(0,target-cnt);const pct=Math.min(100,Math.round(cnt/target*100));
+    return `<div class="mob-week-row"><span style="font-size:1.4rem;">${m.avatar}</span><span style="flex:1;font-weight:700;font-size:.85rem;color:#555;">${m.name}</span><div style="flex:2;"><div style="font-size:.75rem;color:#888;margin-bottom:2px;">${cnt}/${target}회</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div><span style="font-size:.75rem;font-weight:700;margin-left:8px;color:${cnt>=target?'#2d7a5a':'#e05070'};">${cnt>=target?'✅':'-'+rem+'회'}</span></div>`;
   }).join('');
 }
 
-/* ═══════════════════════════════════════════
-   9. 정산 (돈주머니)
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   정산 (돈주머니)
+════════════════════════════════ */
 function initMonthSelects(){
   const today=new Date();
   const opts=[];
@@ -849,26 +895,20 @@ function initMonthSelects(){
     const cur=sel.value;
     sel.innerHTML=opts.map(({y,m})=>`<option value="${y}-${m}">${y}년 ${m+1}월</option>`).join('');
     if(cur) sel.value=cur;
-    else {
-      const def=`${today.getFullYear()}-${today.getMonth()}`;
-      if(opts.find(o=>`${o.y}-${o.m}`===def)) sel.value=def;
-    }
+    else { const def=`${today.getFullYear()}-${today.getMonth()}`; sel.value=def; }
   });
 }
 
 function getSelMonth(selId){
   const sel=document.getElementById(selId);
-  if(!sel||!sel.value){return {y:new Date().getFullYear(),m:new Date().getMonth()};}
+  if(!sel||!sel.value) return {y:new Date().getFullYear(),m:new Date().getMonth()};
   const [y,m]=sel.value.split('-').map(Number); return {y,m};
 }
 
-function buildPurseHTML(mem,y,m,isMob){
-  const fine=calcMonthFine(mem.id,y,m);
-  const bags=fine>0?Math.round(fine/S.settings.fine):0;
-  const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
-  const isPaid=!!S.paid[pk];
-  const bagHtml=Array.from({length:bags},(_,i)=>`<span class="${isMob?'':'bag-icon'}" style="font-size:${isMob?'1.2rem':'1.5rem'};animation:bagDrop .3s ease ${i*.06}s both;">💰</span>`).join('');
-  return {fine,bags,pk,isPaid,bagHtml};
+function bagHtml(bags,size='1.5rem'){
+  return bags>0
+    ? Array.from({length:bags},(_,i)=>`<span class="bag-icon" style="font-size:${size};animation-delay:${i*.06}s">💰</span>`).join('')
+    : '<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>';
 }
 
 function renderPcFine(){
@@ -878,19 +918,14 @@ function renderPcFine(){
   if(!grid) return;
   let grand=0;
   grid.innerHTML=S.members.map(mem=>{
-    const {fine,pk,isPaid,bagHtml}=buildPurseHTML(mem,y,m,false);
-    grand+=fine;
-    return `<div class="purse-card">
-      <div class="purse-avatar">${mem.avatar}</div>
-      <div class="purse-name">${mem.name}</div>
-      <div class="purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
-      <div class="purse-amt ${fine>0?'has-fine':'no-fine'}">${fine>0?`💸 ${fine.toLocaleString()}원`:'✅ 벌금 없음'}</div>
-      ${fine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'✅ 납부완료':'⏳ 미납'}</button>`:''}
-    </div>`;
+    const {total}=calcMonthFine(mem.id,y,m);
+    grand+=total;
+    const bags=total>0?Math.round(total/S.settings.fine):0;
+    const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
+    const isPaid=!!S.paid[pk];
+    return `<div class="purse-card"><div class="purse-avatar">${mem.avatar}</div><div class="purse-name">${mem.name}</div><div class="purse-bags">${bagHtml(bags)}</div><div class="purse-amt ${total>0?'has-fine':'no-fine'}">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 벌금 없음'}</div>${total>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'✅ 납부완료':'⏳ 미납'}</button>`:''}</div>`;
   }).join('');
-  if(banner) banner.innerHTML=grand>0
-    ?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span> — 술 마시러 고고!`
-    :`🎉 ${y}년 ${m+1}월 벌금 없음! 다들 열심히 했네요~`;
+  if(banner) banner.innerHTML=grand>0?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span>`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
 }
 
 function renderMobFine(){
@@ -900,17 +935,12 @@ function renderMobFine(){
   if(!grid) return;
   let grand=0;
   grid.innerHTML=S.members.map(mem=>{
-    const {fine,pk,isPaid,bagHtml}=buildPurseHTML(mem,y,m,true);
-    grand+=fine;
-    return `<div class="mob-purse-row">
-      <div class="mob-purse-av">${mem.avatar}</div>
-      <div class="mob-purse-info">
-        <div class="mob-purse-name">${mem.name}</div>
-        <div class="mob-purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
-        <div style="font-size:.78rem;font-weight:700;color:${fine>0?'#e05070':'#2d7a5a'};">${fine>0?`💸 ${fine.toLocaleString()}원`:'✅ 벌금 없음'}</div>
-      </div>
-      ${fine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'납부':'미납'}</button>`:''}
-    </div>`;
+    const {total}=calcMonthFine(mem.id,y,m);
+    grand+=total;
+    const bags=total>0?Math.round(total/S.settings.fine):0;
+    const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
+    const isPaid=!!S.paid[pk];
+    return `<div class="mob-purse-row"><div class="mob-purse-av">${mem.avatar}</div><div class="mob-purse-info"><div class="mob-purse-name">${mem.name}</div><div class="mob-purse-bags">${bagHtml(bags,'1.2rem')}</div><div style="font-size:.78rem;font-weight:700;color:${total>0?'#e05070':'#2d7a5a'};">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 벌금 없음'}</div></div>${total>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'납부':'미납'}</button>`:''}</div>`;
   }).join('');
   if(banner) banner.textContent=grand>0?`🍺 ${y}년 ${m+1}월 합계: ${grand.toLocaleString()}원`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
 }
@@ -918,33 +948,144 @@ function renderMobFine(){
 function togglePaid(key){
   S.paid[key]=!S.paid[key];
   renderPcFine(); renderMobFine();
-  fbSave(); // ← Firebase에 저장
+  fbSave();
   showToast(S.paid[key]?'💰 납부 완료!':'⏳ 미납으로 변경');
 }
 
-function showMonthlyPopup(){
-  const {y,m}=getSelMonth('pcMonthSel');
-  document.getElementById('popMonth').textContent=`📅 ${y}년 ${m+1}월 결산`;
-  let grand=0;
-  document.getElementById('popGrid').innerHTML=S.members.map(mem=>{
-    const {fine,bagHtml}=buildPurseHTML(mem,y,m,false);
-    grand+=fine;
-    return `<div class="pop-member-card">
-      <div class="pop-member-av">${mem.avatar}</div>
-      <div class="pop-member-name">${mem.name}</div>
-      <div class="pop-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음</span>'}</div>
-      <div class="pop-amt ${fine>0?'red':'green'}">${fine>0?`${fine.toLocaleString()}원`:'✅ 0원'}</div>
+/* ════════════════════════════════
+   ★ 주간 결산 팝업
+   - 이번 주 일요일 기준으로 결산
+   - 4회 달성 여부 표시
+════════════════════════════════ */
+function showWeeklyPopup(){
+  const {mon,sun}=thisWeekRange();
+  const today=new Date(); today.setHours(0,0,0,0);
+  const target=S.settings.target;
+  const fine=S.settings.fine;
+
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  document.getElementById('wpTitle').textContent=`📊 ${fmt(mon)} ~ ${fmt(sun)} 주간 결산`;
+
+  // 이번 주가 완료됐는지 (일요일이 오늘 이전)
+  const sunDay=new Date(sun); sunDay.setHours(0,0,0,0);
+  const isCompleted = sunDay < today;
+
+  document.getElementById('wpSubtitle').textContent = isCompleted
+    ? `✅ 이번 주 결산이 완료됐어요! 벌금을 확인하세요.`
+    : `⏳ 이번 주는 아직 진행 중이에요. (일요일 마감)`;
+
+  let fineTotal=0;
+  // 실제 계산 범위: 서비스 시작일 이후
+  const calcFrom=new Date(Math.max(mon.getTime(), SERVICE_START.getTime()));
+
+  document.getElementById('wpGrid').innerHTML=S.members.map(mem=>{
+    const cnt=countInRange(mem.id, calcFrom, sun);
+    const hasFine = isCompleted && cnt<target;
+    if(hasFine) fineTotal+=fine;
+    const bags=hasFine?1:0;
+    return `<div class="pop-member-card ${hasFine?'fail':'pass'}">
+      <div class="pop-av">${mem.avatar}</div>
+      <div class="pop-name">${mem.name}</div>
+      <div class="pop-bags">${bags>0?`<span style="font-size:1.4rem;">💰</span>`:'<span style="font-size:1rem;">🎉</span>'}</div>
+      <div class="pop-result ${hasFine?'bad':'ok'}">${hasFine?`💸 ${fine.toLocaleString()}원`:'✅ 통과!'}</div>
+      <div class="pop-cnt">${cnt}/${target}회 운동</div>
     </div>`;
   }).join('');
-  document.getElementById('popTotal').innerHTML=grand>0
-    ?`💸 이번 달 총 벌금: ${grand.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 술값으로 사용 예정!</span>`
-    :`🎉 이번 달 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`;
+
+  document.getElementById('wpTotal').innerHTML = isCompleted
+    ? (fineTotal>0
+        ? `💸 이번 주 총 벌금: ${fineTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 다음 달 말에 정산해요!</span>`
+        : `🎉 이번 주 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`)
+    : `⏳ 이번 주 현재까지 현황이에요.<br><span style="font-size:.8rem;opacity:.9;">일요일 자정에 최종 결산됩니다.</span>`;
+
+  openModal('weeklyPopupModal');
+}
+
+/* ════════════════════════════════
+   ★ 월간 결산 팝업
+   - 완료된 주차 기준 벌금 합산
+   - 주차별 내역 표시
+════════════════════════════════ */
+function showMonthlyPopup(){
+  const today=new Date();
+  // 정산 탭에서 선택된 달, 없으면 현재 달
+  const selEl=document.getElementById('pcMonthSel');
+  let y=today.getFullYear(), m=today.getMonth();
+  if(selEl&&selEl.value){[y,m]=selEl.value.split('-').map(Number);}
+
+  document.getElementById('mpTitle').textContent=`💰 ${y}년 ${m+1}월 결산`;
+  document.getElementById('mpSubtitle').textContent=`완료된 주차 기준으로 계산됩니다 (일요일 마감)`;
+
+  const weeks=getCompletedWeeks(y,m);
+  const target=S.settings.target;
+  const fine=S.settings.fine;
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+
+  let grandTotal=0;
+
+  // 멤버별 카드
+  document.getElementById('mpGrid').innerHTML=S.members.map(mem=>{
+    const {total,details}=calcMonthFine(mem.id,y,m);
+    grandTotal+=total;
+    const bags=total>0?Math.round(total/fine):0;
+    return `<div class="pop-member-card ${total>0?'fail':'pass'}">
+      <div class="pop-av">${mem.avatar}</div>
+      <div class="pop-name">${mem.name}</div>
+      <div class="pop-bags">${bagHtml(bags,'1.3rem')}</div>
+      <div class="pop-result ${total>0?'bad':'ok'}">${total>0?`💸 ${total.toLocaleString()}원`:'✅ 0원'}</div>
+      <div class="pop-cnt">${weeks.length}주 중 ${details.filter(d=>d.fine>0).length}주 미달</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('mpTotal').innerHTML=grandTotal>0
+    ?`💸 ${y}년 ${m+1}월 총 벌금: ${grandTotal.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 이번 달 말에 정산해요!</span>`
+    :`🎉 ${y}년 ${m+1}월 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 정말 열심히 했어요~</span>`;
+
+  // 주차별 내역
+  if(weeks.length===0){
+    document.getElementById('mpWeekList').innerHTML='<div style="text-align:center;color:#aaa;font-size:.8rem;padding:10px;">완료된 주차가 없어요</div>';
+  } else {
+    document.getElementById('mpWeekList').innerHTML=weeks.map(({mon,sun,calcFrom,calcTo})=>{
+      const weekFine=S.members.reduce((acc,mem)=>{
+        const cnt=countInRange(mem.id,calcFrom,calcTo);
+        return acc+(cnt<target?fine:0);
+      },0);
+      const passCount=S.members.filter(mem=>countInRange(mem.id,calcFrom,calcTo)>=target).length;
+      return `<div class="pop-week-row">
+        <span class="pop-week-label">📅 ${fmt(mon)}~${fmt(sun)}</span>
+        <span style="font-size:.78rem;color:#888;">${passCount}/${S.members.length}명 통과</span>
+        <span class="pop-week-val">${weekFine>0?`💸 ${weekFine.toLocaleString()}원`:'✅ 0원'}</span>
+      </div>`;
+    }).join('');
+  }
+
   openModal('monthlyPopupModal');
 }
 
-/* ═══════════════════════════════════════════
-   10. 전체 렌더
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   자동 팝업 (일요일 & 말일)
+════════════════════════════════ */
+function checkAutoPopup(){
+  const today=new Date();
+  const dow=today.getDay();    // 0=일
+  const date=today.getDate();
+  const lastDay=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+  const popShownKey=`popShown_${today.getFullYear()}_${today.getMonth()}_${date}`;
+
+  if(localStorage.getItem(popShownKey)) return; // 오늘 이미 표시함
+
+  if(dow===0){ // 일요일 → 주간 결산
+    localStorage.setItem(popShownKey,'weekly');
+    setTimeout(()=>showWeeklyPopup(), 1500);
+  } else if(date===lastDay){ // 말일 → 월간 결산
+    localStorage.setItem(popShownKey,'monthly');
+    setTimeout(()=>showMonthlyPopup(), 1500);
+  }
+}
+
+/* ════════════════════════════════
+   전체 렌더
+════════════════════════════════ */
 function renderAll(){
   renderCalHeader('pcCalTitle','pcWeekBadge');
   renderCalHeader('mobCalTitle','mobWeekBadge');
@@ -967,9 +1108,9 @@ function changeMonth(dir){
   renderCalGrid('mobCalGrid',true);
 }
 
-/* ═══════════════════════════════════════════
-   11. 탭
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   탭
+════════════════════════════════ */
 function pcTab(idx,el){
   document.querySelectorAll('.pc-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.pc-page').forEach(p=>p.classList.remove('active'));
@@ -987,9 +1128,9 @@ function mobTab(idx,el){
   if(idx===2){initMonthSelects();renderMobFine();}
 }
 
-/* ═══════════════════════════════════════════
-   12. 멤버 추가/관리
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   멤버 추가/관리
+════════════════════════════════ */
 function openAddModal(){
   if(S.members.length>=6){showToast('최대 6명까지 가능해요!');return;}
   document.getElementById('newName').value='';
@@ -1014,14 +1155,10 @@ function addMember(){
   closeModal('addModal');
   showToast(`${_selAv} ${name}님 합류! 💪`);
   addComment(`🆕 ${_selAv} ${name}님 클럽 합류! 운동 안 하면 만원임 ㅋ`);
-  renderAll();
-  fbSave(); // ← 멤버 추가도 Firebase에 저장
+  renderAll(); fbSave();
 }
-
 function openManageModal(){
-  document.getElementById('memberManageList').innerHTML=S.members.map(m=>`
-    <div class="mm-row"><span class="mm-av">${m.avatar}</span><span class="mm-name">${m.name}</span>
-    <button class="mm-del" onclick="deleteMember(${m.id})">삭제</button></div>`).join('');
+  document.getElementById('memberManageList').innerHTML=S.members.map(m=>`<div class="mm-row"><span class="mm-av">${m.avatar}</span><span class="mm-name">${m.name}</span><button class="mm-del" onclick="deleteMember(${m.id})">삭제</button></div>`).join('');
   openModal('manageModal');
 }
 function deleteMember(id){
@@ -1030,13 +1167,12 @@ function deleteMember(id){
   S.members=S.members.filter(x=>x.id!==id);
   Object.keys(S.records).forEach(k=>{if(k.startsWith(`${id}_`)) delete S.records[k];});
   openManageModal(); showToast(`${m.name}님 삭제됨`);
-  renderAll();
-  fbSave(); // ← 삭제도 Firebase에 저장
+  renderAll(); fbSave();
 }
 
-/* ═══════════════════════════════════════════
-   13. 설정
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   설정
+════════════════════════════════ */
 function openSettingsModal(){
   document.getElementById('targetInput').value=S.settings.target;
   document.getElementById('fineInput').value=S.settings.fine;
@@ -1050,13 +1186,12 @@ function saveSettings(){
   S.settings={target:t,fine:f};
   closeModal('settingsModal');
   showToast(`✅ 저장! 목표 ${t}회 / 벌금 ${f.toLocaleString()}원`);
-  renderAll();
-  fbSave();
+  renderAll(); fbSave();
 }
 
-/* ═══════════════════════════════════════════
-   14. 모달 & 토스트
-═══════════════════════════════════════════ */
+/* ════════════════════════════════
+   모달 & 토스트
+════════════════════════════════ */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-bg').forEach(bg=>{
@@ -1069,20 +1204,18 @@ function showToast(msg){
   clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-/* ═══════════════════════════════════════════
-   15. 시작 — Firebase 리스너 먼저, 렌더는 데이터 수신 후
-═══════════════════════════════════════════ */
-document.getElementById('loadingStatus').textContent='Firestore 연결 중...';
-renderAll(); // 초기 화면 표시 (로컬 기본값)
-startListener(); // Firebase 리스너 시작 → 데이터 오면 renderAll() 재호출
-
-// 5초 후에도 로딩 중이면 강제 해제
+/* ════════════════════════════════
+   시작
+════════════════════════════════ */
+renderAll();
+startListener();
 setTimeout(()=>{
   hideLoading();
   if(document.getElementById('syncDot').classList.contains('loading')){
     setSync('err','연결실패');
     showToast('⚠️ Firebase 연결 실패. 로컬 모드로 실행 중.');
   }
+  checkAutoPopup(); // 자동 팝업 체크
 },5000);
 </script>
 </body>
