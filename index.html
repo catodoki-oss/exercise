@@ -4,202 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🏋️ 운동 벌금 클럽</title>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, setDoc, onSnapshot }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey:            "AIzaSyBOIP80zY30M4DU9KOdQP9flTMcpVUj848",
-    authDomain:        "exercise-905dd.firebaseapp.com",
-    projectId:         "exercise-905dd",
-    storageBucket:     "exercise-905dd.firebasestorage.app",
-    messagingSenderId: "613601764592",
-    appId:             "1:613601764592:web:2c3ad6e77652d1a6a50e35"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-
-  window._fbSave = async (data) => {
-    try { await setDoc(doc(db,"club","main"), data); }
-    catch(e){ console.error("저장 실패:",e); }
-  };
-  window._fbListen = (cb) => {
-    onSnapshot(doc(db,"club","main"), snap => { if(snap.exists()) cb(snap.data()); });
-  };
-  window._fbReady = true;
-  document.dispatchEvent(new Event("fb-ready"));
-</script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
-
-:root{
-  --pink:#FFB6C1;--mint:#B5EAD7;--yellow:#FFDAC1;
-  --purple:#C7CEEA;--coral:#FF9AA2;--bg:#FFF5F8;
-  --radius:14px;--shadow:0 4px 18px rgba(255,150,180,.2);
-}
+:root{--pink:#FFB6C1;--mint:#B5EAD7;--coral:#FF9AA2;--purple:#C7CEEA;--bg:#FFF5F8;--radius:14px;--shadow:0 4px 18px rgba(255,150,180,.2);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg);}
 body{display:flex;flex-direction:column;overflow:hidden;}
-
-.btn{border:none;border-radius:20px;padding:5px 12px;font-size:.75rem;
-  font-weight:700;cursor:pointer;transition:transform .15s;font-family:inherit;}
+.btn{border:none;border-radius:20px;padding:5px 12px;font-size:.75rem;font-weight:700;cursor:pointer;transition:transform .15s;font-family:inherit;}
 .btn:hover{transform:scale(1.06);}
 .btn-white{background:#fff;color:#c06080;}
 .btn-coral{background:var(--coral);color:#fff;}
 
-/* ── 헤더 ── */
-.hdr{
-  background:linear-gradient(135deg,#FFB6C1,#C7CEEA);
-  padding:7px 16px;display:flex;align-items:center;justify-content:space-between;
-  box-shadow:var(--shadow);flex-shrink:0;z-index:10;
-}
+/* 헤더 */
+.hdr{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);flex-shrink:0;z-index:10;}
 .hdr h1{font-size:1rem;font-weight:900;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.15);}
 .hdr-right{display:flex;gap:6px;align-items:center;}
-.sync-dot{width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block;margin-right:4px;}
+.sync-wrap{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 8px;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#aaa;flex-shrink:0;}
 .sync-dot.ok{background:#4caf50;}
 .sync-dot.err{background:#f44336;}
 .sync-dot.loading{background:#ff9800;animation:pulse .8s infinite;}
+.sync-txt{font-size:.65rem;color:#fff;font-weight:700;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-/* ══════════════════════════════
-   PC 탭 시스템
-══════════════════════════════ */
+/* PC 탭 */
 .pc-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0;}
 .pc-tabs{display:flex;background:#fff;border-bottom:2px solid #fce8f0;flex-shrink:0;}
-.pc-tab{padding:8px 20px;font-size:.82rem;font-weight:700;color:#bbb;
-  cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
+.pc-tab{padding:8px 20px;font-size:.82rem;font-weight:700;color:#bbb;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
 .pc-tab.active{color:#c06080;border-bottom-color:#FFB6C1;}
 .pc-pages{flex:1;overflow:hidden;position:relative;}
 .pc-page{position:absolute;inset:0;display:none;overflow:hidden;}
 .pc-page.active{display:flex;}
 
-/* ── PC 달력 탭 레이아웃 ── */
+/* 달력 레이아웃 */
 .pc-cal-layout{display:flex;flex:1;overflow:hidden;min-height:0;}
 .cal-wrap{flex:1;display:flex;flex-direction:column;padding:8px 6px 6px 10px;gap:6px;min-width:0;overflow:hidden;}
 .sidebar{width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:7px;padding:8px 10px 6px 4px;overflow-y:auto;}
-
-/* ── PC 정산 탭 레이아웃 ── */
-.pc-fine-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px;}
-
-/* ── 돈주머니 정산 카드 ── */
-.fine-header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.fine-month-select{border:2px solid var(--pink);border-radius:20px;padding:5px 12px;
-  font-family:inherit;font-size:.82rem;outline:none;background:#fff;color:#c06080;font-weight:700;}
-.purse-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-.purse-card{
-  background:#fff;border-radius:18px;padding:16px 12px 12px;
-  box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:8px;
-  position:relative;transition:transform .2s;
-}
-.purse-card:hover{transform:translateY(-3px);}
-.purse-avatar{font-size:2.4rem;line-height:1;}
-.purse-name{font-weight:900;font-size:.9rem;color:#555;}
-.purse-bags{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:3px;
-  min-height:32px;align-items:flex-end;
-}
-.bag-icon{font-size:1.5rem;animation:bagDrop .3s ease;}
-@keyframes bagDrop{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.purse-amt{
-  font-size:.82rem;font-weight:900;
-  padding:3px 10px;border-radius:10px;
-}
-.purse-amt.has-fine{background:#ffe0e0;color:#c03050;}
-.purse-amt.no-fine{background:#e0fff0;color:#2d7a5a;}
-.purse-paid-btn{border:none;border-radius:10px;padding:4px 12px;font-size:.72rem;
-  font-weight:700;cursor:pointer;font-family:inherit;margin-top:2px;}
-.purse-paid-btn.unpaid{background:#ffe0e0;color:#c03050;}
-.purse-paid-btn.paid{background:#b5ead7;color:#1a6644;}
-.purse-total-banner{
-  background:linear-gradient(135deg,#FFB6C1,#C7CEEA);
-  border-radius:14px;padding:12px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  color:#fff;font-weight:900;font-size:.9rem;
-  box-shadow:var(--shadow);
-}
-
-/* ── PC 순위 탭 ── */
-.pc-rank-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;}
-.rank-big-card{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);}
-.rank-big-title{font-size:.88rem;font-weight:900;color:#c06080;margin-bottom:10px;}
-.rank-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #fce8f0;}
-.rank-row:last-child{border-bottom:none;}
-.rank-num{font-size:1rem;width:26px;text-align:center;flex-shrink:0;}
-.rank-av{font-size:1.3rem;flex-shrink:0;}
-.rank-name{flex:1;font-weight:700;color:#555;font-size:.85rem;}
-.rank-cnt{font-weight:900;color:#c06080;font-size:.85rem;}
-.rank-ok{font-size:.75rem;color:#2d7a5a;}
-.rank-warn{font-size:.72rem;color:#e05070;font-weight:700;}
-.prog-wrap{background:#f0e0e8;border-radius:6px;height:6px;overflow:hidden;flex:1;min-width:60px;}
-.prog-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#FFB6C1,#C7CEEA);transition:width .4s;}
-
-/* ══════════════════════════════
-   달력 공통
-══════════════════════════════ */
-.cal-nav{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.cal-nav button{background:var(--pink);border:none;border-radius:50%;
-  width:28px;height:28px;font-size:.9rem;cursor:pointer;transition:transform .15s;}
-.cal-nav button:hover{transform:scale(1.15);}
-.cal-title{font-weight:900;font-size:.95rem;color:#c06080;}
-.week-badge{margin-left:auto;background:#fff;border-radius:20px;
-  padding:3px 10px;font-size:.7rem;color:#c06080;font-weight:700;box-shadow:var(--shadow);}
-.cal-box{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
-.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px;flex-shrink:0;}
-.cal-head span{text-align:center;font-size:.72rem;font-weight:700;color:#c06080;padding:2px 0;}
-.cal-head span:first-child{color:#e05070;}
-.cal-head span:last-child{color:#5080e0;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);
-  gap:3px;flex:1;min-height:0;}
-
-/* ── 날짜 셀 ── */
-.day-cell{background:#fff;border-radius:10px;display:flex;flex-direction:column;
-  overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);min-height:0;}
-.day-cell.other-month{background:#fdf0f4;opacity:.5;}
-.day-cell.today{border:2.5px solid var(--coral);}
-.day-cell.this-week{background:#fff8fb;}
-.day-cell.sun .day-num{color:#e05070;}
-.day-cell.sat .day-num{color:#5080e0;}
-.day-num{font-size:.65rem;font-weight:700;color:#999;padding:2px 3px;flex-shrink:0;line-height:1;}
-
-/* ── 도장 영역 — 3×2 고정 ── */
-.stamps-area{
-  flex:1;display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(2,1fr);
-  padding:2px;gap:1px;
-  min-height:0;overflow:hidden;
-}
-.stamp-icon{display:flex;align-items:center;justify-content:center;border-radius:6px;
-  cursor:pointer;transition:transform .2s,filter .15s,background .15s;
-  user-select:none;width:100%;aspect-ratio:1;
-  font-size:clamp(.85rem,1.6vw,1.6rem);min-width:0;min-height:0;}
-.stamp-icon.done{box-shadow:0 1px 4px rgba(255,150,180,.4);filter:none;}
-.stamp-icon.undone{filter:grayscale(1) opacity(.18);background:transparent!important;}
-.stamp-icon:hover{transform:scale(1.2)!important;filter:none!important;z-index:5;position:relative;}
-@keyframes stampPop{0%{transform:scale(0) rotate(-25deg);}55%{transform:scale(1.4) rotate(6deg);}100%{transform:scale(1) rotate(0);}}
-.stamp-icon.pop{animation:stampPop .32s cubic-bezier(.36,.07,.19,.97);}
-
-/* ── 중계 ── */
-.commentary{flex-shrink:0;background:linear-gradient(135deg,#fff0f5,#f0f4ff);
-  border-radius:var(--radius);padding:7px 12px;border-left:4px solid var(--pink);overflow:hidden;}
-.commentary.pc-com{height:82px;}
-.commentary h4{font-size:.75rem;font-weight:900;color:#c06080;margin-bottom:4px;}
-.com-list{display:flex;flex-direction:column;gap:3px;}
-.com-item{font-size:.72rem;color:#555;background:#fff;border-radius:8px;padding:3px 8px;
-  display:flex;gap:5px;align-items:center;animation:slideIn .3s ease;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-@keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
-.com-time{color:#ccc;font-size:.67rem;flex-shrink:0;}
-
-/* ── PC 사이드카드 ── */
 .side-card{background:#fff;border-radius:var(--radius);padding:9px 11px;box-shadow:var(--shadow);flex-shrink:0;}
 .side-title{font-size:.78rem;font-weight:900;color:#c06080;margin-bottom:7px;}
 .side-rank-item{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px solid #fce8f0;}
@@ -210,31 +50,99 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .s-cnt{font-weight:900;color:#c06080;font-size:.76rem;}
 .s-ok{font-size:.68rem;color:#2d7a5a;}
 .s-warn{font-size:.66rem;color:#e05070;font-weight:700;}
+.prog-wrap{background:#f0e0e8;border-radius:6px;height:5px;overflow:hidden;flex:1;min-width:40px;}
+.prog-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#FFB6C1,#C7CEEA);transition:width .4s;}
 
-/* ══════════════════════════════
-   모바일
-══════════════════════════════ */
-.mobile-layout{display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
-.mob-tabs{display:flex;background:#fff;border-bottom:2px solid #fce8f0;flex-shrink:0;}
-.mob-tab{flex:1;padding:10px 4px;text-align:center;font-size:.78rem;font-weight:700;
-  color:#bbb;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
-.mob-tab.active{color:#c06080;border-bottom-color:#FFB6C1;}
-.mob-pages{flex:1;overflow:hidden;position:relative;}
-.mob-page{position:absolute;inset:0;overflow-y:auto;padding:8px 10px;display:none;flex-direction:column;gap:8px;}
-.mob-page.active{display:flex;}
+/* 달력 */
+.cal-nav{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.cal-nav button{background:var(--pink);border:none;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;transition:transform .15s;}
+.cal-nav button:hover{transform:scale(1.15);}
+.cal-title{font-weight:900;font-size:.95rem;color:#c06080;}
+.week-badge{margin-left:auto;background:#fff;border-radius:20px;padding:3px 10px;font-size:.7rem;color:#c06080;font-weight:700;box-shadow:var(--shadow);}
+.cal-box{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px;flex-shrink:0;}
+.cal-head span{text-align:center;font-size:.72rem;font-weight:700;color:#c06080;padding:2px 0;}
+.cal-head span:first-child{color:#e05070;}
+.cal-head span:last-child{color:#5080e0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);gap:3px;flex:1;min-height:0;}
+.day-cell{background:#fff;border-radius:10px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);min-height:0;}
+.day-cell.other-month{background:#fdf0f4;opacity:.5;}
+.day-cell.today{border:2.5px solid var(--coral);}
+.day-cell.this-week{background:#fff8fb;}
+.day-cell.sun .day-num{color:#e05070;}
+.day-cell.sat .day-num{color:#5080e0;}
+.day-num{font-size:.65rem;font-weight:700;color:#999;padding:2px 3px;flex-shrink:0;line-height:1;}
 
-/* 모바일 달력 도장 — 멤버수 반응형 */
-.mob-stamps{flex:1;display:grid;padding:2px;gap:1px;align-content:center;min-height:0;overflow:hidden;}
-.mc1{grid-template-columns:repeat(1,1fr);}
+/* PC 도장 3x2 고정 */
+.stamps-pc{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);padding:2px;gap:1px;min-height:0;overflow:hidden;}
+/* 모바일 도장 반응형 */
+.stamps-mob{flex:1;display:grid;padding:2px;gap:1px;align-content:center;min-height:0;overflow:hidden;}
+.mc1{grid-template-columns:1fr;}
 .mc2{grid-template-columns:repeat(2,1fr);}
 .mc3{grid-template-columns:repeat(3,1fr);}
 .mc4{grid-template-columns:repeat(2,1fr);}
 .mc5{grid-template-columns:repeat(3,1fr);}
 .mc6{grid-template-columns:repeat(3,1fr);}
 
-/* 모바일 순위 */
-.mob-rank-item{display:flex;align-items:center;gap:10px;padding:10px 12px;
-  background:#fff;border-radius:14px;box-shadow:var(--shadow);}
+.stamp-icon{display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:transform .2s,filter .15s;user-select:none;width:100%;aspect-ratio:1;font-size:clamp(.85rem,1.5vw,1.6rem);min-width:0;min-height:0;}
+.stamp-icon.done{box-shadow:0 1px 4px rgba(255,150,180,.4);}
+.stamp-icon.undone{filter:grayscale(1) opacity(.18);background:transparent!important;}
+.stamp-icon:hover{transform:scale(1.2)!important;filter:none!important;z-index:5;position:relative;}
+.stamp-empty{width:100%;aspect-ratio:1;}
+@keyframes stampPop{0%{transform:scale(0) rotate(-25deg);}55%{transform:scale(1.4) rotate(6deg);}100%{transform:scale(1) rotate(0);}}
+.stamp-icon.pop{animation:stampPop .32s cubic-bezier(.36,.07,.19,.97);}
+
+/* 중계 */
+.commentary{flex-shrink:0;background:linear-gradient(135deg,#fff0f5,#f0f4ff);border-radius:var(--radius);padding:7px 12px;border-left:4px solid var(--pink);overflow:hidden;}
+.commentary.pc-com{height:82px;}
+.commentary h4{font-size:.75rem;font-weight:900;color:#c06080;margin-bottom:4px;}
+.com-list{display:flex;flex-direction:column;gap:3px;}
+.com-item{font-size:.72rem;color:#555;background:#fff;border-radius:8px;padding:3px 8px;display:flex;gap:5px;align-items:center;animation:slideIn .3s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+.com-time{color:#ccc;font-size:.67rem;flex-shrink:0;}
+
+/* PC 순위탭 */
+.pc-rank-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;}
+.rank-big-card{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);}
+.rank-big-title{font-size:.88rem;font-weight:900;color:#c06080;margin-bottom:10px;}
+.rank-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #fce8f0;}
+.rank-row:last-child{border-bottom:none;}
+.rank-num{font-size:1rem;width:26px;text-align:center;flex-shrink:0;}
+.rank-av{font-size:1.3rem;flex-shrink:0;}
+.rank-name{flex:1;font-weight:700;color:#555;font-size:.85rem;}
+.rank-cnt{font-weight:900;color:#c06080;font-size:.85rem;margin-left:8px;}
+.rank-ok{font-size:.75rem;color:#2d7a5a;}
+.rank-warn{font-size:.72rem;color:#e05070;font-weight:700;}
+
+/* 정산 탭 */
+.pc-fine-layout{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px;}
+.fine-header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.fine-month-select{border:2px solid var(--pink);border-radius:20px;padding:5px 12px;font-family:inherit;font-size:.82rem;outline:none;background:#fff;color:#c06080;font-weight:700;}
+.purse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.purse-card{background:#fff;border-radius:18px;padding:16px 12px 12px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .2s;}
+.purse-card:hover{transform:translateY(-3px);}
+.purse-avatar{font-size:2.4rem;line-height:1;}
+.purse-name{font-weight:900;font-size:.9rem;color:#555;}
+.purse-bags{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;min-height:32px;align-items:flex-end;}
+.bag-icon{font-size:1.5rem;}
+@keyframes bagDrop{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.purse-amt{font-size:.82rem;font-weight:900;padding:3px 10px;border-radius:10px;}
+.purse-amt.has-fine{background:#ffe0e0;color:#c03050;}
+.purse-amt.no-fine{background:#e0fff0;color:#2d7a5a;}
+.purse-paid-btn{border:none;border-radius:10px;padding:4px 12px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:2px;}
+.purse-paid-btn.unpaid{background:#ffe0e0;color:#c03050;}
+.purse-paid-btn.paid{background:#b5ead7;color:#1a6644;}
+.purse-total-banner{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;font-weight:900;font-size:.9rem;box-shadow:var(--shadow);}
+
+/* 모바일 */
+.mobile-layout{display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
+.mob-tabs{display:flex;background:#fff;border-bottom:2px solid #fce8f0;flex-shrink:0;}
+.mob-tab{flex:1;padding:10px 4px;text-align:center;font-size:.78rem;font-weight:700;color:#bbb;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
+.mob-tab.active{color:#c06080;border-bottom-color:#FFB6C1;}
+.mob-pages{flex:1;overflow:hidden;position:relative;}
+.mob-page{position:absolute;inset:0;overflow-y:auto;padding:8px 10px;display:none;flex-direction:column;gap:8px;}
+.mob-page.active{display:flex;}
+.mob-rank-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-radius:14px;box-shadow:var(--shadow);}
 .mob-rank-num{font-size:1.3rem;width:30px;text-align:center;}
 .mob-rank-av{font-size:1.8rem;}
 .mob-rank-info{flex:1;}
@@ -243,54 +151,36 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .mob-rank-badge{font-size:.75rem;padding:3px 8px;border-radius:10px;font-weight:700;white-space:nowrap;}
 .mob-badge-ok{background:#e0fff0;color:#2d7a5a;}
 .mob-badge-warn{background:#ffe0e0;color:#c03050;}
-
-/* 모바일 돈주머니 정산 */
-.mob-purse-grid{display:flex;flex-direction:column;gap:10px;}
-.mob-purse-row{background:#fff;border-radius:14px;padding:12px 14px;
-  box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
+.mob-purse-row{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
 .mob-purse-av{font-size:2rem;flex-shrink:0;}
 .mob-purse-info{flex:1;}
 .mob-purse-name{font-weight:900;font-size:.9rem;color:#444;margin-bottom:4px;}
 .mob-purse-bags{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:4px;}
-.mob-purse-amt{font-size:.78rem;font-weight:700;}
-.mob-purse-amt.red{color:#e05070;}
-.mob-purse-amt.green{color:#2d7a5a;}
-
-/* 모바일 이번주 현황 */
 .mob-week-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #fce8f0;}
 .mob-week-row:last-child{border-bottom:none;}
 
-/* ══════════════════════════════
-   팝업 모달
-══════════════════════════════ */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;
-  justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
+/* 모달 */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
-.modal{background:#fff;border-radius:22px;padding:24px;width:380px;max-width:95vw;
-  max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2);
-  transform:scale(.9);transition:transform .25s;}
+.modal{background:#fff;border-radius:22px;padding:24px;width:380px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2);transform:scale(.9);transition:transform .25s;}
 .modal-bg.open .modal{transform:scale(1);}
 .modal h3{font-size:1rem;font-weight:900;color:#c06080;margin-bottom:12px;}
 .modal label{font-size:.8rem;color:#888;display:block;margin-bottom:4px;}
-.modal input[type=text],.modal input[type=number]{width:100%;border:2px solid var(--pink);
-  border-radius:20px;padding:7px 14px;font-family:inherit;font-size:.88rem;outline:none;margin-bottom:10px;}
+.modal input[type=text],.modal input[type=number]{width:100%;border:2px solid var(--pink);border-radius:20px;padding:7px 14px;font-family:inherit;font-size:.88rem;outline:none;margin-bottom:10px;}
 .modal input:focus{border-color:var(--purple);}
 .avatar-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:12px;max-height:180px;overflow-y:auto;}
-.av-btn{aspect-ratio:1;border-radius:10px;border:2px solid #eee;font-size:1.4rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all .15s;background:#fafafa;}
+.av-btn{aspect-ratio:1;border-radius:10px;border:2px solid #eee;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;background:#fafafa;}
 .av-btn:hover{border-color:var(--pink);transform:scale(1.12);}
 .av-btn.selected{border-color:var(--coral);background:#ffe8ee;transform:scale(1.08);}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;}
 .mm-row{display:flex;align-items:center;gap:8px;background:#fff5f8;border-radius:10px;padding:6px 10px;margin-bottom:5px;}
 .mm-av{font-size:1.2rem;}
 .mm-name{flex:1;font-size:.85rem;font-weight:700;color:#555;}
-.mm-del{border:none;background:#ffe0e0;color:#c03050;border-radius:10px;padding:3px 10px;
-  cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;}
+.mm-del{border:none;background:#ffe0e0;color:#c03050;border-radius:10px;padding:3px 10px;cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;}
 
 /* 월결산 팝업 */
-.monthly-popup{text-align:center;}
-.monthly-popup .pop-month{font-size:1.1rem;font-weight:900;color:#c06080;margin-bottom:12px;}
-.monthly-popup .pop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.pop-month{font-size:1.1rem;font-weight:900;color:#c06080;margin-bottom:12px;text-align:center;}
+.pop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
 .pop-member-card{background:#fff5f8;border-radius:14px;padding:12px 8px;text-align:center;}
 .pop-member-av{font-size:2rem;margin-bottom:4px;}
 .pop-member-name{font-size:.8rem;font-weight:700;color:#555;margin-bottom:6px;}
@@ -298,26 +188,18 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .pop-amt{font-size:.78rem;font-weight:900;}
 .pop-amt.red{color:#e05070;}
 .pop-amt.green{color:#2d7a5a;}
-.pop-total{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:12px;
-  padding:10px 16px;color:#fff;font-weight:900;font-size:.9rem;margin-bottom:12px;}
+.pop-total{background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:12px;padding:10px 16px;color:#fff;font-weight:900;font-size:.9rem;margin-bottom:12px;text-align:center;}
 
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--pink);border-radius:3px;}
-
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(60px);
-  background:linear-gradient(135deg,#FFB6C1,#C7CEEA);color:#fff;padding:9px 20px;
-  border-radius:30px;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.15);
-  transition:transform .3s;z-index:400;pointer-events:none;}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,#FFB6C1,#C7CEEA);color:#fff;padding:9px 20px;border-radius:30px;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:transform .3s;z-index:400;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-
-.loading-overlay{position:fixed;inset:0;background:rgba(255,245,248,.95);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:500;font-size:1rem;font-weight:700;color:#c06080;gap:12px;}
-.spinner{width:40px;height:40px;border:4px solid #fce8f0;border-top-color:#FFB6C1;
-  border-radius:50%;animation:spin .8s linear infinite;}
+.loading-overlay{position:fixed;inset:0;background:rgba(255,245,248,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:12px;}
+.spinner{width:40px;height:40px;border:4px solid #fce8f0;border-top-color:#FFB6C1;border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.loading-txt{font-size:1rem;font-weight:700;color:#c06080;}
+.loading-sub{font-size:.8rem;color:#aaa;}
 
-/* 반응형 */
 @media(max-width:768px){
   body{overflow:auto;}
   .pc-wrap{display:none!important;}
@@ -333,21 +215,24 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
-  <div>🔥 Firebase 연결 중...</div>
+  <div class="loading-txt">🔥 Firebase 연결 중...</div>
+  <div class="loading-sub" id="loadingStatus">초기화 중...</div>
 </div>
 
-<!-- 헤더 -->
 <div class="hdr">
   <h1>🏋️ 운동 벌금 클럽 💸</h1>
   <div class="hdr-right">
-    <span class="sync-dot loading" id="syncDot"></span>
+    <div class="sync-wrap">
+      <div class="sync-dot loading" id="syncDot"></div>
+      <span class="sync-txt" id="syncTxt">연결중</span>
+    </div>
     <button class="btn btn-white" onclick="openAddModal()">➕ 멤버</button>
     <button class="btn btn-white" onclick="openManageModal()">👥 관리</button>
     <button class="btn btn-coral" onclick="openSettingsModal()">⚙️ 설정</button>
   </div>
 </div>
 
-<!-- ══ PC ══ -->
+<!-- PC -->
 <div class="pc-wrap">
   <div class="pc-tabs">
     <div class="pc-tab active" onclick="pcTab(0,this)">🗓️ 달력</div>
@@ -356,8 +241,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="pc-tab" onclick="pcTab(3,this)">📢 중계</div>
   </div>
   <div class="pc-pages">
-
-    <!-- PC 탭0: 달력 -->
+    <!-- 탭0 달력 -->
     <div class="pc-page active" id="pcPage0">
       <div class="pc-cal-layout">
         <div class="cal-wrap">
@@ -368,20 +252,14 @@ body{display:flex;flex-direction:column;overflow:hidden;}
             <div class="week-badge" id="pcWeekBadge"></div>
           </div>
           <div class="cal-box">
-            <div class="cal-head">
-              <span>일</span><span>월</span><span>화</span><span>수</span>
-              <span>목</span><span>금</span><span>토</span>
-            </div>
+            <div class="cal-head"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
             <div class="cal-grid" id="pcCalGrid"></div>
           </div>
           <div class="commentary pc-com">
             <h4>📢 실시간 병맛 중계 🎙️</h4>
-            <div class="com-list" id="pcComList">
-              <div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>
-            </div>
+            <div class="com-list" id="pcComList"></div>
           </div>
         </div>
-        <!-- 사이드바: 이번주 순위만 -->
         <div class="sidebar">
           <div class="side-card">
             <div class="side-title">🏆 이번 주 순위</div>
@@ -394,8 +272,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         </div>
       </div>
     </div>
-
-    <!-- PC 탭1: 순위 -->
+    <!-- 탭1 순위 -->
     <div class="pc-page" id="pcPage1">
       <div class="pc-rank-layout">
         <div class="rank-big-card">
@@ -408,8 +285,7 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         </div>
       </div>
     </div>
-
-    <!-- PC 탭2: 정산 (돈주머니) -->
+    <!-- 탭2 정산 -->
     <div class="pc-page" id="pcPage2">
       <div class="pc-fine-layout">
         <div class="fine-header-row">
@@ -421,21 +297,19 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div class="purse-total-banner" id="pcPurseBanner"></div>
       </div>
     </div>
-
-    <!-- PC 탭3: 중계 -->
+    <!-- 탭3 중계 -->
     <div class="pc-page" id="pcPage3">
       <div style="padding:16px 20px;flex:1;overflow-y:auto;">
-        <div class="commentary" style="max-height:none;">
+        <div class="commentary">
           <h4>📢 실시간 병맛 중계 🎙️</h4>
-          <div class="com-list" id="pcComListFull" style="max-height:none;overflow:visible;"></div>
+          <div class="com-list" id="pcComListFull"></div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ══ 모바일 ══ -->
+<!-- 모바일 -->
 <div class="mobile-layout">
   <div class="mob-tabs">
     <div class="mob-tab active" onclick="mobTab(0,this)">🗓️ 달력</div>
@@ -444,8 +318,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     <div class="mob-tab" onclick="mobTab(3,this)">📢 중계</div>
   </div>
   <div class="mob-pages">
-
-    <!-- 모바일 탭0: 달력 -->
     <div class="mob-page active" id="mobPage0">
       <div class="cal-nav">
         <button onclick="changeMonth(-1)">◀</button>
@@ -454,51 +326,36 @@ body{display:flex;flex-direction:column;overflow:hidden;}
         <div class="week-badge" id="mobWeekBadge"></div>
       </div>
       <div style="display:flex;flex-direction:column;min-height:340px;flex:1;">
-        <div class="cal-head">
-          <span>일</span><span>월</span><span>화</span><span>수</span>
-          <span>목</span><span>금</span><span>토</span>
-        </div>
+        <div class="cal-head"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
         <div class="cal-grid" id="mobCalGrid" style="flex:1;min-height:320px;"></div>
       </div>
     </div>
-
-    <!-- 모바일 탭1: 순위 -->
     <div class="mob-page" id="mobPage1">
       <div style="font-size:.9rem;font-weight:900;color:#c06080;margin-bottom:4px;">🏆 이번 주 순위</div>
       <div id="mobRankList" style="display:flex;flex-direction:column;gap:8px;"></div>
       <div style="font-size:.9rem;font-weight:900;color:#7050a0;margin:14px 0 4px;">📊 누적 순위</div>
       <div id="mobTotalRankList" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
-
-    <!-- 모바일 탭2: 정산 -->
     <div class="mob-page" id="mobPage2">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
         <div style="font-size:.88rem;font-weight:900;color:#c06080;">💰 월별 정산</div>
         <select class="fine-month-select" id="mobMonthSel" onchange="renderMobFine()"></select>
       </div>
-      <div class="mob-purse-grid" id="mobPurseGrid"></div>
-      <div id="mobPurseBanner" style="background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;
-        padding:10px 16px;color:#fff;font-weight:900;font-size:.85rem;text-align:center;"></div>
+      <div id="mobPurseGrid" style="display:flex;flex-direction:column;gap:10px;"></div>
+      <div id="mobPurseBanner" style="background:linear-gradient(135deg,#FFB6C1,#C7CEEA);border-radius:14px;padding:10px 16px;color:#fff;font-weight:900;font-size:.85rem;text-align:center;"></div>
       <div style="font-size:.88rem;font-weight:900;color:#c06080;margin-top:4px;">📋 이번 주 현황</div>
-      <div style="background:#fff;border-radius:14px;padding:12px;box-shadow:var(--shadow);">
-        <div id="mobWeekStatus"></div>
-      </div>
+      <div style="background:#fff;border-radius:14px;padding:12px;box-shadow:var(--shadow);"><div id="mobWeekStatus"></div></div>
     </div>
-
-    <!-- 모바일 탭3: 중계 -->
     <div class="mob-page" id="mobPage3">
       <div class="commentary">
         <h4>📢 실시간 병맛 중계 🎙️</h4>
-        <div class="com-list" id="mobComList">
-          <div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>
-        </div>
+        <div class="com-list" id="mobComList"></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- 모달: 멤버 추가 -->
+<!-- 모달들 -->
 <div class="modal-bg" id="addModal">
   <div class="modal">
     <h3>➕ 새 멤버 추가</h3>
@@ -512,8 +369,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 멤버 관리 -->
 <div class="modal-bg" id="manageModal">
   <div class="modal">
     <h3>👥 멤버 관리</h3>
@@ -523,8 +378,6 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 설정 -->
 <div class="modal-bg" id="settingsModal">
   <div class="modal">
     <h3>⚙️ 설정</h3>
@@ -538,34 +391,126 @@ body{display:flex;flex-direction:column;overflow:hidden;}
     </div>
   </div>
 </div>
-
-<!-- 모달: 월결산 팝업 -->
 <div class="modal-bg" id="monthlyPopupModal">
   <div class="modal">
-    <div class="monthly-popup">
-      <div class="pop-month" id="popMonth"></div>
-      <div class="pop-grid" id="popGrid"></div>
-      <div class="pop-total" id="popTotal"></div>
-      <div class="modal-btns" style="justify-content:center;">
-        <button class="btn btn-coral" onclick="closeModal('monthlyPopupModal')">확인!</button>
-      </div>
+    <div class="pop-month" id="popMonth"></div>
+    <div class="pop-grid" id="popGrid"></div>
+    <div class="pop-total" id="popTotal"></div>
+    <div class="modal-btns" style="justify-content:center;">
+      <button class="btn btn-coral" onclick="closeModal('monthlyPopupModal')">확인!</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script>
-/* ═══════════════════════════════════
-   상수
-═══════════════════════════════════ */
-const AVATARS=['🦄','🐱','🐯','🦖','🐰','🐻','🐶','🐸',
-  '🦊','🐼','🐨','🦁','🐮','🐷','🐧','🦋',
-  '🐙','🐳','🦀','🐬','🦔','🦥','🐺','🦝','🦘','🦙','🐊','🐲','🐿️','🦦'];
-const COLORS=['#E8D5FF','#D5F0FF','#FFE8D5','#D5FFE8','#FFD5E8','#D5E8FF'];
+<!-- ★ Firebase SDK — type="module" 제거, CDN compat 버전 사용 ★ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-// 서비스 시작일: 2025-05-18
-const SERVICE_START = new Date(2025, 4, 18); // month는 0-based
+<script>
+/* ═══════════════════════════════════════════
+   1. Firebase 초기화 (compat 방식 — 동기 실행)
+═══════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey:            "AIzaSyBOIP80zY30M4DU9KOdQP9flTMcpVUj848",
+  authDomain:        "exercise-905dd.firebaseapp.com",
+  projectId:         "exercise-905dd",
+  storageBucket:     "exercise-905dd.firebasestorage.app",
+  messagingSenderId: "613601764592",
+  appId:             "1:613601764592:web:2c3ad6e77652d1a6a50e35"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const DOC_REF = db.collection("club").doc("main");
+
+function setSync(state, txt){
+  document.getElementById('syncDot').className = `sync-dot ${state}`;
+  document.getElementById('syncTxt').textContent = txt;
+}
+
+/* ═══════════════════════════════════════════
+   2. 저장 / 불러오기
+═══════════════════════════════════════════ */
+let _saving = false;
+let _dirty  = false;
+
+async function fbSave(){
+  if(_saving){ _dirty = true; return; }
+  _saving = true;
+  setSync('loading','저장중');
+  try{
+    const payload = {
+      members:    S.members,
+      records:    S.records,
+      paid:       S.paid,
+      commentary: S.commentary.slice(0,40),
+      settings:   S.settings,
+      updatedAt:  Date.now()
+    };
+    await DOC_REF.set(payload);
+    setSync('ok','동기화됨');
+    console.log('✅ Firebase 저장 완료');
+  } catch(e){
+    console.error('❌ Firebase 저장 실패:', e);
+    setSync('err','저장실패');
+    showToast('⚠️ 저장 실패! ' + e.message);
+  } finally {
+    _saving = false;
+    if(_dirty){ _dirty = false; fbSave(); }
+  }
+}
+
+// 실시간 리스너
+function startListener(){
+  console.log('🔔 Firestore 리스너 시작');
+  DOC_REF.onSnapshot(
+    snap => {
+      if(snap.exists){
+        const data = snap.data();
+        console.log('📥 원격 데이터 수신:', Object.keys(data));
+        // 저장 중이 아닐 때만 반영 (내가 저장한 것 무시 방지)
+        if(!_saving){
+          applyData(data);
+        }
+      } else {
+        // 문서 없으면 기본값으로 첫 저장
+        console.log('📄 문서 없음 → 기본값 저장');
+        fbSave();
+      }
+      hideLoading();
+      setSync('ok','동기화됨');
+    },
+    err => {
+      console.error('❌ 리스너 오류:', err);
+      setSync('err','연결오류');
+      hideLoading();
+      showToast('⚠️ Firebase 연결 오류: ' + err.message);
+    }
+  );
+}
+
+function applyData(data){
+  if(data.members)    S.members    = data.members;
+  if(data.records)    S.records    = data.records;
+  if(data.paid)       S.paid       = data.paid;
+  if(data.commentary) S.commentary = data.commentary;
+  if(data.settings)   S.settings   = data.settings;
+  renderAll();
+}
+
+function hideLoading(){
+  const ov = document.getElementById('loadingOverlay');
+  if(ov) ov.style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════
+   3. 상태 & 상수
+═══════════════════════════════════════════ */
+const AVATARS=['🦄','🐱','🐯','🦖','🐰','🐻','🐶','🐸','🦊','🐼','🐨','🦁','🐮','🐷','🐧','🦋','🐙','🐳','🦀','🐬','🦔','🦥','🐺','🦝','🦘','🦙','🐊','🐲','🐿️','🦦'];
+const COLORS=['#E8D5FF','#D5F0FF','#FFE8D5','#D5FFE8','#FFD5E8','#D5E8FF'];
+const SERVICE_START = new Date(2025,4,18); // 2025-05-18
 
 const MSGS={
   stamp:[
@@ -576,7 +521,6 @@ const MSGS={
     (n,c,t)=>`${n} ${c}회 완료. 칼로리 소모: 치킨 반 조각🍗`,
     (n,c,t)=>`${n} 인증! 아직 ${t-c}번 남음. 긴장 늦추지 마 선생님`,
     (n,c,t)=>`${n} ${c}회째. 이 기세면 다음 주도 할 수 있을지도?🤔`,
-    (n,c,t)=>`${n} 찍었다! 운동 전후 사진은 왜 안 올림?📸`,
   ],
   done:[
     (n,t)=>`🎉 ${n} ${t}/${t}회 달성!! 벌금 없음! 근데 왜 기쁘지 않지`,
@@ -588,84 +532,38 @@ const MSGS={
     (n,r)=>`🚨 ${n} 아직 ${r}번 남음. 지금 당장 일어나 이 사람아!!`,
     (n,r)=>`${n} ${r}회 남았는데 아직도 누워있음? 만원 내기 싫으면 뛰어🏃`,
     (n,r)=>`다들 ${n} 좀 괴롭혀주세요. ${r}번 안 하면 만원 뜯김😈`,
-    (n,r)=>`${n} 지갑이 얇아지고 있다... ${r}번만 더 하면 되는데🤑`,
   ],
   zero:[
     (n)=>`${n} 이번 주 0회... 운동이 뭔지 알긴 함?🤔`,
     (n)=>`${n} 0회. 운동화는 장식품이 아닙니다 선생님👟`,
-    (n)=>`${n} 0회ㅋㅋ 벌금으로 술값 내려는 거 아님?🍺`,
   ],
   cancel:[
     (n,c)=>`${n} 도장 취소... 현재 ${c}회. 뭔가 후회되나봄`,
     (n,c)=>`${n} 취소 ㅋㅋ 지금 ${c}회. 다시 찍어요 제발🥺`,
   ],
 };
-function randMsg(type,...args){
-  const arr=MSGS[type];
-  return arr[Math.floor(Math.random()*arr.length)](...args);
-}
+function randMsg(type,...args){const a=MSGS[type];return a[Math.floor(Math.random()*a.length)](...args);}
 
-/* ═══════════════════════════════════
-   상태
-═══════════════════════════════════ */
-function defaultState(){
-  return {
-    members:[
-      {id:1,name:'지희',avatar:'🦄',color:'#E8D5FF'},
-      {id:2,name:'병훈',avatar:'🐱',color:'#D5F0FF'},
-      {id:3,name:'진명',avatar:'🐯',color:'#FFE8D5'},
-      {id:4,name:'진욱',avatar:'🦖',color:'#D5FFE8'},
-    ],
-    records:{},paid:{},commentary:[],
-    settings:{target:4,fine:10000},
-  };
-}
+let S = {
+  members:[
+    {id:1,name:'지희',avatar:'🦄',color:'#E8D5FF'},
+    {id:2,name:'병훈',avatar:'🐱',color:'#D5F0FF'},
+    {id:3,name:'진명',avatar:'🐯',color:'#FFE8D5'},
+    {id:4,name:'진욱',avatar:'🦖',color:'#D5FFE8'},
+  ],
+  records:{}, paid:{}, commentary:[],
+  settings:{target:4, fine:10000},
+};
 
-let S=defaultState();
 let _vy=new Date().getFullYear(), _vm=new Date().getMonth();
 let _selAv='🦄';
-let _isSaving=false, _pendingSave=false, _fbInit=false;
 
-/* ═══════════════════════════════════
-   Firebase
-═══════════════════════════════════ */
-function setSyncDot(s){document.getElementById('syncDot').className=`sync-dot ${s}`;}
-
-async function fbSave(){
-  if(!window._fbSave) return;
-  if(_isSaving){_pendingSave=true;return;}
-  _isSaving=true; setSyncDot('loading');
-  try{
-    await window._fbSave({members:S.members,records:S.records,paid:S.paid,
-      commentary:S.commentary.slice(0,40),settings:S.settings});
-    setSyncDot('ok');
-  }catch(e){setSyncDot('err');showToast('⚠️ 저장 실패!');}
-  finally{
-    _isSaving=false;
-    if(_pendingSave){_pendingSave=false;fbSave();}
-  }
-}
-
-document.addEventListener('fb-ready',()=>{
-  if(_fbInit) return; _fbInit=true;
-  window._fbListen(data=>{
-    if(_isSaving) return;
-    S={...defaultState(),...data};
-    renderAll(); setSyncDot('ok');
-  });
-  setTimeout(()=>{document.getElementById('loadingOverlay').style.display='none';},1500);
-});
-setTimeout(()=>{
-  const ov=document.getElementById('loadingOverlay');
-  if(ov.style.display!=='none'){ov.style.display='none';setSyncDot('err');showToast('⚠️ Firebase 연결 실패 — 로컬 모드');}
-},3000);
-
-/* ═══════════════════════════════════
-   날짜 유틸
-═══════════════════════════════════ */
-function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function rk(mid,ds){return `${mid}_${ds}`;}
-function isStamped(mid,ds){return !!S.records[rk(mid,ds)];}
+/* ═══════════════════════════════════════════
+   4. 날짜 유틸
+═══════════════════════════════════════════ */
+const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const rk=(mid,ds)=>`${mid}_${ds}`;
+const isStamped=(mid,ds)=>!!S.records[rk(mid,ds)];
 
 function thisWeekRange(){
   const now=new Date(),day=now.getDay();
@@ -674,104 +572,61 @@ function thisWeekRange(){
   const sun=new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59,999);
   return {mon,sun};
 }
-function inThisWeek(ds){
-  const {mon,sun}=thisWeekRange();
-  const d=new Date(ds); return d>=mon&&d<=sun;
-}
+function inThisWeek(ds){const {mon,sun}=thisWeekRange();const d=new Date(ds);return d>=mon&&d<=sun;}
 function weekCount(mid){
-  const {mon,sun}=thisWeekRange(); let cnt=0;
+  const {mon,sun}=thisWeekRange();let cnt=0;
   for(let d=new Date(mon);d<=sun;d.setDate(d.getDate()+1))
     if(isStamped(mid,dk(d.getFullYear(),d.getMonth(),d.getDate()))) cnt++;
   return cnt;
 }
 
-/* ═══════════════════════════════════
-   벌금 계산 — 서비스 시작일 기준, 쌓이는 개념
-   - 완료된 주차만 계산 (진행 중인 주차 제외)
-   - 서비스 시작일(2025-05-18) 이후 주차만 계산
-   - 해당 달의 주차만 (월요일 기준)
-═══════════════════════════════════ */
-function calcMonthFine(mid, year, month){
-  const firstDay = new Date(year, month, 1);
-  const lastDay  = new Date(year, month+1, 0);
-  const today    = new Date(); today.setHours(23,59,59,999);
-  const {target, fine} = S.settings;
-
-  // 해당 달의 첫 월요일 주 시작 계산
-  let cur = new Date(firstDay);
-  const sd = cur.getDay();
-  cur.setDate(cur.getDate() - (sd===0 ? 6 : sd-1));
-
-  let totalFine = 0;
-  let weekDetails = [];
-
-  while(cur <= lastDay){
-    const mon = new Date(cur);
-    const sun = new Date(cur); sun.setDate(cur.getDate()+6); sun.setHours(23,59,59,999);
-
-    // 조건1: 해당 달과 겹쳐야 함
-    // 조건2: 이미 완료된 주차여야 함 (일요일이 오늘보다 과거)
-    // 조건3: 서비스 시작일 이후여야 함
-    const overlapsMonth = sun >= firstDay && mon <= lastDay;
-    const isCompleted   = sun < today;
-    const afterStart    = sun >= SERVICE_START;
-
-    if(overlapsMonth && isCompleted && afterStart){
-      let cnt = 0;
-      for(let d=new Date(mon); d<=sun; d.setDate(d.getDate()+1)){
-        const ds = dk(d.getFullYear(), d.getMonth(), d.getDate());
-        if(isStamped(mid, ds)) cnt++;
-      }
-      if(cnt < target){
-        totalFine += fine;
-        weekDetails.push({mon:new Date(mon), cnt, fine});
-      }
+function calcMonthFine(mid,year,month){
+  const firstDay=new Date(year,month,1);
+  const lastDay=new Date(year,month+1,0);
+  const today=new Date(); today.setHours(23,59,59,999);
+  const {target,fine}=S.settings;
+  let cur=new Date(firstDay);
+  const sd=cur.getDay(); cur.setDate(cur.getDate()-(sd===0?6:sd-1));
+  let total=0;
+  while(cur<=lastDay){
+    const mon=new Date(cur);
+    const sun=new Date(cur); sun.setDate(cur.getDate()+6); sun.setHours(23,59,59,999);
+    const overlaps=sun>=firstDay&&mon<=lastDay;
+    const done=sun<today;
+    const afterStart=sun>=SERVICE_START;
+    if(overlaps&&done&&afterStart){
+      let cnt=0;
+      for(let d=new Date(mon);d<=sun;d.setDate(d.getDate()+1))
+        if(isStamped(mid,dk(d.getFullYear(),d.getMonth(),d.getDate()))) cnt++;
+      if(cnt<target) total+=fine;
     }
     cur.setDate(cur.getDate()+7);
-  }
-  return {totalFine, weekDetails};
-}
-
-// 전체 누적 벌금 (모든 달 합산)
-function calcTotalFine(mid){
-  const today = new Date();
-  let total = 0;
-  // 서비스 시작월부터 현재까지
-  let y = SERVICE_START.getFullYear(), m = SERVICE_START.getMonth();
-  while(y < today.getFullYear() || (y===today.getFullYear() && m<=today.getMonth())){
-    total += calcMonthFine(mid, y, m).totalFine;
-    m++;
-    if(m>11){m=0;y++;}
   }
   return total;
 }
 
-/* ═══════════════════════════════════
-   달력 렌더
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   5. 달력 렌더
+═══════════════════════════════════════════ */
 function buildCells(){
   const y=_vy,m=_vm;
   const firstDow=new Date(y,m,1).getDay();
   const lastDate=new Date(y,m+1,0).getDate();
   const prevLast=new Date(y,m,0).getDate();
   const cells=[];
-  for(let i=firstDow-1;i>=0;i--)
-    cells.push({d:prevLast-i,cur:false,cy:m===0?y-1:y,cm:m===0?11:m-1});
+  for(let i=firstDow-1;i>=0;i--) cells.push({d:prevLast-i,cur:false,cy:m===0?y-1:y,cm:m===0?11:m-1});
   for(let d=1;d<=lastDate;d++) cells.push({d,cur:true,cy:y,cm:m});
   const rem=42-cells.length;
   for(let d=1;d<=rem;d++) cells.push({d,cur:false,cy:m===11?y+1:y,cm:m===11?0:m+1});
   return cells;
 }
 
-function renderCalGrid(gridId, isMobile){
-  const grid=document.getElementById(gridId);
-  if(!grid) return;
+function renderCalGrid(gridId, isMob){
+  const grid=document.getElementById(gridId); if(!grid) return;
   grid.innerHTML='';
   const today=new Date();
   const n=S.members.length;
-
-  // 모바일: 반응형 / PC: 항상 3x2
-  const getMobCls = n => ['','mc1','mc2','mc3','mc4','mc5','mc6'][Math.min(n,6)]||'mc6';
+  const mobCls=['','mc1','mc2','mc3','mc4','mc5','mc6'][Math.min(n,6)]||'mc6';
 
   buildCells().forEach(({d,cur,cy,cm},idx)=>{
     const ds=dk(cy,cm,d);
@@ -780,63 +635,54 @@ function renderCalGrid(gridId, isMobile){
     const isTW=inThisWeek(ds)&&cur;
 
     const cell=document.createElement('div');
-    cell.className='day-cell'
-      +(!cur?' other-month':'')+(isToday?' today':'')
-      +(isTW?' this-week':'')+(dow===0?' sun':(dow===6?' sat':''));
+    cell.className='day-cell'+(!cur?' other-month':'')+(isToday?' today':'')+(isTW?' this-week':'')+(dow===0?' sun':dow===6?' sat':'');
 
     const numEl=document.createElement('div');
     numEl.className='day-num'; numEl.textContent=d;
     cell.appendChild(numEl);
 
     const area=document.createElement('div');
-    if(isMobile){
-      area.className=`mob-stamps ${getMobCls(n)}`;
+    if(isMob){
+      area.className=`stamps-mob ${mobCls}`;
+      S.members.forEach(mem=>{
+        const stamped=isStamped(mem.id,ds);
+        const icon=document.createElement('div');
+        icon.className='stamp-icon '+(stamped?'done':'undone');
+        icon.textContent=mem.avatar;
+        if(stamped) icon.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
+        icon.addEventListener('click',e=>{e.stopPropagation();toggleStamp(mem.id,ds,icon,mem);});
+        area.appendChild(icon);
+      });
     } else {
-      // PC: 항상 3x2 grid (최대 6명)
-      area.className='stamps-area';
+      area.className='stamps-pc';
+      const slots=[...S.members];
+      while(slots.length<6) slots.push(null);
+      slots.slice(0,6).forEach(mem=>{
+        if(!mem){const e=document.createElement('div');e.className='stamp-empty';area.appendChild(e);return;}
+        const stamped=isStamped(mem.id,ds);
+        const icon=document.createElement('div');
+        icon.className='stamp-icon '+(stamped?'done':'undone');
+        icon.textContent=mem.avatar;
+        if(stamped) icon.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
+        icon.addEventListener('click',e=>{e.stopPropagation();toggleStamp(mem.id,ds,icon,mem);});
+        area.appendChild(icon);
+      });
     }
-
-    // PC는 최대 6개 슬롯 (3x2), 빈 슬롯도 채움
-    const slots = isMobile ? S.members : (() => {
-      const arr = [...S.members];
-      while(arr.length < 6) arr.push(null); // 빈 슬롯
-      return arr.slice(0,6);
-    })();
-
-    slots.forEach(mem=>{
-      if(!mem){
-        // 빈 슬롯
-        const empty=document.createElement('div');
-        empty.style.cssText='width:100%;aspect-ratio:1;';
-        area.appendChild(empty);
-        return;
-      }
-      const stamped=isStamped(mem.id,ds);
-      const icon=document.createElement('div');
-      icon.className='stamp-icon '+(stamped?'done':'undone');
-      icon.textContent=mem.avatar;
-      icon.title=`${mem.name} (${ds})`;
-      if(stamped) icon.style.background=`linear-gradient(135deg,${mem.color}99,${mem.color}55)`;
-      icon.addEventListener('click',e=>{e.stopPropagation();toggleStamp(mem.id,ds,icon,mem);});
-      area.appendChild(icon);
-    });
     cell.appendChild(area);
     grid.appendChild(cell);
   });
 }
 
-function renderCalHeader(titleId,badgeId){
-  const el=document.getElementById(titleId);
-  if(el) el.textContent=`${_vy}년 ${_vm+1}월`;
+function renderCalHeader(tId,bId){
+  const el=document.getElementById(tId); if(el) el.textContent=`${_vy}년 ${_vm+1}월`;
   const {mon:wm,sun:ws}=thisWeekRange();
   const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
-  const badge=document.getElementById(badgeId);
-  if(badge) badge.textContent=`📅 이번 주 ${fmt(wm)}~${fmt(ws)}`;
+  const b=document.getElementById(bId); if(b) b.textContent=`📅 이번 주 ${fmt(wm)}~${fmt(ws)}`;
 }
 
-/* ═══════════════════════════════════
-   도장 토글
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   6. 도장 토글
+═══════════════════════════════════════════ */
 function toggleStamp(mid,ds,iconEl,mem){
   const key=rk(mid,ds);
   const was=!!S.records[key];
@@ -858,20 +704,19 @@ function toggleStamp(mid,ds,iconEl,mem){
   const target=S.settings.target;
   let msg;
   if(!was){
-    if(cnt>=target)        msg=randMsg('done',mem.name,target);
+    if(cnt>=target) msg=randMsg('done',mem.name,target);
     else if(target-cnt<=1) msg=randMsg('danger',mem.name,target-cnt);
-    else                   msg=randMsg('stamp',mem.name,cnt,target);
-  } else {
-    msg=randMsg('cancel',mem.name,cnt);
-  }
+    else msg=randMsg('stamp',mem.name,cnt,target);
+  } else { msg=randMsg('cancel',mem.name,cnt); }
+
   addComment(msg);
   renderSidebars();
-  fbSave();
+  fbSave(); // ← Firebase에 즉시 저장
 }
 
-/* ═══════════════════════════════════
-   중계
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   7. 중계
+═══════════════════════════════════════════ */
 function addComment(msg){
   const now=new Date();
   const t=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -880,34 +725,27 @@ function addComment(msg){
   renderCommentary();
 }
 function renderCommentary(){
+  const empty='<div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>';
   [['pcComList',4],['pcComListFull',40],['mobComList',20]].forEach(([id,max])=>{
-    const list=document.getElementById(id); if(!list) return;
-    list.innerHTML=!S.commentary.length
-      ?'<div class="com-item">📻 <span>아무도 운동 안 함... 다들 이불 속에서 뭐함?</span></div>'
-      :S.commentary.slice(0,max).map(c=>
-        `<div class="com-item"><span class="com-time">${c.t}</span><span>${c.msg}</span></div>`
-      ).join('');
+    const el=document.getElementById(id); if(!el) return;
+    el.innerHTML=!S.commentary.length ? empty :
+      S.commentary.slice(0,max).map(c=>`<div class="com-item"><span class="com-time">${c.t}</span><span>${c.msg}</span></div>`).join('');
   });
 }
 
-/* ═══════════════════════════════════
-   사이드바 (달력 탭 우측)
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   8. 사이드바 & 순위
+═══════════════════════════════════════════ */
 function renderSidebars(){
-  renderPcSideRank();
-  renderPcFine();
-  renderPcRankPage();
-  renderMobRank();
-  renderMobFine();
-  renderMobWeekStatus();
+  renderPcSideRank(); renderPcRankPage();
+  renderMobRank(); renderMobWeekStatus();
 }
 
 function renderPcSideRank(){
   const target=S.settings.target;
   const data=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-
-  const el=document.getElementById('pcSideRank');
-  if(el) el.innerHTML=data.map((m,i)=>{
+  const el=document.getElementById('pcSideRank'); if(!el) return;
+  el.innerHTML=data.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
@@ -916,248 +754,65 @@ function renderPcSideRank(){
       <span class="s-name">${m.name}</span><span class="s-cnt">${m.cnt}/${target}</span>
       ${m.cnt>=target?'<span class="s-ok">✅</span>':`<span class="s-warn">-${rem}회</span>`}
     </div>
-    <div style="padding:0 2px 3px 38px;">
-      <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-    </div>`;
+    <div style="padding:0 2px 3px 38px;"><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
   }).join('');
 
-  const el2=document.getElementById('pcSideTotal');
-  if(el2){
-    const tot=S.members.map(m=>{
-      let t=0; Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});
-      return {...m,t};
-    }).sort((a,b)=>b.t-a.t);
-    el2.innerHTML=tot.map((m,i)=>{
-      const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
-      return `<div class="side-rank-item">
-        <span class="s-num">${em}</span><span class="s-av">${m.avatar}</span>
-        <span class="s-name">${m.name}</span>
-        <span class="s-cnt" style="color:#7050a0;">${m.t}회</span>
-      </div>`;
-    }).join('');
-  }
+  const el2=document.getElementById('pcSideTotal'); if(!el2) return;
+  const tot=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  el2.innerHTML=tot.map((m,i)=>{
+    const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
+    return `<div class="side-rank-item"><span class="s-num">${em}</span><span class="s-av">${m.avatar}</span><span class="s-name">${m.name}</span><span class="s-cnt" style="color:#7050a0;">${m.t}회</span></div>`;
+  }).join('');
 }
 
-/* ═══════════════════════════════════
-   PC 순위 탭
-═══════════════════════════════════ */
 function renderPcRankPage(){
   const target=S.settings.target;
   const weekData=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-
-  const el=document.getElementById('pcRankWeek');
-  if(el) el.innerHTML=weekData.map((m,i)=>{
+  const el=document.getElementById('pcRankWeek'); if(!el) return;
+  el.innerHTML=weekData.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
-    return `<div class="rank-row">
-      <span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span>
+    return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span>
       <span class="rank-name">${m.name}</span>
       <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-      <span class="rank-cnt" style="margin-left:8px;">${m.cnt}/${target}</span>
+      <span class="rank-cnt">${m.cnt}/${target}</span>
       ${m.cnt>=target?'<span class="rank-ok">✅</span>':`<span class="rank-warn">-${rem}회</span>`}
     </div>`;
   }).join('');
 
-  const totData=S.members.map(m=>{
-    let t=0; Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});
-    return {...m,t};
-  }).sort((a,b)=>b.t-a.t);
-  const el2=document.getElementById('pcRankTotal');
-  if(el2) el2.innerHTML=totData.map((m,i)=>{
+  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  const el2=document.getElementById('pcRankTotal'); if(!el2) return;
+  el2.innerHTML=totData.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
-    return `<div class="rank-row">
-      <span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span>
-      <span class="rank-name">${m.name}</span>
-      <span class="rank-cnt" style="color:#7050a0;">${m.t}회 운동</span>
-    </div>`;
+    return `<div class="rank-row"><span class="rank-num">${em}</span><span class="rank-av">${m.avatar}</span><span class="rank-name">${m.name}</span><span class="rank-cnt" style="color:#7050a0;">${m.t}회 운동</span></div>`;
   }).join('');
 }
 
-/* ═══════════════════════════════════
-   월 선택 셀렉트 초기화
-═══════════════════════════════════ */
-function initMonthSelects(){
-  const today=new Date();
-  const options=[];
-  let y=SERVICE_START.getFullYear(), m=SERVICE_START.getMonth();
-  while(y<today.getFullYear()||(y===today.getFullYear()&&m<=today.getMonth())){
-    options.push({y,m});
-    m++; if(m>11){m=0;y++;}
-  }
-  options.reverse(); // 최신 달이 위로
-
-  ['pcMonthSel','mobMonthSel'].forEach(id=>{
-    const sel=document.getElementById(id); if(!sel) return;
-    sel.innerHTML=options.map(({y,m})=>
-      `<option value="${y}-${m}" ${y===today.getFullYear()&&m===today.getMonth()?'selected':''}>
-        ${y}년 ${m+1}월
-      </option>`
-    ).join('');
-  });
-}
-
-/* ═══════════════════════════════════
-   PC 정산 (돈주머니)
-═══════════════════════════════════ */
-function getSelectedMonth(selId){
-  const sel=document.getElementById(selId);
-  if(!sel||!sel.value) return {y:new Date().getFullYear(),m:new Date().getMonth()};
-  const [y,m]=sel.value.split('-').map(Number);
-  return {y,m};
-}
-
-function renderPcFine(){
-  const {y,m}=getSelectedMonth('pcMonthSel');
-  const grid=document.getElementById('pcPurseGrid');
-  const banner=document.getElementById('pcPurseBanner');
-  if(!grid) return;
-
-  let grand=0;
-  grid.innerHTML=S.members.map(mem=>{
-    const {totalFine}=calcMonthFine(mem.id,y,m);
-    grand+=totalFine;
-    const bags=Math.round(totalFine/S.settings.fine);
-    const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
-    const isPaid=!!S.paid[pk];
-    const bagHtml=Array.from({length:bags},(_,i)=>
-      `<span class="bag-icon" style="animation-delay:${i*0.06}s">💰</span>`
-    ).join('');
-
-    return `<div class="purse-card">
-      <div class="purse-avatar">${mem.avatar}</div>
-      <div class="purse-name">${mem.name}</div>
-      <div class="purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
-      <div class="purse-amt ${totalFine>0?'has-fine':'no-fine'}">
-        ${totalFine>0?`💸 ${totalFine.toLocaleString()}원`:'✅ 벌금 없음'}
-      </div>
-      ${totalFine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">
-        ${isPaid?'✅ 납부완료':'⏳ 미납'}
-      </button>`:''}
-    </div>`;
-  }).join('');
-
-  if(banner) banner.innerHTML=
-    grand>0?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span> — 술 마시러 고고!`
-           :`🎉 ${y}년 ${m+1}월 벌금 없음! 다들 열심히 했네요~`;
-}
-
-function togglePaid(key){
-  S.paid[key]=!S.paid[key];
-  renderPcFine(); renderMobFine(); fbSave();
-  showToast(S.paid[key]?'💰 납부 완료!':'⏳ 미납으로 변경');
-}
-
-/* ═══════════════════════════════════
-   월결산 팝업
-═══════════════════════════════════ */
-function showMonthlyPopup(){
-  const {y,m}=getSelectedMonth('pcMonthSel');
-  document.getElementById('popMonth').textContent=`📅 ${y}년 ${m+1}월 결산`;
-
-  let grand=0;
-  const grid=document.getElementById('popGrid');
-  grid.innerHTML=S.members.map(mem=>{
-    const {totalFine}=calcMonthFine(mem.id,y,m);
-    grand+=totalFine;
-    const bags=Math.round(totalFine/S.settings.fine);
-    const bagHtml=Array.from({length:bags},(_,i)=>
-      `<span style="font-size:1.3rem;animation:bagDrop .3s ease ${i*0.08}s both;">💰</span>`
-    ).join('');
-    return `<div class="pop-member-card">
-      <div class="pop-member-av">${mem.avatar}</div>
-      <div class="pop-member-name">${mem.name}</div>
-      <div class="pop-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음</span>'}</div>
-      <div class="pop-amt ${totalFine>0?'red':'green'}">
-        ${totalFine>0?`${totalFine.toLocaleString()}원`:'✅ 0원'}
-      </div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('popTotal').innerHTML=
-    grand>0?`💸 이번 달 총 벌금: ${grand.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 술값으로 사용 예정!</span>`
-           :`🎉 이번 달 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`;
-
-  openModal('monthlyPopupModal');
-}
-
-/* ═══════════════════════════════════
-   모바일 정산
-═══════════════════════════════════ */
-function renderMobFine(){
-  const {y,m}=getSelectedMonth('mobMonthSel');
-  const grid=document.getElementById('mobPurseGrid');
-  const banner=document.getElementById('mobPurseBanner');
-  if(!grid) return;
-
-  let grand=0;
-  grid.innerHTML=S.members.map(mem=>{
-    const {totalFine}=calcMonthFine(mem.id,y,m);
-    grand+=totalFine;
-    const bags=Math.round(totalFine/S.settings.fine);
-    const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
-    const isPaid=!!S.paid[pk];
-    const bagHtml=Array.from({length:bags},()=>`<span style="font-size:1.2rem;">💰</span>`).join('');
-    return `<div class="mob-purse-row">
-      <div class="mob-purse-av">${mem.avatar}</div>
-      <div class="mob-purse-info">
-        <div class="mob-purse-name">${mem.name}</div>
-        <div class="mob-purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
-        <div class="mob-purse-amt ${totalFine>0?'red':'green'}">
-          ${totalFine>0?`💸 ${totalFine.toLocaleString()}원`:'✅ 벌금 없음'}
-        </div>
-      </div>
-      ${totalFine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">
-        ${isPaid?'납부':'미납'}
-      </button>`:''}
-    </div>`;
-  }).join('');
-
-  if(banner) banner.textContent=
-    grand>0?`🍺 ${y}년 ${m+1}월 합계: ${grand.toLocaleString()}원`
-           :`🎉 ${y}년 ${m+1}월 벌금 없음!`;
-}
-
-/* ═══════════════════════════════════
-   모바일 순위
-═══════════════════════════════════ */
 function renderMobRank(){
   const target=S.settings.target;
   const data=S.members.map(m=>({...m,cnt:weekCount(m.id)})).sort((a,b)=>b.cnt-a.cnt);
-  const el=document.getElementById('mobRankList');
-  if(el) el.innerHTML=data.map((m,i)=>{
+  const el=document.getElementById('mobRankList'); if(!el) return;
+  el.innerHTML=data.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;
     const rem=Math.max(0,target-m.cnt);
     const pct=Math.min(100,Math.round(m.cnt/target*100));
-    const isDone=m.cnt>=target;
     return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};">
-      <span class="mob-rank-num">${em}</span>
-      <span class="mob-rank-av">${m.avatar}</span>
-      <div class="mob-rank-info">
-        <div class="mob-rank-name">${m.name}</div>
-        <div class="mob-rank-sub">${m.cnt}/${target}회</div>
+      <span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span>
+      <div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub">${m.cnt}/${target}회</div>
         <div class="prog-wrap" style="margin-top:4px;"><div class="prog-bar" style="width:${pct}%"></div></div>
       </div>
-      <span class="mob-rank-badge ${isDone?'mob-badge-ok':'mob-badge-warn'}">
-        ${isDone?'✅ 완료':`⚡ -${rem}회`}
-      </span>
+      <span class="mob-rank-badge ${m.cnt>=target?'mob-badge-ok':'mob-badge-warn'}">${m.cnt>=target?'✅ 완료':`⚡ -${rem}회`}</span>
     </div>`;
   }).join('');
 
-  const totData=S.members.map(m=>{
-    let t=0; Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});
-    return {...m,t};
-  }).sort((a,b)=>b.t-a.t);
-  const el2=document.getElementById('mobTotalRankList');
-  if(el2) el2.innerHTML=totData.map((m,i)=>{
+  const totData=S.members.map(m=>{let t=0;Object.keys(S.records).forEach(k=>{if(k.startsWith(`${m.id}_`)&&S.records[k])t++;});return {...m,t};}).sort((a,b)=>b.t-a.t);
+  const el2=document.getElementById('mobTotalRankList'); if(!el2) return;
+  el2.innerHTML=totData.map((m,i)=>{
     const em=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}위`;
     return `<div class="mob-rank-item" style="border-left:4px solid ${m.color};">
-      <span class="mob-rank-num">${em}</span>
-      <span class="mob-rank-av">${m.avatar}</span>
-      <div class="mob-rank-info">
-        <div class="mob-rank-name">${m.name}</div>
-        <div class="mob-rank-sub" style="color:#7050a0;">누적 ${m.t}회</div>
-      </div>
+      <span class="mob-rank-num">${em}</span><span class="mob-rank-av">${m.avatar}</span>
+      <div class="mob-rank-info"><div class="mob-rank-name">${m.name}</div><div class="mob-rank-sub" style="color:#7050a0;">누적 ${m.t}회</div></div>
     </div>`;
   }).join('');
 }
@@ -1166,39 +821,142 @@ function renderMobWeekStatus(){
   const target=S.settings.target;
   const el=document.getElementById('mobWeekStatus'); if(!el) return;
   el.innerHTML=S.members.map(m=>{
-    const cnt=weekCount(m.id);
-    const rem=Math.max(0,target-cnt);
+    const cnt=weekCount(m.id); const rem=Math.max(0,target-cnt);
     const pct=Math.min(100,Math.round(cnt/target*100));
     return `<div class="mob-week-row">
       <span style="font-size:1.4rem;">${m.avatar}</span>
       <span style="flex:1;font-weight:700;font-size:.85rem;color:#555;">${m.name}</span>
-      <div style="flex:2;">
-        <div style="font-size:.75rem;color:#888;margin-bottom:2px;">${cnt}/${target}회</div>
-        <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-      </div>
-      <span style="font-size:.75rem;font-weight:700;margin-left:8px;color:${cnt>=target?'#2d7a5a':'#e05070'};">
-        ${cnt>=target?'✅':'-'+rem+'회'}
-      </span>
+      <div style="flex:2;"><div style="font-size:.75rem;color:#888;margin-bottom:2px;">${cnt}/${target}회</div>
+        <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>
+      <span style="font-size:.75rem;font-weight:700;margin-left:8px;color:${cnt>=target?'#2d7a5a':'#e05070'};">${cnt>=target?'✅':'-'+rem+'회'}</span>
     </div>`;
   }).join('');
 }
 
-/* ═══════════════════════════════════
-   전체 렌더
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   9. 정산 (돈주머니)
+═══════════════════════════════════════════ */
+function initMonthSelects(){
+  const today=new Date();
+  const opts=[];
+  let y=SERVICE_START.getFullYear(),m=SERVICE_START.getMonth();
+  while(y<today.getFullYear()||(y===today.getFullYear()&&m<=today.getMonth())){
+    opts.push({y,m}); m++; if(m>11){m=0;y++;}
+  }
+  opts.reverse();
+  ['pcMonthSel','mobMonthSel'].forEach(id=>{
+    const sel=document.getElementById(id); if(!sel) return;
+    const cur=sel.value;
+    sel.innerHTML=opts.map(({y,m})=>`<option value="${y}-${m}">${y}년 ${m+1}월</option>`).join('');
+    if(cur) sel.value=cur;
+    else {
+      const def=`${today.getFullYear()}-${today.getMonth()}`;
+      if(opts.find(o=>`${o.y}-${o.m}`===def)) sel.value=def;
+    }
+  });
+}
+
+function getSelMonth(selId){
+  const sel=document.getElementById(selId);
+  if(!sel||!sel.value){return {y:new Date().getFullYear(),m:new Date().getMonth()};}
+  const [y,m]=sel.value.split('-').map(Number); return {y,m};
+}
+
+function buildPurseHTML(mem,y,m,isMob){
+  const fine=calcMonthFine(mem.id,y,m);
+  const bags=fine>0?Math.round(fine/S.settings.fine):0;
+  const pk=`${mem.id}_${y}-${String(m+1).padStart(2,'0')}`;
+  const isPaid=!!S.paid[pk];
+  const bagHtml=Array.from({length:bags},(_,i)=>`<span class="${isMob?'':'bag-icon'}" style="font-size:${isMob?'1.2rem':'1.5rem'};animation:bagDrop .3s ease ${i*.06}s both;">💰</span>`).join('');
+  return {fine,bags,pk,isPaid,bagHtml};
+}
+
+function renderPcFine(){
+  const {y,m}=getSelMonth('pcMonthSel');
+  const grid=document.getElementById('pcPurseGrid');
+  const banner=document.getElementById('pcPurseBanner');
+  if(!grid) return;
+  let grand=0;
+  grid.innerHTML=S.members.map(mem=>{
+    const {fine,pk,isPaid,bagHtml}=buildPurseHTML(mem,y,m,false);
+    grand+=fine;
+    return `<div class="purse-card">
+      <div class="purse-avatar">${mem.avatar}</div>
+      <div class="purse-name">${mem.name}</div>
+      <div class="purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
+      <div class="purse-amt ${fine>0?'has-fine':'no-fine'}">${fine>0?`💸 ${fine.toLocaleString()}원`:'✅ 벌금 없음'}</div>
+      ${fine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'✅ 납부완료':'⏳ 미납'}</button>`:''}
+    </div>`;
+  }).join('');
+  if(banner) banner.innerHTML=grand>0
+    ?`🍺 ${y}년 ${m+1}월 합계: <span style="font-size:1.1rem;">${grand.toLocaleString()}원</span> — 술 마시러 고고!`
+    :`🎉 ${y}년 ${m+1}월 벌금 없음! 다들 열심히 했네요~`;
+}
+
+function renderMobFine(){
+  const {y,m}=getSelMonth('mobMonthSel');
+  const grid=document.getElementById('mobPurseGrid');
+  const banner=document.getElementById('mobPurseBanner');
+  if(!grid) return;
+  let grand=0;
+  grid.innerHTML=S.members.map(mem=>{
+    const {fine,pk,isPaid,bagHtml}=buildPurseHTML(mem,y,m,true);
+    grand+=fine;
+    return `<div class="mob-purse-row">
+      <div class="mob-purse-av">${mem.avatar}</div>
+      <div class="mob-purse-info">
+        <div class="mob-purse-name">${mem.name}</div>
+        <div class="mob-purse-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음 🎉</span>'}</div>
+        <div style="font-size:.78rem;font-weight:700;color:${fine>0?'#e05070':'#2d7a5a'};">${fine>0?`💸 ${fine.toLocaleString()}원`:'✅ 벌금 없음'}</div>
+      </div>
+      ${fine>0?`<button class="purse-paid-btn ${isPaid?'paid':'unpaid'}" onclick="togglePaid('${pk}')">${isPaid?'납부':'미납'}</button>`:''}
+    </div>`;
+  }).join('');
+  if(banner) banner.textContent=grand>0?`🍺 ${y}년 ${m+1}월 합계: ${grand.toLocaleString()}원`:`🎉 ${y}년 ${m+1}월 벌금 없음!`;
+}
+
+function togglePaid(key){
+  S.paid[key]=!S.paid[key];
+  renderPcFine(); renderMobFine();
+  fbSave(); // ← Firebase에 저장
+  showToast(S.paid[key]?'💰 납부 완료!':'⏳ 미납으로 변경');
+}
+
+function showMonthlyPopup(){
+  const {y,m}=getSelMonth('pcMonthSel');
+  document.getElementById('popMonth').textContent=`📅 ${y}년 ${m+1}월 결산`;
+  let grand=0;
+  document.getElementById('popGrid').innerHTML=S.members.map(mem=>{
+    const {fine,bagHtml}=buildPurseHTML(mem,y,m,false);
+    grand+=fine;
+    return `<div class="pop-member-card">
+      <div class="pop-member-av">${mem.avatar}</div>
+      <div class="pop-member-name">${mem.name}</div>
+      <div class="pop-bags">${bagHtml||'<span style="font-size:.75rem;color:#ccc;">없음</span>'}</div>
+      <div class="pop-amt ${fine>0?'red':'green'}">${fine>0?`${fine.toLocaleString()}원`:'✅ 0원'}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('popTotal').innerHTML=grand>0
+    ?`💸 이번 달 총 벌금: ${grand.toLocaleString()}원<br><span style="font-size:.8rem;opacity:.9;">🍺 술값으로 사용 예정!</span>`
+    :`🎉 이번 달 벌금 없음!<br><span style="font-size:.8rem;opacity:.9;">다들 열심히 했어요~</span>`;
+  openModal('monthlyPopupModal');
+}
+
+/* ═══════════════════════════════════════════
+   10. 전체 렌더
+═══════════════════════════════════════════ */
 function renderAll(){
   renderCalHeader('pcCalTitle','pcWeekBadge');
   renderCalHeader('mobCalTitle','mobWeekBadge');
-  renderCalGrid('pcCalGrid', false);
-  renderCalGrid('mobCalGrid', true);
+  renderCalGrid('pcCalGrid',false);
+  renderCalGrid('mobCalGrid',true);
   renderSidebars();
   renderCommentary();
   initMonthSelects();
+  renderPcFine();
+  renderMobFine();
 }
 
-/* ═══════════════════════════════════
-   달 이동
-═══════════════════════════════════ */
 function changeMonth(dir){
   _vm+=dir;
   if(_vm>11){_vm=0;_vy++;}
@@ -1209,16 +967,16 @@ function changeMonth(dir){
   renderCalGrid('mobCalGrid',true);
 }
 
-/* ═══════════════════════════════════
-   탭 전환
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   11. 탭
+═══════════════════════════════════════════ */
 function pcTab(idx,el){
   document.querySelectorAll('.pc-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.pc-page').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById(`pcPage${idx}`).classList.add('active');
+  if(idx===1) renderPcRankPage();
   if(idx===2){initMonthSelects();renderPcFine();}
-  if(idx===1){renderPcRankPage();}
 }
 function mobTab(idx,el){
   document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('active'));
@@ -1229,17 +987,16 @@ function mobTab(idx,el){
   if(idx===2){initMonthSelects();renderMobFine();}
 }
 
-/* ═══════════════════════════════════
-   멤버 추가/관리
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   12. 멤버 추가/관리
+═══════════════════════════════════════════ */
 function openAddModal(){
   if(S.members.length>=6){showToast('최대 6명까지 가능해요!');return;}
   document.getElementById('newName').value='';
   _selAv=AVATARS[0]; renderAvatarGrid(); openModal('addModal');
 }
 function renderAvatarGrid(){
-  document.getElementById('avatarGrid').innerHTML=
-    AVATARS.map(av=>`<div class="av-btn ${av===_selAv?'selected':''}" onclick="selAv('${av}',this)">${av}</div>`).join('');
+  document.getElementById('avatarGrid').innerHTML=AVATARS.map(av=>`<div class="av-btn ${av===_selAv?'selected':''}" onclick="selAv('${av}',this)">${av}</div>`).join('');
 }
 function selAv(av,el){
   _selAv=av;
@@ -1257,15 +1014,14 @@ function addMember(){
   closeModal('addModal');
   showToast(`${_selAv} ${name}님 합류! 💪`);
   addComment(`🆕 ${_selAv} ${name}님 클럽 합류! 운동 안 하면 만원임 ㅋ`);
-  renderAll(); fbSave();
+  renderAll();
+  fbSave(); // ← 멤버 추가도 Firebase에 저장
 }
+
 function openManageModal(){
-  document.getElementById('memberManageList').innerHTML=
-    S.members.map(m=>`<div class="mm-row">
-      <span class="mm-av">${m.avatar}</span>
-      <span class="mm-name">${m.name}</span>
-      <button class="mm-del" onclick="deleteMember(${m.id})">삭제</button>
-    </div>`).join('');
+  document.getElementById('memberManageList').innerHTML=S.members.map(m=>`
+    <div class="mm-row"><span class="mm-av">${m.avatar}</span><span class="mm-name">${m.name}</span>
+    <button class="mm-del" onclick="deleteMember(${m.id})">삭제</button></div>`).join('');
   openModal('manageModal');
 }
 function deleteMember(id){
@@ -1274,12 +1030,13 @@ function deleteMember(id){
   S.members=S.members.filter(x=>x.id!==id);
   Object.keys(S.records).forEach(k=>{if(k.startsWith(`${id}_`)) delete S.records[k];});
   openManageModal(); showToast(`${m.name}님 삭제됨`);
-  renderAll(); fbSave();
+  renderAll();
+  fbSave(); // ← 삭제도 Firebase에 저장
 }
 
-/* ═══════════════════════════════════
-   설정
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   13. 설정
+═══════════════════════════════════════════ */
 function openSettingsModal(){
   document.getElementById('targetInput').value=S.settings.target;
   document.getElementById('fineInput').value=S.settings.fine;
@@ -1293,12 +1050,13 @@ function saveSettings(){
   S.settings={target:t,fine:f};
   closeModal('settingsModal');
   showToast(`✅ 저장! 목표 ${t}회 / 벌금 ${f.toLocaleString()}원`);
-  renderAll(); fbSave();
+  renderAll();
+  fbSave();
 }
 
-/* ═══════════════════════════════════
-   모달 & 토스트
-═══════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   14. 모달 & 토스트
+═══════════════════════════════════════════ */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-bg').forEach(bg=>{
@@ -1308,14 +1066,24 @@ let _tt;
 function showToast(msg){
   const el=document.getElementById('toast');
   el.textContent=msg; el.classList.add('show');
-  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2600);
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-/* ═══════════════════════════════════
-   시작
-═══════════════════════════════════ */
-initMonthSelects();
-renderAll();
+/* ═══════════════════════════════════════════
+   15. 시작 — Firebase 리스너 먼저, 렌더는 데이터 수신 후
+═══════════════════════════════════════════ */
+document.getElementById('loadingStatus').textContent='Firestore 연결 중...';
+renderAll(); // 초기 화면 표시 (로컬 기본값)
+startListener(); // Firebase 리스너 시작 → 데이터 오면 renderAll() 재호출
+
+// 5초 후에도 로딩 중이면 강제 해제
+setTimeout(()=>{
+  hideLoading();
+  if(document.getElementById('syncDot').classList.contains('loading')){
+    setSync('err','연결실패');
+    showToast('⚠️ Firebase 연결 실패. 로컬 모드로 실행 중.');
+  }
+},5000);
 </script>
 </body>
 </html>
